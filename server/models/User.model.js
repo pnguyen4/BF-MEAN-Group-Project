@@ -11,21 +11,15 @@ const UserSchema = new mongoose.Schema({
     password: { type: String,
         // required: [true, 'Password is required to register user'],
     },
-    status: { type: String, enums: [ 'Admin', 'Pending', 'Approved', 'Rejected'], default: 'Pending'
+    admin: { type: Boolean, default: false,
         // required: [true, 'Employee status must be provided'],
     },
-    profile: { type: objectID, ref: 'Profile'
-        // required: [true, 'User must be linked to a profile']
-    },
-    onboardingApp: { type: objectID, ref: 'OnboardingApp',
+    application: { type: objectID, ref: 'Application',
         required: false
     },
     housing: { type: objectID, ref: 'Housing',
         required: false
     },
-    visaStatus: { type: objectID, ref: 'VisaStatus',
-        // required: true
-    }
 
 }, {timestamps: true});
 
