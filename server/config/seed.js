@@ -29,7 +29,7 @@ async function run() {
     if( await VisaStatus.collection ) await VisaStatus.collection.drop();
     if( await Housing.collection ) await Housing.collection.drop();
 
-    // [top][ USER ] seed function arguments = ( totalUsers=10, numberOfAdmins=3 )
+    // [top][ USER ]
     const userCount = 10, adminCount = 3;
     const userList = await generateUsers(userCount, adminCount);
     for( let i=0; i<userList.length; i++ ) {
@@ -54,7 +54,7 @@ async function run() {
       });
       await newVisaStatus.save();
 
-      newApplication.visaStatus = newVisaStatus;
+      newApplication.visaStatus = newVisaStatus._id;
       await newApplication.save();
       console.log({newApplication})
     }
