@@ -24,12 +24,10 @@ const UserSchema = new mongoose.Schema({
     application_id: { 
         type: objectID, ref: 'Application',
         required: false,
-        default: null
     },
     housing_id: { 
         type: objectID, ref: 'Housing',
         required: false,
-        default: null
     },
     
 
