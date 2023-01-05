@@ -21,6 +21,9 @@ return a signed JWT token
 `GET /api/employees/:id`
 returns a single employee object
 
+`PUT /api/employees/:id`
+updates one or more field in employee record
+
 `GET /api/employees`
 returns an array of employee objects (does not need to be the full objects, just enough for HR summary view)
 
@@ -29,14 +32,22 @@ returns an array of employee objects (does not need to be the full objects, just
 `GET /api/onboarding-applications/:id`
 returns an application object
 
-`POST /api/onboarding-application/`
+`GET /api/onboarding-applications`
+returns an array of applications objects (does not need to be the full objects, just enough for HR summary view)
+
+`POST /api/onboarding-applications`
 creates a new application object, also put application object's id in current user's application field
+
+`PUT /api/onboarding-applications/:id`
+updates one or more fields in application record, also reset application status field to "pending"
 
 ### Visa Status
 
-`GET /api/visa-status/`
-returns an array of visa-status objects
-`GET /api/visa-status/`
+`GET /api/visa-status/:id`
+returns a visa status object
+
+`GET /api/visa-status`
+returns an array of visa-status objects (does not need to be the full objects, just enough for HR summary view)
 
 ### Housing
 
