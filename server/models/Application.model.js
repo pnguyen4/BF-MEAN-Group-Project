@@ -69,9 +69,15 @@ const ApplicationSchema = new mongoose.Schema({
 
         required: [ true, "At least one emergency contact must be provided" ]
     }],
+    // moved citizenship out of visaStatus
+    isCitizenUSA: {
+        type: Boolean,
+        required: [ true, "US citizenship status must be provided" ]
+    },
+    // changed visaStatus required from true to false
     visaStatus: { 
         type: objectID, ref: "VisaStatus", 
-        required: [true, "Applicant's visa status must be provided" ]
+        required: false
     },
     driverLicense: {
         number: { type: String, required: true },
