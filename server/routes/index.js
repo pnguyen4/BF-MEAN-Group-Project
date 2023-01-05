@@ -1,1 +1,1 @@
-exports.Registration = require("./RegistrationRouter");
+exports.Registration = require("./Registration.routes");
