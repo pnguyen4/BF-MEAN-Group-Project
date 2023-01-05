@@ -23,17 +23,16 @@ const UserSchema = new mongoose.Schema({
     },
     application_id: { 
         type: objectID, ref: 'Application',
-        required: false
+        required: false,
+        default: null
     },
     housing_id: { 
         type: objectID, ref: 'Housing',
-        required: false
+        required: false,
+        default: null
     },
-    driverLicense: {
-        number: { type: String, required: true },
-        expiration: { type: Date, required: true },
-        imgUrl: { type: String, required: false, default: null }
-    }
+    
+
 }, {timestamps: true});
 
 module.exports = UserSchema;

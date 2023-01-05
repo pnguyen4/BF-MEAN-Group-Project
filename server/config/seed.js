@@ -9,7 +9,7 @@ async function run() {
     mongoose.connect(MONGO_URI);
     console.log("Connected to the DB.");
   } catch (error) {
-
+    console.log(error)
   } finally {
     mongoose.connection.close();
   }
