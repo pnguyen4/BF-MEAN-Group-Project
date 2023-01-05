@@ -14,6 +14,7 @@ exports.createRegToken = async (req, res) => {
               message: 'cannot generate registration token without email or name'
             });
         }
+        // TODO: check email is valid email
         const email = req.body.email;
         const name = req.body.name;
 
@@ -24,7 +25,9 @@ exports.createRegToken = async (req, res) => {
         };
         const token = jwt.sign(token_payload, process.env.JWT_KEY, { expiresIn: "3h"});
         // add to registration token history
-        await RegToken.create({email, name, link: `${FRONTEND_URL}/${token}`});
+        const link = `${FRONTEND_URL}/signup/${token}`;
+        await RegToken.create({email, name, link});
+        sendmail(email, link);
         res.json({status: '200', token, message: 'registration link emailed and saved to history'});
     } catch (error) {
       res.json({status: '400', message: 'cannot create token'});
@@ -38,4 +41,27 @@ exports.getRegTokens = async (req, res) => {
     } catch (error) {
       res.json({status: '400', message: 'cannot retrieve registration link history'});
     }
+}
+
+async function sendmail(email, link) {
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    service : "hotmail",
+    auth: {
+      user: "bfmean2022@outlook.com",
+      pass: "Example123!",
+    },
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: 'bfmean2022@outlook.com', // sender address
+    to: email, // list of receivers
+    subject: "Your Beaconfire Registration Link", // Subject line
+    text: `Sign in Link: ${link}`, // plain text body
+    //html: "<b>Hello world?</b>", // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
 }
