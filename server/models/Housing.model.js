@@ -4,7 +4,7 @@ const objectID = mongoose.Schema.Types.ObjectId;
 const HousingSchema = new mongoose.Schema({
     address: {
         type: objectID, ref: "Address",
-        required: true
+        required: [ true, "Housing needs an address" ]
     },
     tenants: [{ type: objectID, ref: "User" }]
 }, {timestamps: true});
