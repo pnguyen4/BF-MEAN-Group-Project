@@ -34,7 +34,7 @@ const ApplicationSchema = new mongoose.Schema({
         required: false,
         default: null
     },
-    address: { 
+    currentAddress: { 
         type: objectID, ref: 'Address',
         // required: [true, 'Address is required']
     },
@@ -53,23 +53,30 @@ const ApplicationSchema = new mongoose.Schema({
         // required: [true, 'SSN is required']
     },
     reference: { 
-        type: objectID, ref: "Contact",
+        firstname: { type: String, required: [true, 'First name of reference must be provided'] },
+        lastname: { type: String, required: [true, 'Last name of reference must be provided'] },
+        phone: { type: Number, required: [true, 'Phone contact of reference must be provided']},
+        email: { type: String, required: [true, 'Email of reference must be provided'] },
         required: false,
         default: null
     },
     emergencyContact: [{ 
-        type: objectID, ref: 'Contact', 
-        // required: [true, 'Emergency Contact must be provided'] 
+        firstname: { type: String, required: [true, 'First name of emergency contact must be provided'] },
+        lastname: { type: String, required: [true, 'Last name of emergency contact must be provided'] },
+        phone: { type: Number, required: [true, 'Phone contact of emergency contact must be provided']},
+        email: { type: String, required: [true, 'Email of emergency contact must be provided'] },
+
+        required: true
     }],
     visaStatus: { 
         type: objectID, ref: "VisaStatus", 
         required: [true, "Applicant's visa status must be provided" ]
     },
-    driversLicense: { 
-        type: objectID, 
-        ref: "DriverLicense", 
-        default: null
-    }
+    driverLicense: {
+        number: { type: String, required: true },
+        expiration: { type: Date, required: true },
+        imgUrl: { type: String, required: false, default: null }
+    },
 }, {timestamps: true});
 
 module.exports = ApplicationSchema;

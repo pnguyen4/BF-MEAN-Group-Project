@@ -29,7 +29,11 @@ const UserSchema = new mongoose.Schema({
         type: objectID, ref: 'Housing',
         required: false
     },
-
+    driverLicense: {
+        number: { type: String, required: true },
+        expiration: { type: Date, required: true },
+        imgUrl: { type: String, required: false, default: null }
+    }
 }, {timestamps: true});
 
 module.exports = UserSchema;
