@@ -57,6 +57,7 @@ const ApplicationSchema = new mongoose.Schema({
         lastname: { type: String, required: [true, 'Last name of reference must be provided'] },
         phone: { type: Number, required: [true, 'Phone contact of reference must be provided']},
         email: { type: String, required: [true, 'Email of reference must be provided'] },
+        
         required: false,
         default: null
     },
@@ -66,7 +67,7 @@ const ApplicationSchema = new mongoose.Schema({
         phone: { type: Number, required: [true, 'Phone contact of emergency contact must be provided']},
         email: { type: String, required: [true, 'Email of emergency contact must be provided'] },
 
-        required: true
+        required: [ true, "At least one emergency contact must be provided" ]
     }],
     visaStatus: { 
         type: objectID, ref: "VisaStatus", 
