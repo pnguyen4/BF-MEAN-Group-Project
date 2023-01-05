@@ -11,15 +11,6 @@ const VisaStatusSchema = new mongoose.Schema({
         type: objectID, ref: 'Application',
         required: [true, 'Visa status must be linked to an application']
     },
-    citizenUSA: { 
-        type: Boolean, 
-        required: [ true, "US citizenship status must be provided" ]
-    },
-    workAuthorization: { 
-        type: String, 
-        enum: [ 'green-card', 'citizen', 'h1b-etc', 'f1-etc', 'other' ],
-        required: [ true, 'Type of work authorization must be provided' ]
-    },
     status: {
         type: String,
         enum: [ "pending", "rejected", "approved" ],
