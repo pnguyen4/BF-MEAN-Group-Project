@@ -14,8 +14,7 @@ async function getUserById( req, res ) {
 async function seedUsers( req, res ) {
     let userList = [];
     try {
-        const employeeCount = 10;
-        const adminCount = 3;
+        const employeeCount = 10, adminCount = 3;
         for( let i=0; i<employeeCount; i++ ) {
             // create fake seed user info
             const username = `user-${i}`
@@ -31,6 +30,7 @@ async function seedUsers( req, res ) {
             const emailCheck = await User.findOne({email});
             if( usernameCheck || emailCheck ) throw new Error(404);
 
+            // create user with null return
             const newUser = await User.create({
                 username, email, password: hashedPW, admin
             });

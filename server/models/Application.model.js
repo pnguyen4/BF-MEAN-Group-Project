@@ -3,7 +3,7 @@ const objectID = mongoose.Schema.Types.ObjectId;
 
 const ApplicationSchema = new mongoose.Schema({
     email: { 
-        type: objectID, 
+        type: String, 
         required: [true, 'Email is required to link to user']
     },
     user_id: { 
