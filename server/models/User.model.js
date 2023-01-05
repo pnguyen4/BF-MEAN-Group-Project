@@ -2,22 +2,31 @@ const mongoose = require('mongoose');
 const objectID = mongoose.Schema.Types.ObjectId;
 
 const UserSchema = new mongoose.Schema({
-    username: { type: String, unique: true,
+    username: { 
+        type: String, 
+        unique: true,
         // required: [true, 'User name is required to register a user'],
     },
-    email: { type: String, unique: true,
+    email: { 
+        type: String, 
+        unique: true,
         // required: [true, 'Email is required to register a user']
     },
-    password: { type: String,
+    password: { 
+        type: String,
         // required: [true, 'Password is required to register user'],
     },
-    admin: { type: Boolean, default: false,
+    admin: { 
+        type: Boolean, 
+        default: false,
         // required: [true, 'Employee status must be provided'],
     },
-    application: { type: objectID, ref: 'Application',
+    application_id: { 
+        type: objectID, ref: 'Application',
         required: false
     },
-    housing: { type: objectID, ref: 'Housing',
+    housing_id: { 
+        type: objectID, ref: 'Housing',
         required: false
     },
 

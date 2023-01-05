@@ -14,7 +14,7 @@ const VisaStatusSchema = new mongoose.Schema({
     citizenUSA: { type: Boolean, required: true },
     workAuthorization: { 
         type: String, 
-        enums: [ 'green-card', 'citizen', 'h1b-etc', 'f1-etc', 'other' ],
+        enum: [ 'green-card', 'citizen', 'h1b-etc', 'f1-etc', 'other' ],
         required: [ true, 'Type of work authorization must be provided' ]
     },
     profileImgUrl: { type: String, required: false, default: null },

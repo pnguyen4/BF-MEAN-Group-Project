@@ -12,7 +12,7 @@ const ApplicationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enums: [ 'unsubmitted', 'rejected', 'pending', 'approved' ],
+        enum: [ 'unsubmitted', 'rejected', 'pending', 'approved' ],
         default: 'unsubmitted',
         required: [true, 'App status is required'],
     },
