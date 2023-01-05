@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 // Allow CORS (for local testing purposes)
 app.use(cors());
 
-require('./routes/User.routes')(app)
 app.all('*', (req, res) => {
   res.status(404).json({error: 'resource not found'});
 });

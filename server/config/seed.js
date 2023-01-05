@@ -15,6 +15,7 @@ const { generateUsers } = require('./seedUtils/User.seed');
 const { generateApplication } = require('./seedUtils/Application.seed');
 const { generateVisaStatus } = require('../config/seedUtils/VisaStatus.seed');
 const { generateAddress } = require('../utils/generateAddress.utils');
+const { getRandomInt } = require("../utils/getRandomInt.utils");
 
 
 
@@ -29,13 +30,34 @@ async function run() {
     if( await VisaStatus.collection ) await VisaStatus.collection.drop();
     if( await Housing.collection ) await Housing.collection.drop();
 
+    //[top][HOUSING]
+    let houseCount = 3;
+    for( let i=0; i<houseCount; i++ ) {
+      const houseAddress = generateAddress();
+      const newHouse = await Housing.create({ ...houseAddress, idx: i });
+      newHouse.save();
+    }
+    console.log(`successfuly seeded ${houseCount} housing units`)
+    //[end][HOUSING]
+
+    
     // [top][ USER ]
     const userCount = 10, adminCount = 3;
     const userList = await generateUsers(userCount, adminCount);
     for( let i=0; i<userList.length; i++ ) {
-      const user = userList[i]
-      const newUser = await User.create({...user});
+      const user = userList[i];
+      
+      // randomly select a seeded house
+      const random = getRandomInt(0, houseCount);  
+      const house = await Housing.findOne({idx: random});
+      
+      // new user
+      const newUser = await User.create({...user, housing_id: house._id});
       await newUser.save();
+      
+      // update tenant list in housing entry 
+      house.tenants.push(newUser._id);
+      await house.save();
            
       // generate application information for each user
       const appInfo = generateApplication();
@@ -54,23 +76,13 @@ async function run() {
       });
       await newVisaStatus.save();
 
+      // update application ref in visaStatus
       newApplication.visaStatus = newVisaStatus._id;
       await newApplication.save();
       console.log({newApplication})
     }
     console.log(`successfully seeded ${userCount} users`);
     // [end][USER]
-
-    //[top][HOUSING]
-    let houseCount = 3;
-    for( let i=0; i<houseCount; i++ ) {
-      const houseAddress = generateAddress();
-      const newHouse = await Housing.create({ ...houseAddress, idx: i });
-      newHouse.save();
-    }
-    console.log(`successfuly seeded ${houseCount} housing units`)
-    //[end][HOUSING]
-
   } catch (error) {
     console.log(error)
   } finally {
