@@ -1,1 +1,33 @@
-<p>signin works!</p>
+<mat-card>
+  <mat-card-title>Login</mat-card-title>
+<mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Email or Username" formControlName="combo">
+          <mat-error *ngIf="form.get('combo')?.errors?.['required']">Missing username or email!</mat-error>
+          <mat-error *ngIf="form.get('combo')?.errors?.['minlength'] && form.get('combo')?.touched">At least 6 characters!</mat-error>
+          <mat-error *ngIf="form.get('combo')?.errors?.['maxlength'] && form.get('combo')?.touched">At most 20 characters!</mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" formControlName="password">
+          <mat-error *ngIf="form.get('password')?.errors?.['required']">Missing password!</mat-error>
+          <mat-error *ngIf="form.get('password')?.errors?.['minlength'] && form.get('password')?.touched">At least 6 characters!</mat-error>
+          <mat-error *ngIf="form.get('password')?.errors?.['maxlength'] && form.get('password')?.touched">At most 20 characters!</mat-error>
+        </mat-form-field>
+      </p>
+
+      <p *ngIf="error" class="error">
+        {{ error }}
+      </p>
+
+      <div class="button">
+        <button type="submit" mat-button>Login</button>
+        <button mat-button (click)="goRegister()">Go Register</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
