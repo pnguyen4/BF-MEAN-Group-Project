@@ -14,6 +14,8 @@ Run `npm run dev` for host dev server at http://localhost:3000/. The application
 |-|-|
 |`POST /api/registration`| create a new employee user in database|
 |`POST /api/login` | return a signed JWT token|
+|`POST /api/regtokens`| create a new token, create a new registration record, and email link to new employee|
+|`GET /api/regtokens` | returns an array of registration objects|
 
 ### Employee Information
 
