@@ -21,6 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { EmployeeNavbarComponent } from './features/employee/employee-navbar/employee-navbar.component';
+import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { MatInputModule } from '@angular/material/input';
     EmployeeProfilesComponent,
     VisaManagementComponent,
     HiringManagementComponent,
-    HousingManagementComponent
+    HousingManagementComponent,
+    EmployeeNavbarComponent,
+    HrNavbarComponent
   ],
   imports: [
     BrowserModule,

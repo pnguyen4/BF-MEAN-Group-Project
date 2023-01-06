@@ -16,12 +16,13 @@ import { SignupComponent } from './features/signup/signup.component';
 import { RegistrationGuard } from './guards/registration.guard';
 
 const routes: Routes = [
-  { path:'signin', component: SigninComponent},
+  { path:'signin', component: SigninComponent}, // TODO: add guard to redirect to employee or hr home
   { path:'signup/:regtoken',
     canActivate: [RegistrationGuard],
     component: SignupComponent},
   { path:'employee', component: EmployeeComponent,
     children:[
+      //{path: '', component: } // TODO either redirect to a default page or make homepage component
       {path:'onboarding-application', component: OnboardingApplicationComponent},
       {path:'personal-information', component: PersonalInformationComponent},
       {path:'visa-status', component: VisaStatusComponent},
@@ -30,13 +31,14 @@ const routes: Routes = [
   },
   { path:'hr', component: HrComponent,
     children:[
+      //{path: '', component: } // TODO either redirect to a default page or make homepage component
       {path:'employee-profiles', component: EmployeeProfilesComponent},
-      {path:'visa-mangement', component: VisaManagementComponent},
-      {path:'hiring-mangement', component: HiringManagementComponent},
-      {path:'housing-mangement', component: HousingManagementComponent},
+      {path:'visa-management', component: VisaManagementComponent},
+      {path:'hiring-management', component: HiringManagementComponent},
+      {path:'housing-management', component: HousingManagementComponent},
     ]
   },
-  { path:'**', redirectTo:'/first' }];
+  { path:'**', redirectTo:'/first' }]; // TODO redirect to signin or error page
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
