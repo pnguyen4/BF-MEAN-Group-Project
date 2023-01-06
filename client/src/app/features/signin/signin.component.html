@@ -4,10 +4,10 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
       <p>
         <mat-form-field>
-          <input type="text" matInput placeholder="Email or Username" formControlName="combo">
-          <mat-error *ngIf="form.get('combo')?.errors?.['required']">Missing username or email!</mat-error>
-          <mat-error *ngIf="form.get('combo')?.errors?.['minlength'] && form.get('combo')?.touched">At least 6 characters!</mat-error>
-          <mat-error *ngIf="form.get('combo')?.errors?.['maxlength'] && form.get('combo')?.touched">At most 20 characters!</mat-error>
+          <input type="text" matInput placeholder="Email or Username" formControlName="account">
+          <mat-error *ngIf="form.get('account')?.errors?.['required']">Missing username or email!</mat-error>
+          <mat-error *ngIf="form.get('account')?.errors?.['minlength'] && form.get('account')?.touched">At least 6 characters!</mat-error>
+          <mat-error *ngIf="form.get('account')?.errors?.['maxlength'] && form.get('account')?.touched">At most 40 characters!</mat-error>
         </mat-form-field>
       </p>
 
@@ -16,7 +16,7 @@
           <input type="password" matInput placeholder="Password" formControlName="password">
           <mat-error *ngIf="form.get('password')?.errors?.['required']">Missing password!</mat-error>
           <mat-error *ngIf="form.get('password')?.errors?.['minlength'] && form.get('password')?.touched">At least 6 characters!</mat-error>
-          <mat-error *ngIf="form.get('password')?.errors?.['maxlength'] && form.get('password')?.touched">At most 20 characters!</mat-error>
+          <mat-error *ngIf="form.get('password')?.errors?.['maxlength'] && form.get('password')?.touched">At most 40 characters!</mat-error>
         </mat-form-field>
       </p>
 
