@@ -29,6 +29,8 @@ export class SigninComponent implements OnInit {
             console.log(res.token);
             console.log(res.user);
             console.log(res.expiresAt);
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('user', res.user);
             //this.router.navigate(['/signin']);
           }
         );

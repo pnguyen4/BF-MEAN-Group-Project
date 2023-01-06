@@ -47,7 +47,8 @@ exports.getUserByAccount = async function (req,res) {
     {
         userId:copy._id,
         username:copy.username,
-        email:copy.email
+        email:copy.email,
+        admin:copy.admin // to check if user is HR or not in middleware and frontend
     },
         process.env.JWT_KEY,
         {expiresIn:'3h'}
