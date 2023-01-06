@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpService } from 'app/shared/http.service';
 
 @Component({
   selector: 'app-signup',
@@ -9,13 +10,13 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private http:HttpService) { }
   error:string | null = "";
   form: FormGroup = new FormGroup({
-    email: new FormControl('',[Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(20)]),
-    username: new FormControl('',[Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-    password: new FormControl('', [Validators.required, this.forbiddenPassword.bind(this), Validators.minLength(6), Validators.maxLength(20)]),
-    cpassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
+    email: new FormControl('',[Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(40)]),
+    username: new FormControl('',[Validators.required, Validators.minLength(6), Validators.maxLength(40)]),
+    password: new FormControl('', [Validators.required, this.forbiddenPassword.bind(this), Validators.minLength(6), Validators.maxLength(40)]),
+    cpassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(40)])
   });
 
   forbiddenPassword(control: FormControl) {
@@ -27,11 +28,22 @@ export class SignupComponent {
   }
 
   submit() {
-    if (this.form.value.password !== this.form.value.cpassword) {
+    if (this.form.value.password !== this.form.value.cpassword) { // if failed
       this.error = "Comfirm password does not match password";
       setTimeout(()=>{this.error = ''},2000);
     }
-    console.log(this.form.value); // submit it
+    else { // if success and ready to submit
+      this.http.createUser(this.form.value).subscribe({
+        next:(res)=>{ // if request ok
+          window.alert("Successfully signed up");
+          this.router.navigate(['/signin']);
+        },
+        error:(res)=>{ // if request failed
+          this.error = "User or email already exist";
+          setTimeout(()=>{this.error = ''},2000);
+        }
+      });
+    }
   }
 
   goLogin() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpService } from 'app/shared/http.service';
 
 @Component({
   selector: 'app-signin',
@@ -9,18 +10,34 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private http:HttpService) { }
 
   error:string | null = "";
   ngOnInit(): void {}
 
   form: FormGroup = new FormGroup({
-    combo: new FormControl('',[Validators.required,Validators.minLength(6), Validators.maxLength(20)]),
-    password: new FormControl('',[Validators.required,Validators.minLength(6), Validators.maxLength(20)]),
+    account: new FormControl('',[Validators.required,Validators.minLength(6), Validators.maxLength(40)]),
+    password: new FormControl('',[Validators.required,Validators.minLength(6), Validators.maxLength(40)]),
   });
 
   submit() {
-    console.log(this.form.value);
+    this.http.checkUserByPassword(this.form.value).subscribe({
+      next:(res)=>{ // if request ok
+        window.alert("Successful sign in");
+        this.http.getUserByAccount(this.form.value).subscribe(
+          (res)=>{
+            console.log(res.token);
+            console.log(res.user);
+            console.log(res.expiresAt);
+            //this.router.navigate(['/signin']);
+          }
+        );
+      },
+      error:(res)=>{ // if request failed
+        this.error = "Account not exist or password incorrect";
+        setTimeout(()=>{this.error = ''},2000);
+      }
+    });
   }
 
   goRegister() {
@@ -28,3 +45,4 @@ export class SigninComponent implements OnInit {
   }
 
 }
+
