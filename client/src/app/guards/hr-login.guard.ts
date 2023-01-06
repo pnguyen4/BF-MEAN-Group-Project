@@ -20,6 +20,12 @@ export class HrLoginGuard implements CanActivate {
     if (typeof user != "string") { return false }
 
     let userobj: User = JSON.parse(user);
-    return userobj?.admin == true;
+    if (userobj.admin) {
+      return true;
+    } else {
+      this.router.navigate(['/signin']);
+      return false;
+    }
+    return false;
   }
 }

@@ -21,6 +21,11 @@ export class EmployeeLoginGuard implements CanActivate {
     if (typeof user != "string") { return false }
 
     let userobj: User = JSON.parse(user);
-    return userobj?.admin == false;
+    if (!userobj.admin) {
+      return true;
+    } else {
+      this.router.navigate(['/signin']);
+      return false;
+    }
   }
 }
