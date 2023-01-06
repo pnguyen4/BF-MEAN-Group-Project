@@ -13,9 +13,13 @@ import { VisaManagementComponent } from './features/hr/visa-management/visa-mana
 import { SigninComponent } from './features/signin/signin.component';
 import { SignupComponent } from './features/signup/signup.component';
 
+import { RegistrationGuard } from './guards/registration.guard';
+
 const routes: Routes = [
   { path:'signin', component: SigninComponent},
-  { path:'signup/:regtoken', component: SignupComponent},
+  { path:'signup/:regtoken',
+    canActivate: [RegistrationGuard],
+    component: SignupComponent},
   { path:'employee', component: EmployeeComponent,
     children:[
       {path:'onboarding-application', component: OnboardingApplicationComponent},
