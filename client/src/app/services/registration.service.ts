@@ -15,4 +15,7 @@ export class RegistrationService {
     return this.http.post(`${API_URL}/api/regtokens`, {email, name});
   }
 
+  isValidRegToken(token: string): Observable<any> {
+    return this.http.get(`${API_URL}/api/verifyregtoken/${token}`);
+  }
 }
