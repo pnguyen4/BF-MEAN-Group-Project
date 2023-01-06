@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'app/shared/http.service';
 
 @Component({
@@ -10,7 +10,9 @@ import { HttpService } from 'app/shared/http.service';
 })
 export class SignupComponent {
 
-  constructor(private router:Router, private http:HttpService) { }
+  constructor(private router:Router, private http:HttpService, private aroute: ActivatedRoute) { }
+
+  regtoken: string = "";
   error:string | null = "";
   form: FormGroup = new FormGroup({
     email: new FormControl('',[Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(40)]),
@@ -28,12 +30,19 @@ export class SignupComponent {
   }
 
   submit() {
+    this.aroute.paramMap.subscribe(params => {
+      this.regtoken = params.get('regtoken') ?? '';
+    });
+    if (this.regtoken == '') {
+      this.error = "No registration token found";
+      return;
+    }
     if (this.form.value.password !== this.form.value.cpassword) { // if failed
       this.error = "Comfirm password does not match password";
       setTimeout(()=>{this.error = ''},2000);
     }
     else { // if success and ready to submit
-      this.http.createUser(this.form.value).subscribe({
+      this.http.createUser(this.form.value, this.regtoken).subscribe({
         next:(res)=>{ // if request ok
           window.alert("Successfully signed up");
           this.router.navigate(['/signin']);
