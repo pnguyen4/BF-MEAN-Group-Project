@@ -14,13 +14,14 @@ import { SigninComponent } from './features/signin/signin.component';
 import { SignupComponent } from './features/signup/signup.component';
 
 import { RegistrationGuard } from './guards/registration.guard';
+import { EmployeeLoginGuard } from './guards/employee-login.guard';
+import { HrLoginGuard } from './guards/hr-login.guard';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path:'signin', component: SigninComponent},
-  { path:'signup/:regtoken',
-    canActivate: [RegistrationGuard],
-    component: SignupComponent},
-  { path:'employee', component: EmployeeComponent,
+  { path:'signin', canActivate: [LoginGuard], component: SigninComponent},
+  { path:'signup/:regtoken', canActivate: [RegistrationGuard], component: SignupComponent},
+  { path:'employee', canActivate: [EmployeeLoginGuard], component: EmployeeComponent,
     children:[
       {path:'onboarding-application', component: OnboardingApplicationComponent},
       {path:'personal-information', component: PersonalInformationComponent},
@@ -28,15 +29,15 @@ const routes: Routes = [
       {path:'housing', component: HousingComponent},
     ]
   },
-  { path:'hr', component: HrComponent,
+  { path:'hr', canActivate: [HrLoginGuard], component: HrComponent,
     children:[
       {path:'employee-profiles', component: EmployeeProfilesComponent},
-      {path:'visa-mangement', component: VisaManagementComponent},
-      {path:'hiring-mangement', component: HiringManagementComponent},
-      {path:'housing-mangement', component: HousingManagementComponent},
+      {path:'visa-management', component: VisaManagementComponent},
+      {path:'hiring-management', component: HiringManagementComponent},
+      {path:'housing-management', component: HousingManagementComponent},
     ]
   },
-  { path:'**', redirectTo:'/first' }];
+  { path:'**', redirectTo:'/signin' }]; // TODO redirect to signin or error page
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
