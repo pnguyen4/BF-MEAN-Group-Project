@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +24,9 @@ import { MatInputModule } from '@angular/material/input';
 import { EmployeeNavbarComponent } from './features/employee/employee-navbar/employee-navbar.component';
 import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
 
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './store/user.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +46,7 @@ import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
     HrNavbarComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -50,7 +54,8 @@ import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
     MatCardModule,
     MatButtonModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({ user: userReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]
