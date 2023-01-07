@@ -1,3 +1,4 @@
+<h2>Housing Summary View</h2>
 <ng-container *ngIf="housing">
     <table class="table table-hover ">
         <thead class="thead-dark">
@@ -5,11 +6,12 @@
                 <th>Address</th>
                 <th>Landlord</th>
                 <th># of residents</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let house of housing" (click)="details(house._id)">
-                <td>
+            <tr *ngFor="let house of housing">
+                <td (click)="details(house._id)">
                     {{house?.address?.street}}
                     <ng-container *ngIf="house?.address?.suiteOrAptNumber">
                         # {{house?.address?.suiteOrAptNumber}}
@@ -19,15 +21,20 @@
                     {{house?.address.state}}
                     {{house?.address?.zipcode}}
                 </td>
-                <td>
+                <td (click)="details(house._id)">
                     {{house?.landlord?.fullname}}
                     <br>
                     {{house?.landlord?.phone}}
                     <br>
                     {{house?.landlord?.email}}
                 </td>
-                <td>
+                <td (click)="details(house._id)">
                     {{house?.tenants.length}}
+                </td>
+                <td>
+                    <button class="btn btn-danger" (click)="delete(house._id)">
+                        Delete
+                    </button>
                 </td>
             </tr>
         </tbody>

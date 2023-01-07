@@ -32,3 +32,12 @@ exports.getHousingSummary = async (req, res) => {
         return res.json({status: "500", msg: error});
     }
 };
+
+exports.deleteHousing = async (req, res) => {
+    try {
+        await Housing.deleteOne({ _id: req.params.id });
+        return res.json({status: '200'});
+    } catch (error) {
+        return res.json({status: "500", msg: error});
+    }
+};
