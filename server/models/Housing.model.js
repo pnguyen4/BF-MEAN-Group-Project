@@ -8,20 +8,20 @@ const HousingSchema = new mongoose.Schema({
     },
     address: {
         street: { type: String, 
-            // required: [true, 'Street is required']
+        required: [true, 'Street is required']
         },
         suiteOrAptNumber: { type: String, 
-            default: null,
-            // required: false
+            default: '',
+            required: false
         }, 
         city: { type: String, 
-            // required: [true, 'Street is required']
+        required: [true, 'Street is required']
         },
         state: { type: String, 
-            // required: [true, 'State must be included'],
+        required: [true, 'State must be included'],
         }, 
         zipcode: { type: String, 
-            // required: [ true, 'Zipcode must be included' ] 
+        required: [ true, 'Zipcode must be included' ]
         }, 
     },
     tenants: [{ type: objectID, ref: "User" }]

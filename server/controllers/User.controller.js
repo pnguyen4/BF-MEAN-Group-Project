@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 const { MongoClient, ObjectID } = require('mongodb');
 
+// TODO: randomly assign a house from existing houses
 exports.createUser = async ( req, res ) => {
     const hashed = await bcrypt.hash(req.body.password, Number(process.env.SALT));
     const user = new User({ // create schema

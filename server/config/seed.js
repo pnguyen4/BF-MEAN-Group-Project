@@ -34,7 +34,7 @@ async function run() {
     let houseCount = 3;
     for( let i=0; i<houseCount; i++ ) {
       const houseAddress = generateAddress();
-      const newHouse = await Housing.create({ ...houseAddress, idx: i });
+      const newHouse = await Housing.create({ address: houseAddress, idx: i });
       newHouse.save();
     }
     console.log(`successfuly seeded ${houseCount} housing units`)
