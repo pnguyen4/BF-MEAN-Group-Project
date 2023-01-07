@@ -23,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { EmployeeNavbarComponent } from './features/employee/employee-navbar/employee-navbar.component';
 import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
+import { DetailHousingManagementComponent } from './features/hr/detail-housing-management/detail-housing-management.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
     HiringManagementComponent,
     HousingManagementComponent,
     EmployeeNavbarComponent,
-    HrNavbarComponent
+    HrNavbarComponent,
+    DetailHousingManagementComponent
   ],
   imports: [
     BrowserModule,

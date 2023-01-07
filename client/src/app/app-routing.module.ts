@@ -8,6 +8,8 @@ import { VisaStatusComponent } from './features/employee/visa-status/visa-status
 import { EmployeeProfilesComponent } from './features/hr/employee-profiles/employee-profiles.component';
 import { HiringManagementComponent } from './features/hr/hiring-management/hiring-management.component';
 import { HousingManagementComponent } from './features/hr/housing-management/housing-management.component';
+import { DetailHousingManagementComponent } from
+'./features/hr/detail-housing-management/detail-housing-management.component';
 import { HrComponent } from './features/hr/hr.component';
 import { VisaManagementComponent } from './features/hr/visa-management/visa-management.component';
 import { SigninComponent } from './features/signin/signin.component';
@@ -35,6 +37,7 @@ const routes: Routes = [
       {path:'visa-management', component: VisaManagementComponent},
       {path:'hiring-management', component: HiringManagementComponent},
       {path:'housing-management', component: HousingManagementComponent},
+      {path:'housing-management/:housingid', component: DetailHousingManagementComponent},
     ]
   },
   { path:'**', redirectTo:'/signin' }]; // TODO redirect to signin or error page
