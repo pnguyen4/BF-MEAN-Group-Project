@@ -1,1 +1,26 @@
-<p>housing works!</p>
+<div>
+    <ng-container *ngIf="housing">
+        <div>
+            <h2>Address</h2>
+            <div>Street: {{housing?.house?.address?.street}}</div>
+            <div *ngIf="housing?.house?.address?.suiteOrAptNumber">
+                Suite/Apt #: {{housing?.house?.address?.suiteOrAptNumber}}
+            </div>
+            <div>City: {{housing?.house?.address?.city}}</div>
+            <div>State: {{housing?.house?.address?.state}}</div>
+            <div>Zipcode: {{housing?.house?.address?.zipcode}}</div>
+        </div>
+        <div>
+            <h2>All Members</h2>
+            <ul>
+                <li *ngFor="let tenant of housing?.house?.tenants">
+                    Name: {{tenant?.application_id.firstname}}
+                          {{tenant?.application_id.lastname}}
+                    <br>
+                    Phone: {{tenant?.application_id.cellphone}}
+
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</div>

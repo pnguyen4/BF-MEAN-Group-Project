@@ -9,6 +9,7 @@ const { User } = require("../models/User.model");
 const { Application } = require('../models/Application.model');
 const { VisaStatus } = require("../models/VisaStatus.model");
 const { Housing } = require('../models/Housing.model');
+//const { Regtoken } = require('../models/RegToken.model');
 
 // utils
 const { generateUsers } = require('./seedUtils/User.seed');
@@ -29,12 +30,13 @@ async function run() {
     if( await Application.collection ) await Application.collection.drop();
     if( await VisaStatus.collection ) await VisaStatus.collection.drop();
     if( await Housing.collection ) await Housing.collection.drop();
+    //if( await RegToken.collection ) await RegToken.collection.drop();
 
     //[top][HOUSING]
     let houseCount = 3;
     for( let i=0; i<houseCount; i++ ) {
       const houseAddress = generateAddress();
-      const newHouse = await Housing.create({ ...houseAddress, idx: i });
+      const newHouse = await Housing.create({ address: houseAddress, idx: i });
       newHouse.save();
     }
     console.log(`successfuly seeded ${houseCount} housing units`)
@@ -66,6 +68,8 @@ async function run() {
         user_id: newUser._id, 
         email: newUser.email
       });
+      await User.updateOne({_id: newUser._id},
+                           {application_id: newApplication._id});
 
       // generate blank visa status
       const visaInfo = generateVisaStatus();

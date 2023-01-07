@@ -18,6 +18,7 @@ app.use(cors());
 // Apply Routes
 app.use(routes.Registration);
 app.use(routes.User);
+app.use(routes.Housing);
 
 app.all('*', (req, res) => {
   res.status(404).json({error: 'resource not found'});

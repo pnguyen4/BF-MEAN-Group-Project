@@ -1,0 +1,25 @@
+const { User } = require('../models/User.model');
+const { Housing } = require('../models/Housing.model');
+const { Application } = require('../models/Application.model');
+const bcrypt = require('bcryptjs');
+const express = require('express');
+const app = express();
+const jwt = require("jsonwebtoken");
+
+exports.getHousingDetails = async (req, res) => {
+    try {
+        // Nested references are a BITCH. I'm not sorry for this comment - Phillip
+        const house = await Housing.findOne({_id: req.params.id}).populate({
+            path: 'tenants',
+            model: 'User',
+            populate: {
+                path: 'application_id',
+                model: 'Application'
+            }
+        });
+        return res.json({status: '200', house});
+    } catch (error) {
+        console.log(error);
+        return res.json({status: "500", msg: error});
+    }
+};
