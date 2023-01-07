@@ -1,5 +1,7 @@
 const { User } = require('../models/User.model');
 const { Housing } = require('../models/Housing.model');
+const { FacReport } = require('../models/FacReport.model');
+const { FacReportMsg } = require('../models/FacReportMsg.model');
 const { Application } = require('../models/Application.model');
 const bcrypt = require('bcryptjs');
 const express = require('express');
@@ -55,3 +57,31 @@ exports.deleteHousing = async (req, res) => {
         return res.json({status: "500", msg: error});
     }
 };
+
+exports.getHouseFacilityReports = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const facReports = await FacReport.find({housing_id: id});
+        return res.json({status: '200', facReports});
+    }
+    catch (error) {
+        return res.json({status: "500", msg: error});
+    }
+};
+
+exports.createFacilityReport = async (req, res) => {
+    try {
+        const newreport = {
+            housing_id: req.body.housing_id,
+            author_id: req.body.author_id,
+            status: "open",
+            title: req.body.title,
+            description: req.body.description,
+            messages: []
+        };
+        const facReport = await FacReport.create(newreport);
+        return res.json({status: '200', facReport});
+    } catch (error) {
+        return res.json({status: "500", msg: error});
+    }
+}

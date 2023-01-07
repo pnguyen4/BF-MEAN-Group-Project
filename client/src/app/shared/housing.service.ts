@@ -27,4 +27,12 @@ export class HousingService {
     return this.http.delete(`${API_URL}/api/housing/${id}`);
   }
 
+  getHouseFacilityReports(id: string): Observable<any> {
+    return this.http.get(`${API_URL}/api/housing/${id}/reports`);
+  }
+
+  createFacilityReport(id: string, facReport: Object): Observable<any> {
+    return this.http.post(`${API_URL}/api/housing/${id}/reports`, facReport);
+  }
+
 }

@@ -29,6 +29,7 @@ export class HousingManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.housingService.getHousingSummary().subscribe(res => {
+    // TODO: remove this after migrating to ngrx and using async pipe
       this.housing = res.houses;
       console.log(this.housing);
     });
@@ -67,6 +68,7 @@ export class HousingManagementComponent implements OnInit {
       const facilities: string = formdata.facilities;
       this.housingService.createHousing(landlord, address, facilities).subscribe(res => {
         if (res.status == '200') {
+          // TODO: remove this after migrating to ngrx and using async pipe
           this.housing.push(res.house);
         }
       });
