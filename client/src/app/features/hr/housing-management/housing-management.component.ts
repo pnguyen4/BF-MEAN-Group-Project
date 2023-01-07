@@ -20,6 +20,7 @@ export class HousingManagementComponent implements OnInit {
     fullname: ['', Validators.required],
     phone: ['', Validators.required],
     email: ['', [Validators.email, Validators.required]],
+    facilities: ['']
   });
 
   constructor(private housingService: HousingService,
@@ -63,7 +64,8 @@ export class HousingManagementComponent implements OnInit {
         state: formdata.state,
         zipcode: formdata.zipcode
       }
-      this.housingService.createHousing(landlord, address).subscribe(res => {
+      const facilities: string = formdata.facilities;
+      this.housingService.createHousing(landlord, address, facilities).subscribe(res => {
         if (res.status == '200') {
           this.housing.push(res.house);
         }

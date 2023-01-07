@@ -37,7 +37,8 @@ exports.createHousing = async (req, res) => {
     try {
         const newhouse = {
             landlord: req.body.landlord,
-            address: req.body.address
+            address: req.body.address,
+            facilities: req.body?.facilities ?? ''
         };
         const house  = await Housing.create(newhouse);
         return res.json({status: '200', house});

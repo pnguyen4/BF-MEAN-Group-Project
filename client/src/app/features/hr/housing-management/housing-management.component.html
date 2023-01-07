@@ -1,57 +1,51 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-3 bg-light p-5">
-            <h2 class="text-center">Add House Form</h2>
-            <form [formGroup]="houseForm" (ngSubmit)="submit()">
-                <h3>Address</h3>
-                <div class="input-group">
-                    <label for="street">Street</label>
-                    <input type="text" id="street" name="street" formControlName="street">
+        <div class="col-lg-3 bg-light py-3">
+            <h1 class="text-center">Add House Form</h1>
+            <form class="container" [formGroup]="houseForm" (ngSubmit)="submit()">
+                <div class="row">
+                    <div class="col">
+                        <h2>Address</h2>
+                        <label for="street">Street</label>
+                        <input type="text" id="street" name="street" formControlName="street">
+
+                        <label for="aptno">Suite or Apt Number</label>
+                        <input type="text" id="aptno"
+                               name="suiteOrAptNumber" formControlName="suiteOrAptNumber">
+
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" formControlName="city">
+
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" formControlName="state">
+
+                        <label for="zipcode">Zipcode</label>
+                        <input type="text" id="zipcode" name="zipcode" formControlName="zipcode">
+                    </div>
+
+                    <div class="col">
+                        <h2>Landlord</h2>
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" formControlName="fullname">
+
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" formControlName="phone">
+
+                        <label for="email">Email Address</label>
+                        <input type="text" id="email" name="email" formControlName="email">
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label for="aptno">Suite or Apt Number</label>
-                    <input type="text" id="aptno" name="suiteOrAptNumber" formControlName="suiteOrAptNumber">
+                <div class="row p-2 my-2">
+                    <h2 class="px-0">Facility Information</h2>
+                    <textarea class="" rows="10" formControlName="facilities"></textarea>
                 </div>
 
-                <div class="input-group">
-                    <label for="city">City</label>
-                    <input type="text" id="city" name="city" formControlName="city">
-                </div>
-
-                <div class="input-group">
-                    <label for="state">State</label>
-                    <input type="text" id="state" name="state" formControlName="state">
-                </div>
-
-                <div class="input-group">
-                    <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" formControlName="zipcode">
-                </div>
-
-                <h3>Landlord</h3>
-                <div class="input-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" name="fullname" formControlName="fullname">
-                </div>
-
-                <div class="input-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="text" id="phone" name="phone" formControlName="phone">
-                </div>
-
-                <div class="input-group">
-                    <label for="email">Email Address</label>
-                    <input type="text" id="email" name="email" formControlName="email">
-                </div>
-
-                <h3> Facility Information </h3>
-                <h3> TODO: Add facility to model </h3>
                 <button class="btn btn-success">Add House</button>
             </form>
         </div>
-        <div class="col-9">
-            <h2 class="text-center">Housing Summary View</h2>
+        <div class="col-lg-9 my-3">
+            <h1 class="text-center">Housing Summary View</h1>
             <ng-container *ngIf="housing">
                 <table class="table table-hover ">
                     <thead class="thead-dark">

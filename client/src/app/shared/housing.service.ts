@@ -19,8 +19,8 @@ export class HousingService {
     return this.http.get(`${API_URL}/api/housing`);
   }
 
-  createHousing(landlord: Object, address: Object): Observable<any> {
-    return this.http.post(`${API_URL}/api/housing`, {landlord, address});
+  createHousing(landlord: Object, address: Object, facilities: string): Observable<any> {
+    return this.http.post(`${API_URL}/api/housing`, {landlord, address, facilities});
   }
 
   deleteHousing(id: string): Observable<any> {
