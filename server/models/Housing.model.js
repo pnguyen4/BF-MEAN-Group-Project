@@ -6,6 +6,17 @@ const HousingSchema = new mongoose.Schema({
         type: Number,
         required: false
     },
+    landlord: {
+        fullname: { type: String,
+        required: [true, 'Landlord name must be included']
+        },
+        phone: { type: String,
+        required: [true, 'Landlord phone number must be included']
+        },
+        email: { type: String,
+        required: [true, 'Landlord email must be included']
+        }
+    },
     address: {
         street: { type: String, 
         required: [true, 'Street is required']

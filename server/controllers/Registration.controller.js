@@ -17,7 +17,7 @@ exports.createRegToken = async (req, res) => {
         // TODO: check email is valid email
         const email = req.body.email;
         const name = req.body.name;
-
+ 
         const token_payload = {
             email,
             name,
@@ -28,6 +28,7 @@ exports.createRegToken = async (req, res) => {
         const link = `${FRONTEND_URL}/signup/${token}`;
         await RegToken.create({email, name, link});
         sendmail(email, link);
+
         res.json({status: '200', token, message: 'registration link emailed and saved to history'});
     } catch (error) {
       res.json({status: '400', message: 'cannot create token'});
@@ -35,6 +36,8 @@ exports.createRegToken = async (req, res) => {
 };
 
 exports.getRegTokens = async (req, res) => {
+  console.log(1);
+  console.log(2);
     try {
       const regtokens = await RegToken.find();
       res.json({status: '200', regtokens});

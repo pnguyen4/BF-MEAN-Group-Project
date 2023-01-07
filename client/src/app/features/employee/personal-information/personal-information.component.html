@@ -1,1 +1,27 @@
-<p>personal-information works!</p>
+
+<mat-card [ngStyle]="{'padding':'30px 100px','margin':'20px'}">
+  <h1>Your Information</h1>
+  <label for="email">Email:</label>
+  <input id="email" type="text" [(ngModel)]="user.email" [disabled]="editMode || !editMode">
+  <label for="username">User Name:</label>
+  <input id="username" type="text" [(ngModel)]="user.username" [disabled]="editMode || !editMode">
+  <label for="application_id">Application ID:</label>
+  <input id="application_id" type="text" [(ngModel)]="user.application_id" [disabled]="!editMode">
+  <label for="Housing_id">Housing ID:</label>
+  <input id="housing_id" type="text" [(ngModel)]="user.housing_id" [disabled]="!editMode">
+  <label for="password">Password:</label>
+  <input id="password" type="password" [(ngModel)]="user.password" [disabled]="!editMode">
+  <label for="comfirm" *ngIf="editMode">Comfirmed Password:</label>
+  <input id="comfirm" type="password" [(ngModel)]="comfirm" [disabled]="!editMode" *ngIf="editMode">
+  <br>
+  <ng-container *ngIf="!editMode; else slot">
+    <button mat-raised-button color="primary" (click)="startEdit()">Edit Information</button>
+  </ng-container>
+  <p [ngStyle]="{'color':'red','margin':'5px','text-align':'center'}">{{error}}</p>
+  <ng-template #slot>
+    <button mat-raised-button color="primary" (click)="validation()">Save Information</button>
+  </ng-template>
+</mat-card>
+
+
+

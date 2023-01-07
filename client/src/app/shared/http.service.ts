@@ -25,7 +25,7 @@ export class HttpService {
     return this.http.post("http://localhost:3000/api/users", user, {headers}); // send http request
   }
 
-  checkUserByPassword(userInfo:any) {
+  checkUserByPassword(userInfo:any) { // get user with password: for login
     const user: any = { // create model
       account:userInfo.account,
       password:userInfo.password
@@ -35,5 +35,14 @@ export class HttpService {
 
   getUserByAccount(userInfo:any) {
     return this.http.get<{user:any,token:any,expiresAt:number}>("http://localhost:3000/api/users/"+userInfo.account); // get user
+  }
+
+  editUserWithPassword(userInfo:any) { // must include password changing
+    return this.http.put<{message:string}>("http://localhost:3000/api/users/"+userInfo.email,userInfo)
+    .subscribe(
+      (val)=>{
+        console.log("Successfully edited");
+      }
+    );
   }
 }

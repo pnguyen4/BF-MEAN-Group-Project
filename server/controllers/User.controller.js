@@ -5,7 +5,7 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
-const { MongoClient, ObjectID } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 // TODO: randomly assign a house from existing houses
 exports.createUser = async ( req, res ) => {
@@ -26,6 +26,8 @@ exports.createUser = async ( req, res ) => {
     else { // if email exist
         res.status(409).json();
     }
+
+    
 }    
 
 
@@ -49,12 +51,11 @@ exports.getUserByAccount = async function (req,res) {
         userId:copy._id,
         username:copy.username,
         email:copy.email,
-        admin:copy.admin // to check if user is HR or not in middleware and frontend
+        admin:copy.admin
     },
         process.env.JWT_KEY,
         {expiresIn:'3h'}
     );      
-
     res.status(200).json({
         user: copy,
         token: token,
@@ -62,6 +63,20 @@ exports.getUserByAccount = async function (req,res) {
     });    
 } 
 
+exports.editUserWithPassword = async function (req,res) {
+
+    const hashed = await bcrypt.hash(req.body.password, Number(process.env.SALT));
+    const copy = await User.findOne({email:req.body.email},{});
+    await User.findOneAndUpdate({email:req.body.email},{
+      username: req.username,//req.body.username,
+      email: req.body.email,
+      admin: req.body.admin,
+      password: hashed,
+      application_id: ObjectId(req.body.application_id),
+      housing_id: ObjectId(req.body.housing_id)
+    })
+    res.status(200).json();
+  }
 
 
 
