@@ -11,8 +11,12 @@ export class HousingService {
 
   constructor(private http: HttpClient) { }
 
-  getHousingDetails(id: string) {
+  getHousingDetails(id: string): Observable<any> {
     return this.http.get(`${API_URL}/api/housing/${id}`);
+  }
+
+  getHousingSummary(): Observable<any> {
+    return this.http.get(`${API_URL}/api/housing`);
   }
 
 }

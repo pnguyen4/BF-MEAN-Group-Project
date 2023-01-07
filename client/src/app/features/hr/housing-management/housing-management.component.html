@@ -1,1 +1,35 @@
-<p>housing-management works!</p>
+<ng-container *ngIf="housing">
+    <table class="table table-hover ">
+        <thead class="thead-dark">
+            <tr>
+                <th>Address</th>
+                <th>Landlord</th>
+                <th># of residents</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let house of housing" (click)="details(house._id)">
+                <td>
+                    {{house?.address?.street}}
+                    <ng-container *ngIf="house?.address?.suiteOrAptNumber">
+                        # {{house?.address?.suiteOrAptNumber}}
+                    </ng-container>
+                    ,
+                    {{house?.address?.city}}
+                    {{house?.address.state}}
+                    {{house?.address?.zipcode}}
+                </td>
+                <td>
+                    {{house?.landlord?.fullname}}
+                    <br>
+                    {{house?.landlord?.phone}}
+                    <br>
+                    {{house?.landlord?.email}}
+                </td>
+                <td>
+                    {{house?.tenants.length}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>

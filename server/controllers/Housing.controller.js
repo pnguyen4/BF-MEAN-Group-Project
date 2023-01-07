@@ -23,3 +23,12 @@ exports.getHousingDetails = async (req, res) => {
         return res.json({status: "500", msg: error});
     }
 };
+
+exports.getHousingSummary = async (req, res) => {
+    try {
+        const houses = await Housing.find();
+        return res.json({status: '200', houses});
+    } catch (error) {
+        return res.json({status: "500", msg: error});
+    }
+};
