@@ -26,8 +26,8 @@ export class HousingComponent implements OnInit {
       return;
     }
 
-    this.housingService.getHousingDetails(userobj.housing_id).subscribe(house => {
-      this.housing = house;
+    this.housingService.getHousingDetails(userobj.housing_id).subscribe(res => {
+      this.housing = res.house;
       console.log(this.housing)
     });
   }

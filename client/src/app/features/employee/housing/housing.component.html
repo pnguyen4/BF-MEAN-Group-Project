@@ -2,18 +2,18 @@
     <ng-container *ngIf="housing">
         <div>
             <h2>Address</h2>
-            <div>Street: {{housing?.house?.address?.street}}</div>
+            <div>Street: {{housing?.address?.street}}</div>
             <div *ngIf="housing?.house?.address?.suiteOrAptNumber">
-                Suite/Apt #: {{housing?.house?.address?.suiteOrAptNumber}}
+                Suite/Apt #: {{housing?.address?.suiteOrAptNumber}}
             </div>
-            <div>City: {{housing?.house?.address?.city}}</div>
-            <div>State: {{housing?.house?.address?.state}}</div>
-            <div>Zipcode: {{housing?.house?.address?.zipcode}}</div>
+            <div>City: {{housing?.address?.city}}</div>
+            <div>State: {{housing?.address?.state}}</div>
+            <div>Zipcode: {{housing?.address?.zipcode}}</div>
         </div>
         <div>
             <h2>All Members</h2>
             <ul>
-                <li *ngFor="let tenant of housing?.house?.tenants">
+                <li *ngFor="let tenant of housing?.tenants">
                     Name: {{tenant?.application_id.firstname}}
                           {{tenant?.application_id.lastname}}
                     <br>
