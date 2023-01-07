@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0px;
+}
+
+mat-card {
+  padding: 30px;
+  width: 800px;
+  height: auto;
+  display:flex;
+  flex-direction: column;
+}
+
+h1 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  margin: 50px;
+}
+
+label {
+  font-size: 20px;
+  margin:10px 0;
+  font-weight: bold;
+}
+
+input {
+  font-size: 20px;
+}
+

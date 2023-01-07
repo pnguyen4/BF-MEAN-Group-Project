@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +25,9 @@ import { EmployeeNavbarComponent } from './features/employee/employee-navbar/emp
 import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
 import { DetailHousingManagementComponent } from './features/hr/detail-housing-management/detail-housing-management.component';
 
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './store/user.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +48,7 @@ import { DetailHousingManagementComponent } from './features/hr/detail-housing-m
     DetailHousingManagementComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -52,7 +56,8 @@ import { DetailHousingManagementComponent } from './features/hr/detail-housing-m
     MatCardModule,
     MatButtonModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({ user: userReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]

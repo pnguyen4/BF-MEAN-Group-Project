@@ -29,6 +29,7 @@ export class HiringManagementComponent implements OnInit {
     }
     const email: string = this.newEmployeeForm.value.email;
     const name: string = this.newEmployeeForm.value.name;
+    
     this.registrationService.generateRegTokenAndEmail(email, name).subscribe(res => {
       console.log(res);
     })
