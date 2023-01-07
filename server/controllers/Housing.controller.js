@@ -33,6 +33,19 @@ exports.getHousingSummary = async (req, res) => {
     }
 };
 
+exports.createHousing = async (req, res) => {
+    try {
+        const newhouse = {
+            landlord: req.body.landlord,
+            address: req.body.address
+        };
+        const house  = await Housing.create(newhouse);
+        return res.json({status: '200', house});
+    } catch (error) {
+        return res.json({status: "500", msg: error});
+    }
+};
+
 exports.deleteHousing = async (req, res) => {
     try {
         await Housing.deleteOne({ _id: req.params.id });

@@ -1,47 +1,48 @@
 <div class="container">
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 bg-light p-5">
+            <h2 class="text-center">Add House Form</h2>
             <form [formGroup]="houseForm" (ngSubmit)="submit()">
                 <h3>Address</h3>
                 <div class="input-group">
                     <label for="street">Street</label>
-                    <input type="text" id="street" name="street">
+                    <input type="text" id="street" name="street" formControlName="street">
                 </div>
 
                 <div class="input-group">
                     <label for="aptno">Suite or Apt Number</label>
-                    <input type="text" id="aptno" name="suiteOrAptNumber">
+                    <input type="text" id="aptno" name="suiteOrAptNumber" formControlName="suiteOrAptNumber">
                 </div>
 
                 <div class="input-group">
                     <label for="city">City</label>
-                    <input type="text" id="city" name="city">
+                    <input type="text" id="city" name="city" formControlName="city">
                 </div>
 
                 <div class="input-group">
                     <label for="state">State</label>
-                    <input type="text" id="state" name="state">
+                    <input type="text" id="state" name="state" formControlName="state">
                 </div>
 
                 <div class="input-group">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode">
+                    <input type="text" id="zipcode" name="zipcode" formControlName="zipcode">
                 </div>
 
                 <h3>Landlord</h3>
                 <div class="input-group">
                     <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" name="fullname">
+                    <input type="text" id="fullname" name="fullname" formControlName="fullname">
                 </div>
 
                 <div class="input-group">
                     <label for="phone">Phone Number</label>
-                    <input type="text" id="phone" name="phone">
+                    <input type="text" id="phone" name="phone" formControlName="phone">
                 </div>
 
                 <div class="input-group">
                     <label for="email">Email Address</label>
-                    <input type="text" id="email" name="email">
+                    <input type="text" id="email" name="email" formControlName="email">
                 </div>
 
                 <h3> Facility Information </h3>

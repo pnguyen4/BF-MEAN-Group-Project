@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class HousingManagementComponent implements OnInit {
 
   housing: any[] = [];
-  houseForm: FormGroup = this.fb.group({
+  houseForm: FormGroup = this.fb.nonNullable.group({
     street: ['', Validators.required],
     suiteOrAptNumber: [''],
     city: ['', Validators.required],
@@ -49,6 +49,25 @@ export class HousingManagementComponent implements OnInit {
   }
 
   submit(): void {
-    console.log("test")
+    if (this.houseForm.valid) {
+      const formdata = this.houseForm.getRawValue();
+      const landlord = {
+        fullname: formdata.fullname,
+        phone: formdata.phone,
+        email: formdata.email
+      };
+      const address = {
+        street: formdata.street,
+        suiteOrAptNumber: formdata.suiteOrAptNumber,
+        city: formdata.city,
+        state: formdata.state,
+        zipcode: formdata.zipcode
+      }
+      this.housingService.createHousing(landlord, address).subscribe(res => {
+        if (res.status == '200') {
+          this.housing.push(res.house);
+        }
+      });
+    }
   }
 }
