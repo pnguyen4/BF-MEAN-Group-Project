@@ -1,42 +1,97 @@
-<h2>Housing Summary View</h2>
-<ng-container *ngIf="housing">
-    <table class="table table-hover ">
-        <thead class="thead-dark">
-            <tr>
-                <th>Address</th>
-                <th>Landlord</th>
-                <th># of residents</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let house of housing">
-                <td (click)="details(house._id)">
-                    {{house?.address?.street}}
-                    <ng-container *ngIf="house?.address?.suiteOrAptNumber">
-                        # {{house?.address?.suiteOrAptNumber}}
-                    </ng-container>
-                    ,
-                    {{house?.address?.city}}
-                    {{house?.address.state}}
-                    {{house?.address?.zipcode}}
-                </td>
-                <td (click)="details(house._id)">
-                    {{house?.landlord?.fullname}}
-                    <br>
-                    {{house?.landlord?.phone}}
-                    <br>
-                    {{house?.landlord?.email}}
-                </td>
-                <td (click)="details(house._id)">
-                    {{house?.tenants.length}}
-                </td>
-                <td>
-                    <button class="btn btn-danger" (click)="delete(house._id)">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</ng-container>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <form [formGroup]="houseForm" (ngSubmit)="submit()">
+                <h3>Address</h3>
+                <div class="input-group">
+                    <label for="street">Street</label>
+                    <input type="text" id="street" name="street">
+                </div>
+
+                <div class="input-group">
+                    <label for="aptno">Suite or Apt Number</label>
+                    <input type="text" id="aptno" name="suiteOrAptNumber">
+                </div>
+
+                <div class="input-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city">
+                </div>
+
+                <div class="input-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state">
+                </div>
+
+                <div class="input-group">
+                    <label for="zipcode">Zipcode</label>
+                    <input type="text" id="zipcode" name="zipcode">
+                </div>
+
+                <h3>Landlord</h3>
+                <div class="input-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname">
+                </div>
+
+                <div class="input-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" name="phone">
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="text" id="email" name="email">
+                </div>
+
+                <h3> Facility Information </h3>
+                <h3> TODO: Add facility to model </h3>
+                <button class="btn btn-success">Add House</button>
+            </form>
+        </div>
+        <div class="col-9">
+            <h2 class="text-center">Housing Summary View</h2>
+            <ng-container *ngIf="housing">
+                <table class="table table-hover ">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Address</th>
+                            <th>Landlord</th>
+                            <th># of residents</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let house of housing">
+                            <td (click)="details(house._id)">
+                                {{house?.address?.street}}
+                                <ng-container *ngIf="house?.address?.suiteOrAptNumber">
+                                    # {{house?.address?.suiteOrAptNumber}}
+                                </ng-container>
+                                ,
+                                {{house?.address?.city}}
+                                {{house?.address.state}}
+                                {{house?.address?.zipcode}}
+                            </td>
+                            <td (click)="details(house._id)">
+                                {{house?.landlord?.fullname}}
+                                <br>
+                                {{house?.landlord?.phone}}
+                                <br>
+                                {{house?.landlord?.email}}
+                            </td>
+                            <td (click)="details(house._id)">
+                                {{house?.tenants.length}}
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" (click)="delete(house._id)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+        </div>
+    </div>
+</div>
