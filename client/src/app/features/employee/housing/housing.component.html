@@ -29,7 +29,7 @@
                     </div>
                     <div>
                         <h2>Facility Details</h2>
-                        {{housing.address?.facility ?? 'No Details'}}
+                        {{housing?.facilities ? housing.facilities : 'No Details'}}
                     </div>
                 </ng-container>
             </div>

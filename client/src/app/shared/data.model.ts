@@ -71,8 +71,8 @@ export class Housing {
     public idx:number,
     public landlord:Landlord,
     public address:Address,
-    public facilities:string,
-    public tenants:string[]
+    public tenants:string[],
+    public facilities:string
   ){}
 }
 
