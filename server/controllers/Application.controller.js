@@ -1,4 +1,5 @@
 const { Application } = require('../models/Application.model');
+const { User } = require('../models/User.model');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -15,7 +16,11 @@ exports.createApplication = async function (req, res) {
         if (!req.body.application) {
             return res.json({status: '400', msg: 'missing application'});
         }
-        let application = await Application.create(req.body.application);
+        let newapplication = req.body.application;
+        newapplication.status = "pending";
+        let application = await Application.create(newapplication);
+        await User.updateOne({_id: req.body.application.user_id},
+                             {application_id: application._id});
         return res.json({status: '200', application});
     } catch (error) {
         return res.json({status: "500", msg: error});
