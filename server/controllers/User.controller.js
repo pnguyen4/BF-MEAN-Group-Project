@@ -63,6 +63,22 @@ exports.getUserByAccount = async function (req,res) {
     });    
 } 
 
+exports.getUserAll = async function (req,res) { 
+    let copy = await User.find({},{}); 
+    res.status(200).json({users:copy});    
+} 
+
+exports.getUserByKeyword = async function (req,res) { 
+    let copy = await User.find({},{}); 
+    let users = [];
+    for (let i = 0; i < copy.length; i++) {
+        if (copy[i].username.includes(req.params.keyword) || copy[i].email.includes(req.params.keyword)) {
+            users.push(copy[i]);
+        }
+    }
+    res.status(200).json({users:users});    
+} 
+
 exports.editUserWithPassword = async function (req,res) {
 
     const hashed = await bcrypt.hash(req.body.password, Number(process.env.SALT));
