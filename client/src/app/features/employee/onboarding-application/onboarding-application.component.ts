@@ -1,5 +1,9 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { S3ServiceService } from '../../../shared/s3-service.service';
+import { Md5 } from 'ts-md5';
+
+const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 
 @Component({
   selector: 'app-onboarding-application',
@@ -7,6 +11,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./onboarding-application.component.scss']
 })
 export class OnboardingApplicationComponent implements OnInit {
+
+  driverLicenseUrl = '';
 
   // TODO: input validation
   applicationForm: FormGroup = this.fb.nonNullable.group({
@@ -52,10 +58,18 @@ export class OnboardingApplicationComponent implements OnInit {
     // TODO: add input field for uploading OPT Receipt, use this field to store link to document on AWS S3
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private s3Service: S3ServiceService) { }
 
   ngOnInit(): void {
 
+  }
+
+  driverLicenseFileSelect(e: any): void {
+    const file = e.target.files[0];
+    const uniquename = `${Md5.hashStr(Math.random().toString())}-${file.name}`;
+    this.s3Service.uploadFile(file, uniquename);
+    this.driverLicenseUrl = `https://bfmean2022.s3.amazonaws.com/${uniquename}`;
   }
 
   submit(): void {
