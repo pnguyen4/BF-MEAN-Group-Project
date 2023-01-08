@@ -1,1 +1,58 @@
-<p>detail-housing-management works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="row bg-light p-3">
+                <h1 class="text-center">Housing Details</h1>
+                <ng-container *ngIf="housing$ | async as housing">
+                    <div>
+                        <h2>Address</h2>
+                        {{housing?.address?.street}}
+                        <ng-container *ngIf="(housing$ | async)?.address?.suiteOrAptNumber">
+                            # {{housing?.address?.suiteOrAptNumber}}
+                        </ng-container>
+                        ,
+                        {{housing?.address?.city}}
+                        {{housing?.address?.state}}
+                        {{housing?.address?.zipcode}}
+                    </div>
+                    <div class="my-3">
+                        <h2>All Members</h2>
+                        <ul>
+                            <li *ngFor="let tenant of housing.tenants">
+                                Name: {{tenant?.application_id.firstname}}
+                                {{tenant?.application_id.lastname}}
+                                <br>
+                                Phone: {{tenant?.application_id.cellphone}}
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2>Facility Details</h2>
+                        {{housing.address?.facility ?? 'No Details'}}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="col-lg-9 my-3">
+            <h1 class="text-center">Facility Reports</h1>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- TODO: make each clicking on each row open new details page -->
+                    <tr *ngFor="let facReport of facReports$ | async">
+                        <td>{{facReport.title}}</td>
+                        <td>{{facReport.status}}</td>
+                        <td>{{facReport.createdAt}}</td> <!-- TODO: format date -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
