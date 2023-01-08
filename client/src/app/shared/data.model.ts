@@ -59,7 +59,7 @@ export class Report {
 export class ReportMessage {
   constructor(
     public _id:string,
-    public housing_id:string,
+    public facReport_id:string,
     public author_id:string,
     public message:string,
   ){}
@@ -69,8 +69,18 @@ export class Housing {
   constructor(
     public _id:string,
     public idx:number,
+    public landlord:Landlord,
     public address:Address,
-    public tenants:string
+    public facilities:string,
+    public tenants:string[]
+  ){}
+}
+
+class Landlord {
+  constructor(
+    public fullname: string,
+    public phone: string,
+    public email: string
   ){}
 }
 

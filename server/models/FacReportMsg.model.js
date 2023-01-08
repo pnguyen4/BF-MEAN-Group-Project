@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 const objectID = mongoose.Schema.Types.ObjectId;
 
 const FacReportMsgSchema = new mongoose.Schema({
-    housing_id: {
-        type: objectID, ref: "Housing",
-        required: [ true, "Facility report messages must be associated with a housing unit." ]
+    facReport_id: {
+        type: objectID, ref: "FacReport",
+        required: [ true, "Facility report messages must be associated with a facility report." ]
+        // note: facility reports are already associated with a housing unit
     },
     author_id: {
         type: objectID, ref: "User",

@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HousingService } from 'app/shared/housing.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Housing } from '../../../shared/data.model';
+import { HrHousingAction } from '../../../store/housing.action';
+import { selectAllHousing } from '../../../store/housing.selector';
 
 @Component({
   selector: 'app-housing-management',
@@ -10,7 +15,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class HousingManagementComponent implements OnInit {
 
-  housing: any[] = [];
+  housing$ = this.store.select(selectAllHousing);
   houseForm: FormGroup = this.fb.nonNullable.group({
     street: ['', Validators.required],
     suiteOrAptNumber: [''],
@@ -25,25 +30,21 @@ export class HousingManagementComponent implements OnInit {
 
   constructor(private housingService: HousingService,
               private fb: FormBuilder,
+              private store: Store,
               private router: Router) { }
 
   ngOnInit(): void {
     this.housingService.getHousingSummary().subscribe(res => {
-    // TODO: remove this after migrating to ngrx and using async pipe
-      this.housing = res.houses;
-      console.log(this.housing);
+      this.store.dispatch(HrHousingAction.loadAllHousing({houses: res.houses}));
     });
   }
 
   delete(houseid: string): void {
     this.housingService.deleteHousing(houseid).subscribe(res => {
       if (res.status == '200') {
-        let idx = this.housing.findIndex(house => house._id == houseid);
-        this.housing = this.housing.slice(idx, 1);
+        this.store.dispatch(HrHousingAction.deleteHousing({id: houseid}));
       }
     });
-    // TODO: remove this after migrating to ngrx and using async pipe
-    window.location.reload();
   }
 
   details(houseid: string): void {
@@ -68,8 +69,7 @@ export class HousingManagementComponent implements OnInit {
       const facilities: string = formdata.facilities;
       this.housingService.createHousing(landlord, address, facilities).subscribe(res => {
         if (res.status == '200') {
-          // TODO: remove this after migrating to ngrx and using async pipe
-          this.housing.push(res.house);
+          this.store.dispatch(HrHousingAction.createHousing({house: res.house}));
         }
       });
     }

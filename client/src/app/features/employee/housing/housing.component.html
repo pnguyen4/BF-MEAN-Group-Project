@@ -3,22 +3,22 @@
         <div class="col-lg-3">
                 <div class="row bg-light p-3">
                     <h1 class="text-center">Housing Details</h1>
-                    <ng-container *ngIf="housing">
+                    <ng-container *ngIf="housing$ | async">
                         <div>
                             <h2>Address</h2>
-                            {{housing?.address?.street}}
-                            <ng-container *ngIf="housing?.address?.suiteOrAptNumber">
-                                # {{housing?.address?.suiteOrAptNumber}}
+                            {{(housing$ | async)?.address?.street}}
+                            <ng-container *ngIf="(housing$ | async)?.address?.suiteOrAptNumber">
+                                # {{(housing$ | async)?.address?.suiteOrAptNumber}}
                             </ng-container>
                             ,
-                            {{housing?.address?.city}}
-                            {{housing?.address?.state}}
-                            {{housing?.address?.zipcode}}
+                            {{(housing$ | async)?.address?.city}}
+                            {{(housing$ | async)?.address?.state}}
+                            {{(housing$ | async)?.address?.zipcode}}
                         </div>
                         <div class="my-3">
                             <h2>All Members</h2>
                             <ul>
-                                <li *ngFor="let tenant of housing?.tenants">
+                                <li *ngFor="let tenant of (housing$ | async)?.tenants">
                                     Name: {{tenant?.application_id.firstname}}
                                     {{tenant?.application_id.lastname}}
                                     <br>
@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <h2>Facility Details</h2>
-                            {{housing?.address?.facility ?? 'No Details'}}
+                            {{(housing$ | async)?.address?.facility ?? 'No Details'}}
                         </div>
                     </ng-container>
                 </div>
@@ -40,7 +40,7 @@
                         <input type="text" id="title" name="title" formControlName="title">
 
                         <label for="description">Report Description</label>
-                        <textarea cols="50" rows="10" formControlName="description"></textarea>
+                        <textarea cols="45" rows="10" formControlName="description"></textarea>
                         <button class="btn btn-success">Submit Report</button>
                     </form>
                 </div>
@@ -54,13 +54,15 @@
                         <th>Status</th>
                         <th>Date</th>
                     </tr>
+                </thead>
+                <tbody>
                     <!-- TODO: make each clicking on each row open new details page -->
-                    <tr *ngFor="let facReport of facReports">
+                    <tr *ngFor="let facReport of facReports$ | async">
                         <td>{{facReport.title}}</td>
                         <td>{{facReport.status}}</td>
                         <td>{{facReport.createdAt}}</td> <!-- TODO: format date -->
                     </tr>
-                </thead>
+                </tbody>
             </table>
         </div>
     </div>

@@ -3,6 +3,8 @@ import { HousingService } from 'app/shared/housing.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { User } from '../../../shared/data.model';
+import { EmployeeHousingAction } from '../../../store/housing.action';
+import { selectEmployeeHousing, selectFacReports } from '../../../store/housing.selector';
 
 @Component({
   selector: 'app-housing',
@@ -11,8 +13,9 @@ import { User } from '../../../shared/data.model';
 })
 export class HousingComponent implements OnInit {
 
-  housing: any = {};
-  facReports: any[] = [];
+  housing$ = this.store.select(selectEmployeeHousing);
+  facReports$ = this.store.select(selectFacReports);
+
   facReportForm: FormGroup = this.fb.nonNullable.group({
     title: ['', Validators.required],
     description: ['', Validators.required]
@@ -35,13 +38,13 @@ export class HousingComponent implements OnInit {
     }
 
     this.housingService.getHousingDetails(userobj.housing_id).subscribe(res => {
-      this.housing = res.house;
-      console.log(this.housing)
+      this.store.dispatch(EmployeeHousingAction.loadHousing({house: res.house}));
     });
 
     this.housingService.getHouseFacilityReports(userobj.housing_id).subscribe(res => {
-      console.log(res.facReports);
-      this.facReports = res.facReports;
+      this.store.dispatch(EmployeeHousingAction.loadFacilityReports({
+        facReports: res.facReports
+      }));
     });
   }
 
@@ -52,18 +55,25 @@ export class HousingComponent implements OnInit {
       const userobj: User = JSON.parse(user);
       const formdata = this.facReportForm.getRawValue();
 
-      const facReport = {
-        housing_id: this.housing._id,
+      let housing_id = '';
+      this.housing$.subscribe(housing => {
+        housing_id = housing._id;
+      });
+
+      let facReport = {
         author_id:  userobj._id,
+        housing_id: housing_id,
         status: "open",
         title: formdata.title,
         description: formdata.description,
         messages: []
       };
 
-      this.housingService.createFacilityReport(this.housing._id, facReport).subscribe(res => {
+      this.housingService.createFacilityReport(housing_id, facReport).subscribe(res => {
         if (res.status == '200') {
-          this.facReports.push(res.facReport);
+          this.store.dispatch(EmployeeHousingAction.createFacilityReport({
+            facReport: res.facReport
+          }));
         } else {
           console.log(res);
         }

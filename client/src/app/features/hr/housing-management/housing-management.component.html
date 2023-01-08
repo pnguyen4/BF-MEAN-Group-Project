@@ -46,7 +46,7 @@
         </div>
         <div class="col-lg-9 my-3">
             <h1 class="text-center">Housing Summary View</h1>
-            <ng-container *ngIf="housing">
+            <ng-container *ngIf="housing$ | async">
                 <table class="table table-hover ">
                     <thead class="thead-dark">
                         <tr>
@@ -57,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let house of housing">
+                        <tr *ngFor="let house of housing$ | async">
                             <td (click)="details(house._id)">
                                 {{house?.address?.street}}
                                 <ng-container *ngIf="house?.address?.suiteOrAptNumber">
