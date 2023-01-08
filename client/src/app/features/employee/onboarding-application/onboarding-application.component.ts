@@ -2,6 +2,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { S3ServiceService } from '../../../shared/s3-service.service';
 import { Md5 } from 'ts-md5';
+import { OnboardingService } from '../../../shared/onboarding.service';
 
 const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 
@@ -43,14 +44,14 @@ export class OnboardingApplicationComponent implements OnInit {
     reference: this.fb.nonNullable.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      cellphone: ['', Validators.required],
+      phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     }),
 
     emergencyContact: this.fb.nonNullable.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      cellphone: ['', Validators.required],
+      phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     }),
 
@@ -59,6 +60,7 @@ export class OnboardingApplicationComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
+              private onboardingService: OnboardingService,
               private s3Service: S3ServiceService) { }
 
   ngOnInit(): void {
@@ -73,7 +75,13 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.applicationForm.value)
+    if (this.applicationForm.valid) {
+      let formdata = this.applicationForm.getRawValue();
+      formdata.driverLicense.imgUrl = this.driverLicenseUrl;
+      this.onboardingService.createOnboardingApplication(formdata).subscribe(res => {
+        console.log(res);
+      });
+    }
   }
 
 }
