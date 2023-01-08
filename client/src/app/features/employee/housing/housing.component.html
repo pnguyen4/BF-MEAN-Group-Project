@@ -1,26 +1,69 @@
-<div>
-    <ng-container *ngIf="housing">
-        <div>
-            <h2>Address</h2>
-            <div>Street: {{housing?.address?.street}}</div>
-            <div *ngIf="housing?.house?.address?.suiteOrAptNumber">
-                Suite/Apt #: {{housing?.address?.suiteOrAptNumber}}
-            </div>
-            <div>City: {{housing?.address?.city}}</div>
-            <div>State: {{housing?.address?.state}}</div>
-            <div>Zipcode: {{housing?.address?.zipcode}}</div>
-        </div>
-        <div>
-            <h2>All Members</h2>
-            <ul>
-                <li *ngFor="let tenant of housing?.tenants">
-                    Name: {{tenant?.application_id.firstname}}
-                          {{tenant?.application_id.lastname}}
-                    <br>
-                    Phone: {{tenant?.application_id.cellphone}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="row bg-light p-3">
+                <h1 class="text-center">Housing Details</h1>
+                <ng-container *ngIf="housing$ | async as housing">
+                    <div>
+                        <h2>Address</h2>
+                        {{housing?.address?.street}}
+                        <ng-container *ngIf="(housing$ | async)?.address?.suiteOrAptNumber">
+                            # {{housing?.address?.suiteOrAptNumber}}
+                        </ng-container>
+                        ,
+                        {{housing?.address?.city}}
+                        {{housing?.address?.state}}
+                        {{housing?.address?.zipcode}}
+                    </div>
+                    <div class="my-3">
+                        <h2>All Members</h2>
+                        <ul>
+                            <li *ngFor="let tenant of housing.tenants">
+                                Name: {{tenant?.application_id.firstname}}
+                                {{tenant?.application_id.lastname}}
+                                <br>
+                                Phone: {{tenant?.application_id.cellphone}}
 
-                </li>
-            </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2>Facility Details</h2>
+                        {{housing?.facilities ? housing.facilities : 'No Details'}}
+                    </div>
+                </ng-container>
+            </div>
+            <div class="row bg-light py-3">
+                <h1 class="text-center">Report Facility Issues</h1>
+                <form [formGroup]="facReportForm" (ngSubmit)="submit()">
+                    <label for="title">Report Title</label>
+                    <input type="text" id="title" name="title" formControlName="title">
+
+                    <label for="description">Report Description</label>
+                    <textarea cols="45" rows="10" formControlName="description"></textarea>
+                    <button class="btn btn-success">Submit Report</button>
+                </form>
+            </div>
         </div>
-    </ng-container>
+        <div class="col-lg-9 my-3">
+            <h1 class="text-center">Facility Reports</h1>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- TODO: make each clicking on each row open new details page -->
+                    <tr *ngFor="let facReport of facReports$ | async">
+                        <td>{{facReport.title}}</td>
+                        <td>{{facReport.status}}</td>
+                        <td>{{facReport.createdAt}}</td> <!-- TODO: format date -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

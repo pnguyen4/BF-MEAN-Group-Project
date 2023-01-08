@@ -27,6 +27,7 @@ import { DetailHousingManagementComponent } from './features/hr/detail-housing-m
 
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
+import { housingReducer } from './store/housing.reducer';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,10 @@ import { userReducer } from './store/user.reducer';
     MatButtonModule,
     MatInputModule,
     HttpClientModule,
-    StoreModule.forRoot({ user: userReducer })
+    StoreModule.forRoot({
+      user: userReducer,
+      housing: housingReducer
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

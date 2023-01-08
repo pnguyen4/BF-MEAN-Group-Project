@@ -8,4 +8,7 @@ router.get('/api/housing', controller.getHousingSummary);
 router.post('/api/housing', controller.createHousing);
 router.delete('/api/housing/:id', controller.deleteHousing);
 
+router.get('/api/housing/:id/reports', controller.getHouseFacilityReports);
+router.post('/api/housing/:id/reports', controller.createFacilityReport);
+
 module.exports = router;

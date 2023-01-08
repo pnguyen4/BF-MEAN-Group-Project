@@ -35,6 +35,10 @@ const HousingSchema = new mongoose.Schema({
         required: [ true, 'Zipcode must be included' ]
         }, 
     },
+    facilities: {
+        type: String,
+        default: ''
+    },
     tenants: [{ type: objectID, ref: "User" }]
 }, {timestamps: true});
 
