@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../../../services/registration.service';
+import { HttpService } from 'app/shared/http.service';
 
 @Component({
   selector: 'app-hiring-management',
@@ -15,10 +16,10 @@ export class HiringManagementComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
-              private registrationService: RegistrationService) { }
+              private registrationService: RegistrationService,
+              private http:HttpService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   submit(): void {
     if (this.newEmployeeForm.get('email')?.errors) {
@@ -29,10 +30,9 @@ export class HiringManagementComponent implements OnInit {
     }
     const email: string = this.newEmployeeForm.value.email;
     const name: string = this.newEmployeeForm.value.name;
-    
-    this.registrationService.generateRegTokenAndEmail(email, name).subscribe(res => {
-      console.log(res);
-    })
-  }
 
+    this.registrationService.generateRegTokenAndEmail(email, name).subscribe();
+  }
 }
+
+

@@ -6,39 +6,39 @@ export class Application {
     public email:string,
     public user_id:number,
     public status:string,
-    public first:string,
-    public last:string,
-    public middle:string,
-    public prefer:string,
-    public address:Address,
-    public phone:number,
+    public firstname:string,
+    public lastname:string,
+    public middlename:string,
+    public preferredname:string,
+    public currentAddress:Address,
+    public cellphone:number,
     public workphone:number,
     public ssn:number,
     public reference:SimpleUser,
-    public contactor:SimpleUser[],
-    public citizen:boolean,
-    public workAuth:string,
+    public emergencyContact:SimpleUser[],
+    public isCitizenUSA:boolean,
+    public workAuthorization:string,
     public visaStatus:string,
-    public driverlicense:{number:string,expiration:string,imgUrl:string}
+    public driverLicense:{number:string,expiration:string,imgUrl:string}
   ){}
 }
 
 export class Address {
   constructor(
     public _id:string,
-    public stress:string,
-    public apt:string,
+    public street:string,
+    public suiteOrAptNumber:string,
     public city:string,
     public state:string,
-    public zip:string
+    public zipcode:string
   ){}
 }
 
 export class SimpleUser {
   constructor(
     public _id:string,
-    public first:string,
-    public last:string,
+    public firstname:string,
+    public lastname:string,
     public phone:number,
     public email:string
   ){}
@@ -112,9 +112,9 @@ export class VisaStatus {
     public user_id:string,
     public application_id:string,
     public status:string,
-    public img:string,
-    public driverLicense:string,
-    public workAuthImg:string
+    public profileImgUrl:string,
+    public driverLicenseImgUrl:string,
+    public workAuthorizationImgUrl:string
   ){}
 }
 

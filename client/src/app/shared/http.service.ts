@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from './data.model';
+import { Application, User, VisaStatus } from './data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +44,21 @@ export class HttpService {
         console.log("Successfully edited");
       }
     );
+  }
+
+  getUserByKeyword(keyword:string) {
+    return this.http.get<{users:User[]}>("http://localhost:3000/api/users/"+keyword+'/'+keyword);
+  }
+
+  getApplicationById(id:string) {
+    return this.http.get<{app:Application}>("http://localhost:3000/api/applications/"+id);
+  }
+
+  getVisaById(id:string) {
+    return this.http.get<{visa:VisaStatus}>("http://localhost:3000/api/visaStatus/"+id);
+  }
+
+  getUserAll() {
+    return this.http.get<{users:User[]}>("http://localhost:3000/api/users");
   }
 }

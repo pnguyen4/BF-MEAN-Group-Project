@@ -19,6 +19,8 @@ app.use(cors());
 app.use(routes.Registration);
 app.use(routes.User);
 app.use(routes.Housing);
+app.use(routes.Application);
+app.use(routes.VisaStatus);
 
 app.all('*', (req, res) => {
   res.status(404).json({error: 'resource not found'});
