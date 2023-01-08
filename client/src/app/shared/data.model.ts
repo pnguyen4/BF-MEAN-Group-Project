@@ -1,4 +1,4 @@
-type WorkAuthorization = "green-card" | "citizen" | "h1b-etc" | "f1-etc" | "other" | "" | undefined
+type WorkAuthorizationType = "green-card" | "citizen" | "h1b-etc" | "f1-etc" | "other" | ""
 
 // to use it: let application = new Application(_id,email,user_id.....)
 export class Application {
@@ -18,7 +18,6 @@ export class Application {
     public reference:SimpleUser,
     public emergencyContact:SimpleUser[],
     public isCitizenUSA:boolean,
-    public workAuthorization:WorkAuthorization,
     public visaStatus:string,
     public driverLicense:{number:string,expiration:string,imgUrl:string}
   ){}
