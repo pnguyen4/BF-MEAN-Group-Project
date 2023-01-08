@@ -13,14 +13,28 @@ const VisaStatusSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: [ "pending", "rejected", "approved" ],
+        enum: [ "pending", "done" ],
         required: [ true, "OPT status is required" ],
         default: "pending",
     },
-    profileImgUrl: { type: String, required: false, default: null },
-    driverLicenseImgUrl: { type: String, required: false, default: null },
-    workAuthorizationImgUrl: { type: String, required: false, default: null },
-
+    OPTReceiptUrl: { type: String, required: false, default: null },
+    OPTEADurl: { type: String, required: false, default: null },
+    I983: { type: String, required: false, default: null },
+    I20: { type: String, required: false, default: null },
+    workAuth: {
+        type: String,
+        enum: [ "J1", "F1" ],
+        required: [ true, "Work Authenication is required" ],
+        default: "pending",
+    },
+    startDate: {
+        type: Date, 
+        required: [true, 'Start date is required']
+    },
+    endDate: {
+        type: Date, 
+        required: [true, 'End date is required']
+    }
 }, {timestamps: true});
 
 module.exports = VisaStatusSchema;

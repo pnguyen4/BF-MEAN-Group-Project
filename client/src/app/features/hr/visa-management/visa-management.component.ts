@@ -14,8 +14,8 @@ export class VisaManagementComponent implements OnInit {
   searchInput = "";
   displayedColumns: string[] = ['username', 'email', 'admin', 'more'];
   dataSource!:User[];
-  userDetail:Application = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"","",{number:"",expiration:"",imgUrl:""});
-  visaDetail:any = new VisaStatus('','','','','','','');
+  userDetail:Application = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"",{number:"",expiration:"",imgUrl:""});
+  visaDetail:any = new VisaStatus('','','','','','','','',new Date(),new Date());
 
   constructor(private http:HttpService) { }
 
@@ -38,7 +38,7 @@ export class VisaManagementComponent implements OnInit {
           )
         }
         else {
-          this.userDetail = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"","",{number:"",expiration:"",imgUrl:""});
+          this.userDetail = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"",{number:"",expiration:"",imgUrl:""});
           this.http.getUserAll().subscribe(
             (value)=> {
               this.dataSource = value.users;

@@ -17,7 +17,6 @@ export class Application {
     public reference:SimpleUser,
     public emergencyContact:SimpleUser[],
     public isCitizenUSA:boolean,
-    public workAuthorization:string,
     public visaStatus:string,
     public driverLicense:{number:string,expiration:string,imgUrl:string}
   ){}
@@ -112,9 +111,12 @@ export class VisaStatus {
     public user_id:string,
     public application_id:string,
     public status:string,
-    public profileImgUrl:string,
-    public driverLicenseImgUrl:string,
-    public workAuthorizationImgUrl:string
+    public OPTReceiptUrl:string,
+    public OPTEADurl:string,
+    public I983:string,
+    public workAuth:string,
+    public startDate:Date,
+    public endDate:Date
   ){}
 }
 
