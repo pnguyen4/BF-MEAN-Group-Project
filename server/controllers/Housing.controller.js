@@ -85,3 +85,47 @@ exports.createFacilityReport = async (req, res) => {
         return res.json({status: "500", msg: error});
     }
 }
+
+exports.addMsgToFacilityReport = async( req, res ) => {
+    const facReport_id = req.params.reportid;
+    try {
+        // create new message
+        const newMsg = {
+            facReport_id,
+            author_id: req.body.author_id,
+            message: req.body.message
+        }
+        const message = await FacReportMsg.create(newMsg);
+        await message.save();
+
+        // update facReport
+        const facReport = await FacReport.findOne({facReport_id});
+        facReport.messages.push(message._id);
+        await facReport.save();
+
+        // return entire facReport? all messages? or just single new message?
+        return res.json({status: "200", facReport})
+    } catch(error) {
+        return res.json({status: "500", msg: error});
+    }
+}
+
+exports.editMsgOnFacilityReport = async( req, res ) => {
+    const _id = req.params.msgid;
+    const message = req.body.message;
+    try {
+        const oldMsg = await FacReportMsg.findOne({_id});
+        
+        // user auth check
+        if( req.user._id !== oldMsg.author_id ) {
+            return res.json({status: "404", message: "User not authorized to edit this message"});
+        }
+
+        oldMsg.message = message;
+        await oldMsg.save();
+
+        return res.json({status: "200", })
+    } catch(error) {
+        return res.json({status: "500", msg: error});
+    }
+}

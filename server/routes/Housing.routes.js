@@ -11,4 +11,7 @@ router.delete('/api/housing/:id', controller.deleteHousing);
 router.get('/api/housing/:id/reports', controller.getHouseFacilityReports);
 router.post('/api/housing/:id/reports', controller.createFacilityReport);
 
+router.post('/api/housing/:houseid/reports/:reportid/msg', controller.addMsgToFacilityReport);
+router.put('/api/housing/:houseid/reports/:reportid/msg/:msgid', controller.editMsgOnFacilityReport);
+
 module.exports = router;
