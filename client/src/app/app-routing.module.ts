@@ -29,10 +29,7 @@ const routes: Routes = [
       {path:'onboarding-application', component: OnboardingApplicationComponent},
       {path:'personal-information', component: PersonalInformationComponent},
       {path:'visa-status', component: VisaStatusComponent},
-      {path:'housing', component: HousingComponent,
-        children: [
-          {path: ':houseid/reports/:reportid', component: FacilityReportComponent}
-      ]},
+      {path:'housing', component: HousingComponent},
 
     ]
   },
