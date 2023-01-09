@@ -18,6 +18,6 @@ export const HrHousingAction = createActionGroup({
     'Delete Housing': props<{ id: string }>(),
     'Create Housing': props<{ house: Housing }>(),
 
-    'Load One Facility Report': props<{ houseid: string, reportid: string }>(),
+    'Load One Facility Report': props<{ report: Report }>(),
   }
 });
