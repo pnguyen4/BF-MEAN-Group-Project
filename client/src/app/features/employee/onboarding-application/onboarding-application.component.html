@@ -1,1 +1,179 @@
-<p>onboarding-application works!</p>
+<mat-card>
+    <mat-card-title>Onboarding Application</mat-card-title>
+    <br>
+
+    <form [formGroup]="applicationForm" (ngSubmit)="submit()">
+        <h2>Personal Information</h2>
+        <mat-form-field>
+            <label for="firstname">First Name</label>
+            <br>
+            <input type="text" id="firstname" name="firstname"
+                   formControlName="firstname" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" name="lastname"
+                   formControlName="lastname" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <label for="middlename">Middle Name</label>
+            <input type="text" id="middlename" name="middlename"
+                   formControlName="middlename" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <label for="preferredname">Preferred Name</label>
+            <input type="text" id="preferredname" name="preferredname"
+                   formControlName="preferredname" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email"
+                   formControlName="email" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <label for="cellphone">Cell Phone Number</label>
+            <input type="text" id="cellphone" name="cellphone"
+                   formControlName="cellphone" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <label for="workphone">Work Phone Number</label>
+            <input type="text" id="workphone" name="workphone"
+                   formControlName="workphone" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <label for="ssn">Social Security Number</label>
+            <input type="text" id="ssn" name="ssn"
+                   formControlName="ssn" matInput>
+        </mat-form-field>
+
+        <div formGroupName="driverLicense">
+            <h2>Driver's License</h2>
+
+            <mat-form-field>
+                <label for="number">License Number</label>
+                <input type="text" id="number" name="number"
+                       formControlName="number" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="expiration">License Expiration Date</label>
+                <input type="date" id="expiration" name="expiration"
+                       formControlName="expiration" matInput>
+            </mat-form-field>
+
+            <div class="my-3">
+                <!-- TODO: bind upload() method to upload to AWS S3 -->
+                <label for="img">Upload Driver's License (png, jpg, pdf)</label>
+                <br>
+                <input type="file" id="img" name="img"
+                       (change)="driverLicenseFileSelect($event)">
+            </div>
+        </div>
+
+        <div formGroupName="currentAddress">
+            <h2>Current Address</h2>
+
+            <mat-form-field>
+                <label for="street">Street</label>
+                <input type="text" id="street" name="street"
+                       formControlName="street" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="suiteOrAptNumber">Suite/Apt Number</label>
+                <input type="text" id="suiteOrAptNumber" name="suiteOrAptNumber"
+                       formControlName="suiteOrAptNumber" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="city">City</label>
+                <input type="text" id="city" name="city"
+                       formControlName="city" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="state">State</label>
+                <input type="text" id="state" name="state"
+                       formControlName="state" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="zip">Zip Code</label>
+                <input type="text" id="zip" name="zip"
+                       formControlName="zip" matInput>
+            </mat-form-field>
+        </div>
+
+        <div formGroupName="reference">
+            <h2>Reference</h2>
+            <mat-form-field>
+                <label for="firstname">First Name</label>
+                <br>
+                <input type="text" id="firstname" name="firstname"
+                       formControlName="firstname" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="lastname"
+                       formControlName="lastname" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email"
+                       formControlName="email" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" name="phone"
+                       formControlName="phone" matInput>
+            </mat-form-field>
+        </div>
+
+        <div formGroupName="emergencyContact">
+            <h2>Emergency Contact</h2>
+            <mat-form-field>
+                <label for="firstname">First Name</label>
+                <br>
+                <input type="text" id="firstname" name="firstname"
+                       formControlName="firstname" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="lastname"
+                       formControlName="lastname" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email"
+                       formControlName="email" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" name="phone"
+                       formControlName="phone" matInput>
+            </mat-form-field>
+        </div>
+
+        <div class="my-3">
+        <label for="isCitizenUSA">Are you a citizen or permanent resident of the US?</label>
+        <br>
+        <input type="checkbox" id="isCitizenUSA" name="isCitizenUSA"
+               formControlName="isCitizenUSA">
+        </div>
+
+        <button>Submit Application</button>
+    </form>
+</mat-card>
