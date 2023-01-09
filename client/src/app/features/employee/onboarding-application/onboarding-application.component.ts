@@ -100,8 +100,8 @@ export class OnboardingApplicationComponent implements OnInit {
           if (res?.app?.visaStatus) {
             startDate = this.toDateStr(new Date(res?.app?.visaStatus.startDate));
             endDate = this.toDateStr(new Date(res?.app?.visaStatus.endDate));
-            expiration = this.toDateStr(new Date(res?.app?.driverLicense.expiration));
           }
+          expiration = this.toDateStr(new Date(res?.app?.driverLicense.expiration));
           // literally magic
           this.applicationForm.patchValue({
             ...res?.app,
