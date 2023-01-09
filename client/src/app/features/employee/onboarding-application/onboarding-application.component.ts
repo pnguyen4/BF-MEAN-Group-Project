@@ -1,10 +1,11 @@
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NgControl} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { S3ServiceService } from '../../../shared/s3-service.service';
 import { Md5 } from 'ts-md5';
 import { OnboardingService } from '../../../shared/onboarding.service';
 import { User } from '../../../shared/data.model';
 import { Router } from '@angular/router';
+import { HttpService } from 'app/shared/http.service';
 
 const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 
@@ -15,6 +16,8 @@ const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 })
 export class OnboardingApplicationComponent implements OnInit {
 
+  editMode = true;
+  application: any = {}
   driverLicenseUrl = '';
   optReceiptUrl = '';
 
@@ -41,7 +44,7 @@ export class OnboardingApplicationComponent implements OnInit {
       suiteOrAptNumber: [''],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      zip: ['', Validators.required],
+      zipcode: ['', Validators.required],
     }),
 
     reference: this.fb.nonNullable.group({
@@ -70,11 +73,44 @@ export class OnboardingApplicationComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private router: Router,
+              private httpService: HttpService,
               private onboardingService: OnboardingService,
               private s3Service: S3ServiceService) { }
 
-  ngOnInit(): void {
+  toDateStr(date: Date): string {
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const today = date.getFullYear()+"-"+(month)+"-"+(day);
+    return today;
+  }
 
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+    const id = user?.application_id;
+    if (id) {
+      this.httpService.getApplicationWithVisa(id).subscribe(res => {
+        const startDate = this.toDateStr(new Date(res.app.visaStatus.startDate));
+        const endDate = this.toDateStr(new Date(res.app.visaStatus.endDate));
+        const expiration = this.toDateStr(new Date(res.app.driverLicense.expiration));
+        // literally magic
+        this.applicationForm.patchValue({
+          ...res.app,
+          driverLicense: {
+            number: res.app.driverLicense.number,
+            expiration,
+          },
+          emergencyContact: res.app.emergencyContact[0],
+          workAuth: res.app.visaStatus.workAuth,
+          startDate,
+          endDate,
+        });
+        this.application = res.app;
+        if (res.app.status == "pending") {
+          this.editMode = false;
+          this.applicationForm.disable();
+        }
+      });
+    }
   }
 
   driverLicenseFileSelect(e: any): void {

@@ -12,6 +12,8 @@ router.put('/api/applications/:id', controller.updateApplication);
 
 router.get('/api/applications/:id/status', controller.getApplicationStatus);
 
+router.get('/api/applications/:id/withvisa', controller.getApplicationWithVisa);
+
 module.exports = router;
 
 

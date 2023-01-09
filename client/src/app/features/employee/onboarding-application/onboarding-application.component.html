@@ -69,11 +69,18 @@
                        formControlName="expiration" matInput>
             </mat-form-field>
 
-            <div class="my-3">
+            <div class="my-3" *ngIf="editMode">
                 <label for="img">Upload Driver's License (png, jpg, pdf)</label>
                 <br>
                 <input type="file" id="img" name="img"
                        (change)="driverLicenseFileSelect($event)">
+            </div>
+
+            <div class="my-3" *ngIf="!editMode">
+                <a href="{{application?.driverLicense?.imgUrl}}"
+                   target="_blank" rel="noopener noreferrer">
+                   Driver's License
+                </a>
             </div>
         </div>
 
@@ -105,9 +112,9 @@
             </mat-form-field>
 
             <mat-form-field>
-                <label for="zip">Zip Code</label>
-                <input type="text" id="zip" name="zip"
-                       formControlName="zip" matInput>
+                <label for="zipcode">Zip Code</label>
+                <input type="text" id="zipcode" name="zipcode"
+                       formControlName="zipcode" matInput>
             </mat-form-field>
         </div>
 
@@ -190,10 +197,17 @@
                 </div>
             </div>
 
-            <div class="my-3">
+            <div class="my-3" *ngIf="editMode">
                 <label for="opt"><b>If F1 (CPT/OPT):</b> Upload OPT Receipt</label>
                 <br>
                 <input type="file" id="opt" name="opt" (change)="optFileSelect($event)">
+            </div>
+
+            <div class="my-3" *ngIf="!editMode && application?.visaStatus?.OPTReceiptUrl">
+                <a href="{{application?.visaStatus?.OPTReceiptUrl}}"
+                   target="_blank" rel="noopener noreferrer">
+                    OPT Receipt
+                </a>
             </div>
 
             <mat-form-field>
