@@ -6,6 +6,8 @@ import { OnboardingService } from '../../../shared/onboarding.service';
 import { User } from '../../../shared/data.model';
 import { Router } from '@angular/router';
 import { HttpService } from 'app/shared/http.service';
+import { Store } from '@ngrx/store';
+import { saveUser } from '../../../store/user.action';
 
 const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 
@@ -16,10 +18,12 @@ const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 })
 export class OnboardingApplicationComponent implements OnInit {
 
+  id = ''
   editMode = true;
   application: any = {}
   driverLicenseUrl = '';
   optReceiptUrl = '';
+  user$ = this.store.select('user');
 
   // TODO: input validation
   applicationForm: FormGroup = this.fb.nonNullable.group({
@@ -72,6 +76,7 @@ export class OnboardingApplicationComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
+              private store: Store<{user: User}>,
               private router: Router,
               private httpService: HttpService,
               private onboardingService: OnboardingService,
@@ -85,32 +90,38 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const user = JSON.parse(localStorage.getItem('user') ?? '{}');
-    const id = user?.application_id;
-    if (id) {
-      this.httpService.getApplicationWithVisa(id).subscribe(res => {
-        const startDate = this.toDateStr(new Date(res.app.visaStatus.startDate));
-        const endDate = this.toDateStr(new Date(res.app.visaStatus.endDate));
-        const expiration = this.toDateStr(new Date(res.app.driverLicense.expiration));
-        // literally magic
-        this.applicationForm.patchValue({
-          ...res.app,
-          driverLicense: {
-            number: res.app.driverLicense.number,
-            expiration,
-          },
-          emergencyContact: res.app.emergencyContact[0],
-          workAuth: res.app.visaStatus.workAuth,
-          startDate,
-          endDate,
+    this.user$.subscribe(user => {
+      this.id = user.application_id;
+      if (user.application_id) {
+        this.httpService.getApplicationWithVisa(this.id).subscribe(res => {
+          let startDate = '';
+          let endDate = '';
+          let expiration = '';
+          if (res?.app?.visaStatus) {
+            startDate = this.toDateStr(new Date(res?.app?.visaStatus.startDate));
+            endDate = this.toDateStr(new Date(res?.app?.visaStatus.endDate));
+            expiration = this.toDateStr(new Date(res?.app?.driverLicense.expiration));
+          }
+          // literally magic
+          this.applicationForm.patchValue({
+            ...res?.app,
+            driverLicense: {
+              number: res?.app?.driverLicense.number ?? '',
+              expiration,
+            },
+            emergencyContact: res?.app?.emergencyContact[0] ?? {},
+            workAuth: res?.app?.visaStatus?.workAuth,
+            startDate,
+            endDate,
+          });
+          this.application = res?.app;
+          if (res?.app?.status == "pending" || res?.app?.status == "approved") {
+            this.editMode = false;
+            this.applicationForm.disable();
+          }
         });
-        this.application = res.app;
-        if (res.app.status == "pending" || res.app.status == "approved") {
-          this.editMode = false;
-          this.applicationForm.disable();
-        }
-      });
-    }
+      }
+    });
   }
 
   driverLicenseFileSelect(e: any): void {
@@ -128,15 +139,14 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.driverLicenseUrl) {
+    if (!this.driverLicenseUrl) {
       return alert("Driver's license invalid or missing!");
     }
 
     if (this.applicationForm.valid) {
-      console.log('valid')
       let user = localStorage.getItem('user');
       if (typeof user != "string") return;
-      const userobj: User = JSON.parse(user);
+      let userobj: User = JSON.parse(user);
 
       let formdata = this.applicationForm.getRawValue();
       formdata.driverLicense.imgUrl = this.driverLicenseUrl;
@@ -149,8 +159,12 @@ export class OnboardingApplicationComponent implements OnInit {
       }
       this.onboardingService.createOnboardingApplication(application, visaStatus)
         .subscribe(res => {
-          // TODO save state to store
-          console.log(res);
+          // TODO save application state to store
+          console.log(res)
+          this.id = res.application._id;
+          let updateduser = {...userobj, 'application_id': this.id}
+          localStorage.setItem('user', JSON.stringify(updateduser));
+          this.store.dispatch(saveUser({userInfo: updateduser}));
       });
       this.router.navigate(['/employee']);
     }
