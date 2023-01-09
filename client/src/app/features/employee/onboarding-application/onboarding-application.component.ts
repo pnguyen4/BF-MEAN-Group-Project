@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { S3ServiceService } from '../../../shared/s3-service.service';
 import { Md5 } from 'ts-md5';
@@ -15,6 +15,7 @@ const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 export class OnboardingApplicationComponent implements OnInit {
 
   driverLicenseUrl = '';
+  optReceiptUrl = '';
 
   // TODO: input validation
   applicationForm: FormGroup = this.fb.nonNullable.group({
@@ -57,7 +58,13 @@ export class OnboardingApplicationComponent implements OnInit {
     }),
 
     isCitizenUSA: [false, Validators.required],
-    // TODO: add input field for uploading OPT Receipt, use this field to store link to document on AWS S3
+
+    // TODO: conditional validatotion based on whether or not isCitizenUSA is true
+    workAuth: [''],
+    //OptReceiptUrl: [''], // handled this elsewhere
+    // TODO: if other workAuth, have input box to specify visa title
+    startDate: [''],
+    endDate: ['']
   });
 
   constructor(private fb: FormBuilder,
@@ -75,8 +82,16 @@ export class OnboardingApplicationComponent implements OnInit {
     this.driverLicenseUrl = `https://bfmean2022.s3.amazonaws.com/${uniquename}`;
   }
 
+  optFileSelect(e: any): void {
+    const file = e.target.files[0];
+    const uniquename = `${Md5.hashStr(Math.random().toString())}-${file.name}`;
+    this.s3Service.uploadFile(file, uniquename);
+    this.optReceiptUrl = `https://bfmean2022.s3.amazonaws.com/${uniquename}`;
+  }
+
   submit(): void {
     if (this.applicationForm.valid) {
+      console.log('valid')
       let user = localStorage.getItem('user');
       if (typeof user != "string") return;
       const userobj: User = JSON.parse(user);
@@ -85,9 +100,15 @@ export class OnboardingApplicationComponent implements OnInit {
       formdata.driverLicense.imgUrl = this.driverLicenseUrl;
       formdata.user_id = userobj._id;
 
-      this.onboardingService.createOnboardingApplication(formdata).subscribe(res => {
-        // TODO save state to store
-        console.log(res);
+      let {workAuth, startDate, endDate, ...application} = formdata;
+      let visaStatus = {};
+      if (!formdata.isCitizenUSA) {
+        visaStatus = { OPTReceiptUrl: this.optReceiptUrl, workAuth, startDate, endDate };
+      }
+      this.onboardingService.createOnboardingApplication(application, visaStatus)
+        .subscribe(res => {
+          // TODO save state to store
+          console.log(res);
       });
     }
   }

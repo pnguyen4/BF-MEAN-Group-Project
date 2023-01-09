@@ -1,5 +1,6 @@
 const { Application } = require('../models/Application.model');
 const { User } = require('../models/User.model');
+const { VisaStatus } = require('../models/VisaStatus.model');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -18,12 +19,18 @@ exports.createApplication = async function (req, res) {
         }
         let newapplication = req.body.application;
         newapplication.status = "pending";
-        let application = await Application.create(newapplication);
+        const application = await Application.create(newapplication);
+
         await User.updateOne({_id: req.body.application.user_id},
                              {application_id: application._id});
-        return res.json({status: '200', application});
+
+        let newVisaStatus = req.body.visaStatus;
+        newVisaStatus.user_id = req.body.application.user_id;
+        newVisaStatus.application_id = application._id;
+        const visaStatus = await VisaStatus.create(newVisaStatus);
+
+        return res.json({status: '200', application, visaStatus});
     } catch (error) {
         return res.json({status: "500", msg: error});
     }
 }
-//router.post('/api/applications/', controller.createApplication);
