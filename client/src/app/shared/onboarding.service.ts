@@ -11,7 +11,7 @@ export class OnboardingService {
 
   constructor(private http: HttpClient) { }
 
-  createOnboardingApplication(application: Object): Observable<any> {
-    return this.http.post(`${API_URL}/api/applications`, {application});
+  createOnboardingApplication(application: Object, visaStatus: Object): Observable<any> {
+    return this.http.post(`${API_URL}/api/applications`, {application, visaStatus});
   }
 }

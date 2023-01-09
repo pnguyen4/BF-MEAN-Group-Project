@@ -1,3 +1,4 @@
+<div class="container-fluid">
 <mat-card>
     <mat-card-title>Onboarding Application</mat-card-title>
     <br>
@@ -68,12 +69,18 @@
                        formControlName="expiration" matInput>
             </mat-form-field>
 
-            <div class="my-3">
-                <!-- TODO: bind upload() method to upload to AWS S3 -->
+            <div class="my-3" *ngIf="editMode">
                 <label for="img">Upload Driver's License (png, jpg, pdf)</label>
                 <br>
                 <input type="file" id="img" name="img"
                        (change)="driverLicenseFileSelect($event)">
+            </div>
+
+            <div class="my-3" *ngIf="!editMode">
+                <a href="{{application?.driverLicense?.imgUrl}}"
+                   target="_blank" rel="noopener noreferrer">
+                   Driver's License
+                </a>
             </div>
         </div>
 
@@ -105,9 +112,9 @@
             </mat-form-field>
 
             <mat-form-field>
-                <label for="zip">Zip Code</label>
-                <input type="text" id="zip" name="zip"
-                       formControlName="zip" matInput>
+                <label for="zipcode">Zip Code</label>
+                <input type="text" id="zipcode" name="zipcode"
+                       formControlName="zipcode" matInput>
             </mat-form-field>
         </div>
 
@@ -174,6 +181,48 @@
                formControlName="isCitizenUSA">
         </div>
 
-        <button>Submit Application</button>
+        <div>
+            <h2>Skip this section if answered yes to:
+                "Are you a citizen or permanent resident of the US?"</h2>
+
+            <div class="my-3">
+                <label for="workAuth">What is your work authorization?</label>
+                <div>
+                <input type="radio" value="F1" name="workAuth" formControlName="workAuth">
+                <label for="F1">F1</label>
+                </div>
+                <div>
+                <input type="radio" value="J1" name="workAuth" formControlName="workAuth">
+                <label for="J1">J1</label>
+                </div>
+            </div>
+
+            <div class="my-3" *ngIf="editMode">
+                <label for="opt"><b>If F1 (CPT/OPT):</b> Upload OPT Receipt</label>
+                <br>
+                <input type="file" id="opt" name="opt" (change)="optFileSelect($event)">
+            </div>
+
+            <div class="my-3" *ngIf="!editMode && application?.visaStatus?.OPTReceiptUrl">
+                <a href="{{application?.visaStatus?.OPTReceiptUrl}}"
+                   target="_blank" rel="noopener noreferrer">
+                    OPT Receipt
+                </a>
+            </div>
+
+            <mat-form-field>
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" name="startDate"
+                       formControlName="startDate" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" name="endDate"
+                       formControlName="endDate" matInput>
+            </mat-form-field>
+        </div>
+        <button class="btn btn-primary">Submit Application</button>
     </form>
 </mat-card>
+</div>
