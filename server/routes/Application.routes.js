@@ -8,6 +8,8 @@ router.get('/api/applications', controller.getApplicationAll);
 
 router.post('/api/applications/', controller.createApplication);
 
+router.put('/api/applications/:id', controller.updateApplication);
+
 module.exports = router;
 
 
