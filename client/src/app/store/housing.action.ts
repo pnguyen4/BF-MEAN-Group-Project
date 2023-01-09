@@ -17,5 +17,7 @@ export const HrHousingAction = createActionGroup({
     'Load Facility Reports': props<{ facReports: Report[] }>(),
     'Delete Housing': props<{ id: string }>(),
     'Create Housing': props<{ house: Housing }>(),
+
+    'Load One Facility Report': props<{ houseid: string, reportid: string }>(),
   }
 });
