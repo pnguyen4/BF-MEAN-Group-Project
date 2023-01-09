@@ -12,6 +12,11 @@ exports.getApplicationById = async function (req,res) {
     res.status(200).json({app:copy});    
 }
 
+exports.getApplicationAll = async function (req,res) { 
+    let copy = await Application.find({},{}); 
+    res.status(200).json({app:copy});    
+} 
+
 exports.createApplication = async function (req, res) {
     try {
         if (!req.body.application) {
