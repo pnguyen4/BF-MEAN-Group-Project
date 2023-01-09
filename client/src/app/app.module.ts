@@ -29,6 +29,7 @@ import { DetailHousingManagementComponent } from './features/hr/detail-housing-m
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
 import { housingReducer } from './store/housing.reducer';
+import { isOnboardingReducer } from './store/isOnboarding.reducer';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { housingReducer } from './store/housing.reducer';
     MatTableModule,
     StoreModule.forRoot({
       user: userReducer,
-      housing: housingReducer
+      housing: housingReducer,
+      isOnboarding: isOnboardingReducer
     })
   ],
   providers: [],
