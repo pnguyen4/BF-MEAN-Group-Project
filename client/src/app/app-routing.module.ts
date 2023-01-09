@@ -30,7 +30,6 @@ const routes: Routes = [
       {path:'personal-information', component: PersonalInformationComponent},
       {path:'visa-status', component: VisaStatusComponent},
       {path:'housing', component: HousingComponent},
-
     ]
   },
   { path:'hr', canActivate: [HrLoginGuard], component: HrComponent,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HousingService } from 'app/shared/housing.service';
+import { HousingService } from '../../../shared/housing.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { User } from '../../../shared/data.model';
