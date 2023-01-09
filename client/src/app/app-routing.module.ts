@@ -1,3 +1,4 @@
+import { FacilityReportComponent } from './features/employee/facility-report/facility-report.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmployeeComponent } from './features/employee/employee.component';
@@ -28,7 +29,11 @@ const routes: Routes = [
       {path:'onboarding-application', component: OnboardingApplicationComponent},
       {path:'personal-information', component: PersonalInformationComponent},
       {path:'visa-status', component: VisaStatusComponent},
-      {path:'housing', component: HousingComponent},
+      {path:'housing', component: HousingComponent,
+        children: [
+          {path: ':houseid/reports/:reportid', component: FacilityReportComponent}
+      ]},
+
     ]
   },
   { path:'hr', canActivate: [HrLoginGuard], component: HrComponent,
