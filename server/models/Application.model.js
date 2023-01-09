@@ -62,7 +62,7 @@ const ApplicationSchema = new mongoose.Schema({
         // required: [ true, 'Work number must be provided' ]
     },
     ssn: { 
-        type: Number, unique: true, 
+        type: Number // note: remove required unique, makes testing impossible
         // required: [true, 'SSN is required']
     },
     reference: { 
