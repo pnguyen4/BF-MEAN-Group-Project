@@ -86,6 +86,19 @@ exports.createFacilityReport = async (req, res) => {
     }
 }
 
+exports.getOneFacReport = async( req, res ) => {
+    const { houseid: housing_id, reportid: report_id } = req.params;
+    try {
+        const report = await FacReport.findOne({_id: report_id});
+        if( !report ) throw new Error(400)
+        
+        return res.json({status: "200", report});
+    } catch(error) {
+        if( error.message === String('400') ) return res.json({status: "400", msg: "Bad Request"})
+        else return res.json({status: "500", msg: error});
+    }
+}
+
 exports.addMsgToFacilityReport = async( req, res ) => {
     const facReport_id = req.params.reportid;
     try {

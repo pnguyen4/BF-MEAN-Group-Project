@@ -1,8 +1,11 @@
+import { EmployeeHousingAction } from './../../../store/housing.action';
+import { selectOneFacReport } from './../../../store/housing.selector';
+import { Report } from './../../../shared/data.model';
 import { Component, OnInit } from '@angular/core';
 import { HousingService } from 'app/shared/housing.service';
 import { Store } from '@ngrx/store';
 import { User } from 'app/shared/data.model';
-import { selectFacReports } from 'app/store/housing.selector';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-facility-report',
@@ -13,9 +16,14 @@ export class FacilityReportComponent implements OnInit {
 
   // [single] facReport$ = this.store.select(selectFacReport)
 
+  report$ = this.store.select(selectOneFacReport);
+  reportID: string | null = "";
+
   constructor(
     private housingService: HousingService,
-    private store: Store) { }
+    private store: Store,
+    private route: ActivatedRoute ) { }
+
 
   ngOnInit(): void {
     // user check
@@ -28,6 +36,18 @@ export class FacilityReportComponent implements OnInit {
     let userobj: User = JSON.parse(user);
     if (!userobj?.housing_id) {
       return;
+    }
+
+    this.route.paramMap.subscribe( params => {
+      this.reportID = params.get('reportid');
+    } )
+
+    if( this.reportID ) {
+      this.housingService.getOneFacilityReport(userobj.housing_id, this.reportID).subscribe(res => {
+        this.store.dispatch(EmployeeHousingAction.loadOneFacilityReport({
+          report: res.report
+        }));
+      });
     }
 
     // housingService.getFacReportDetails.subscribe then this.store.dispatch

@@ -6,14 +6,14 @@ export interface HousingState {
   house: Housing | undefined // for employees
   houses: Housing[], // for hr
   reports: Report[]
-  currentReport: Report | null;
+  currentReport: Report | undefined;
 };
 
 const initialState: HousingState = {
   house: undefined,
   houses: [],
   reports: [],
-  currentReport: null
+  currentReport: undefined
 };
 
 export const housingReducer = createReducer(
