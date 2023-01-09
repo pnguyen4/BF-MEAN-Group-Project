@@ -1,4 +1,3 @@
-import { FacilityReportComponent } from './features/employee/facility-report/facility-report.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmployeeComponent } from './features/employee/employee.component';
@@ -9,12 +8,14 @@ import { VisaStatusComponent } from './features/employee/visa-status/visa-status
 import { EmployeeProfilesComponent } from './features/hr/employee-profiles/employee-profiles.component';
 import { HiringManagementComponent } from './features/hr/hiring-management/hiring-management.component';
 import { HousingManagementComponent } from './features/hr/housing-management/housing-management.component';
+import { FacilityReportComponent } from './features/employee/facility-report/facility-report.component';
 import { DetailHousingManagementComponent } from
 './features/hr/detail-housing-management/detail-housing-management.component';
 import { HrComponent } from './features/hr/hr.component';
 import { VisaManagementComponent } from './features/hr/visa-management/visa-management.component';
 import { SigninComponent } from './features/signin/signin.component';
 import { SignupComponent } from './features/signup/signup.component';
+
 
 import { RegistrationGuard } from './guards/registration.guard';
 import { EmployeeLoginGuard } from './guards/employee-login.guard';
@@ -29,6 +30,7 @@ const routes: Routes = [
       {path:'onboarding-application', component: OnboardingApplicationComponent},
       {path:'personal-information', component: PersonalInformationComponent},
       {path:'visa-status', component: VisaStatusComponent},
+      {path:'housing/:houseid/reports/:reportid', component: FacilityReportComponent},
       {path:'housing', component: HousingComponent},
     ]
   },

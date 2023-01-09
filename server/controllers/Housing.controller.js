@@ -87,9 +87,22 @@ exports.createFacilityReport = async (req, res) => {
 }
 
 exports.getOneFacReport = async( req, res ) => {
-    const { houseid: housing_id, reportid: report_id } = req.params;
+    const { houseid: housing_id, reportid } = req.params;
+    console.log('get one fac report start: ', reportid)
     try {
-        const report = await FacReport.findOne({_id: report_id});
+        const report = await FacReport.findOne({_id: reportid})
+        // .populate({
+        //     path: 'messages',
+        //     model: 'FacReportMsg',
+        //     populate: {
+        //         path:'author_id',
+        //         model: 'User'
+        //     }.populate({
+        //         path: 'author_id',
+        //         model: 'User'
+        //     })
+        // });
+        console.log({report})
         if( !report ) throw new Error(400)
         
         return res.json({status: "200", report});
