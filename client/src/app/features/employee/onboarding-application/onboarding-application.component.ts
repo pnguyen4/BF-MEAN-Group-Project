@@ -105,7 +105,7 @@ export class OnboardingApplicationComponent implements OnInit {
           endDate,
         });
         this.application = res.app;
-        if (res.app.status == "pending") {
+        if (res.app.status == "pending" || res.app.status == "approved") {
           this.editMode = false;
           this.applicationForm.disable();
         }
