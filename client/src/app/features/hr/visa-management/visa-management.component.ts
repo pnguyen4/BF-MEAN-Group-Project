@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Address, Application, SimpleUser, User, VisaStatus } from 'app/shared/data.model';
+import { forkJoin } from 'rxjs';
 import { HttpService } from 'app/shared/http.service';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { RegistrationService } from 'app/services/registration.service';
 
 @Component({
   selector: 'app-visa-management',
@@ -10,67 +10,82 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 })
 export class VisaManagementComponent implements OnInit {
 
-  searchInputSubject = new Subject<string>();
-  searchInput = "";
-  displayedColumns: string[] = ['username', 'email', 'admin', 'more'];
-  dataSource!:User[];
-  userDetail:Application = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"",{number:"",expiration:"",imgUrl:""});
-  visaDetail:any = new VisaStatus('','','','','','','','',new Date(),new Date());
+  displayedColumns: string[] = ['name','email','status','more'];
+  dataSource:any[] = [];
+  displayedPendingColumns: string[] = ['email', 'name', 'status', 'more'];
+  dataSourcePending:any[] = [];
+  visaDetail:any = [];
 
-  constructor(private http:HttpService) { }
+  constructor(private registrationService: RegistrationService,private http:HttpService) { }
 
   ngOnInit(): void {
-    this.http.getUserAll().subscribe(
-      (value)=> {
-        this.dataSource = value.users;
+    forkJoin([this.http.getApplicationAll(),this.http.getVisaAll()]).subscribe(
+      (res)=>{
+        // res 1: application res 2: getVisaall
+        let items = [];
+        for (let i = 0; i < res[1].visa.length; i++) {
+          for (let j = 0; j < res[0].app.length; j++) {
+            if (res[0].app[j]._id === res[1].visa[i].application_id) {
+              let item = {
+                email: res[0].app[j].email,
+                first: res[0].app[j].firstname,
+                last: res[0].app[j].lastname,
+                _id: res[1].visa[i]._id,
+                status: res[1].visa[i].status,
+                OPTReceiptUrl: res[1].visa[i].OPTReceiptUrl,
+                OPTEADurl: res[1].visa[i].OPTEADurl,
+                I983: res[1].visa[i].I983,
+                I20: res[1].visa[i].I20,
+                workAuth: res[1].visa[i].workAuth,
+                startDate: res[1].visa[i].startDate,
+                endDate: res[1].visa[i].endDate,
+              }
+              items.push(item);
+            }
+          }
+        }
+        this.dataSource = items;
+        this.dataSourcePending = this.dataSource.filter((res)=>res.status==="pending");
       }
     )
-
-    this.searchInputSubject.pipe(
-      debounceTime(600),
-      distinctUntilChanged())
-      .subscribe(value => {
-        if (value) {
-          this.http.getUserByKeyword(value).subscribe(
-            (value)=> {
-              this.dataSource = value.users;
-            }
-          )
-        }
-        else {
-          this.userDetail = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"",{number:"",expiration:"",imgUrl:""});
-          this.http.getUserAll().subscribe(
-            (value)=> {
-              this.dataSource = value.users;
-            }
-          )
-        }
-      });
   }
 
-  getApplication(id:string) {
-    console.log(id);
-    if (!id) {
-      window.alert("User's application no exist");
-    }
-    else {
-      this.http.getApplicationById(id).subscribe(
-        (res)=>{
-          this.userDetail = res.app;
-          if (this.userDetail.visaStatus) {
-            this.http.getVisaById(this.userDetail.visaStatus).subscribe(
-              (res)=>{
-                this.visaDetail = res;
-                // here to get visa status
-              }
-            )
-          }
-          else {
+  getVisaInfo(item:any) {
+    this.visaDetail = item;
+  }
 
-          }
-        }
-      );
+  approve() {
+    this.visaDetail.status = "done";
+    for (let i = 0; i < this.dataSource.length; i++) {
+      if (this.dataSource[i]._id === this.visaDetail) {
+        this.dataSource[i].status = "done";
+      }
     }
+    this.dataSourcePending = this.dataSource.filter((res)=>res.status==="pending");
+    this.http.editVisaApprove(this.visaDetail._id).subscribe();
+    window.alert("Approved");
+  }
+
+  reject() {
+    this.visaDetail.status = "rejected";
+    for (let i = 0; i < this.dataSource.length; i++) {
+      if (this.dataSource[i]._id === this.visaDetail) {
+        this.dataSource[i].status = "rejected";
+      }
+    }
+    this.dataSourcePending = this.dataSource.filter((res)=>res.status==="pending");
+    this.http.editVisaReject(this.visaDetail._id).subscribe();
+    window.alert("Rejected");
+  }
+
+  sendEmailApprove() {
+    this.registrationService.statusReport(this.visaDetail.email, true).subscribe();
+    window.alert("Email Sent");
+  }
+
+  sendEmailReject() {
+    this.registrationService.statusReport(this.visaDetail.email, false).subscribe();
+    window.alert("Email Sent");
   }
 
 }
