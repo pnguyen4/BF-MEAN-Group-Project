@@ -41,6 +41,16 @@ exports.createApplication = async function (req, res) {
     }
 }
 
+// make this publically accessible, hide the rest away for security
+exports.getApplicationStatus = async function (req, res) {
+    try {
+        let application = await Application.findOne({_id:req.params.id},{});
+        res.json({status: '200', status: application.status});
+    } catch (error) {
+
+    }
+}
+
 exports.updateApplication = async function (req, res) {
     try {
 

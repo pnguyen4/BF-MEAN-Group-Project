@@ -52,9 +52,9 @@ export class SigninComponent implements OnInit {
             } else if (user.application_id == '') {
               this.router.navigate(['/employee/onboarding-application']);
             } else {
-              this.http.getApplicationById(user.application_id).subscribe(res => {
+              this.http.getApplicationStatus(user.application_id).subscribe(res => {
                 // in other words, if "unsubmitted", "rejected", or "pending"
-                if (res.app.status !=  "approved") {
+                if (res.status !=  "approved") {
                   this.router.navigate(['/employee/onboarding-application']);
                 } else {
                   this.router.navigate(['/employee']);
