@@ -1,4 +1,5 @@
 const { User } = require('../models/User.model');
+const { RegToken } = require('../models/RegToken.model');
 const bcrypt = require('bcryptjs');
 const express = require('express');
 const app = express();
@@ -19,6 +20,12 @@ exports.createUser = async ( req, res ) => {
     const copy1 = await User.findOne({email:req.body.email},{}); // check if email already exist
     const copy2 = await User.findOne({username:req.body.username},{});  // check if username already exist
     if (copy1 === null && copy2 === null) { // if email not exist
+      // almost forgot to do this, but mark the token used by this employee as successfully registered
+      const token = req.headers.authorization;
+      const regtoken = await RegToken.updateOne(
+        {link: {"$regex": token, "$options": "i"}},
+        {registered: true}
+      );
       user.save().then(result => {
         res.status(200).json();
       });

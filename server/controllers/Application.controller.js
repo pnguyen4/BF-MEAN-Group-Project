@@ -33,9 +33,18 @@ exports.createApplication = async function (req, res) {
         newVisaStatus.user_id = req.body.application.user_id;
         newVisaStatus.application_id = application._id;
         const visaStatus = await VisaStatus.create(newVisaStatus);
+        await Application.updateOne({_id: application._id}, {visaStatus});
 
         return res.json({status: '200', application, visaStatus});
     } catch (error) {
         return res.json({status: "500", msg: error});
+    }
+}
+
+exports.updateApplication = async function (req, res) {
+    try {
+
+    } catch (error) {
+
     }
 }

@@ -20,6 +20,7 @@ export class SigninComponent implements OnInit {
   }
 
   error:string | null = "";
+
   ngOnInit(): void {}
 
   form: FormGroup = new FormGroup({
@@ -48,8 +49,17 @@ export class SigninComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(res.user));
             if (res.user.admin) {
               this.router.navigate(['/hr']);
+            } else if (user.application_id == '') {
+              this.router.navigate(['/employee/onboarding-application']);
             } else {
-              this.router.navigate(['/employee']);
+              this.http.getApplicationById(user.application_id).subscribe(res => {
+                // in other words, if "unsubmitted", "rejected", or "pending"
+                if (res.app.status !=  "approved") {
+                  this.router.navigate(['/employee/onboarding-application']);
+                } else {
+                  this.router.navigate(['/employee']);
+                }
+              });
             }
           }
         );

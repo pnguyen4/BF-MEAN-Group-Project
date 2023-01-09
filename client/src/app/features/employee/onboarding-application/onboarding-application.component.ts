@@ -4,6 +4,7 @@ import { S3ServiceService } from '../../../shared/s3-service.service';
 import { Md5 } from 'ts-md5';
 import { OnboardingService } from '../../../shared/onboarding.service';
 import { User } from '../../../shared/data.model';
+import { Router } from '@angular/router';
 
 const S3_URL = "https://bfmean2022.s3.amazonaws.com/";
 
@@ -68,6 +69,7 @@ export class OnboardingApplicationComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
+              private router: Router,
               private onboardingService: OnboardingService,
               private s3Service: S3ServiceService) { }
 
@@ -90,6 +92,10 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   submit(): void {
+    if (this.driverLicenseUrl) {
+      return alert("Driver's license invalid or missing!");
+    }
+
     if (this.applicationForm.valid) {
       console.log('valid')
       let user = localStorage.getItem('user');
@@ -110,6 +116,7 @@ export class OnboardingApplicationComponent implements OnInit {
           // TODO save state to store
           console.log(res);
       });
+      this.router.navigate(['/employee']);
     }
   }
 
