@@ -25,7 +25,7 @@ export const selectFacReports = createSelector<any, any, any>(
   (state: HousingState) => state.reports
 );
 
-export const selectOneFacReport = createSelector<any, any, any>(
+export const selectCurrentFacReport = createSelector<any, any, any>(
   selectHousing,
   (state: HousingState) => state.currentReport
 )

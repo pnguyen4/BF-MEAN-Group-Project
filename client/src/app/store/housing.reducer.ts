@@ -6,7 +6,7 @@ export interface HousingState {
   house: Housing | undefined // for employees
   houses: Housing[], // for hr
   reports: Report[]
-  currentReport: Report | undefined;
+  currentReport: Report | undefined
 };
 
 const initialState: HousingState = {
@@ -30,6 +30,9 @@ export const housingReducer = createReducer(
   on(EmployeeHousingAction.createFacilityReport, (state, action) => ({
     ...state, reports: [action.facReport, ...state.reports]
   })),
+  on(EmployeeHousingAction.loadCurrentFacilityReport, (state, action) => ({
+    ...state, currentReport: action.currentReport
+  })),
 
   on(HrHousingAction.loadAllHousing, (state, action) => ({
     ...state, houses: action.houses
@@ -47,8 +50,7 @@ export const housingReducer = createReducer(
     ...state, houses: [action.house, ...state.houses]
   })),
 
-  on(HrHousingAction.loadOneFacilityReport, (state, action) => ({
-
-    ...state, currentReport: action.report// add identifier to grab appropriate facility report by id
+  on(HrHousingAction.loadCurrentFacilityReport, (state, action) => ({
+    ...state, currentReport: action.currentReport// add identifier to grab appropriate facility report by id
   }))
 );

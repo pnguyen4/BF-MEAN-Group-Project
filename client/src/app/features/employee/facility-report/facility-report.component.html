@@ -1,7 +1,7 @@
 <p>facility-report works!</p>
 
-<div *ngIf="report$ | async as report">
-  <p>{{report.title}}</p>
-  <p>{{report.description}}</p>
-  <p>{{report.author_id}}</p>
-</div>
+<ng-container *ngIf="report$ | async as report">
+  <p>Title: {{report?.title}}</p>
+  <p>Description: {{report?.description}}</p>
+  <p>Author: {{report?.author_id?.name}}</p>
+</ng-container>

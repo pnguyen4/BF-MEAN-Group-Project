@@ -7,7 +7,7 @@ export const EmployeeHousingAction = createActionGroup({
     'Load Housing': props<{ house: Housing }>(),
     'Load Facility Reports': props<{ facReports: Report[] }>(),
     'Create Facility Report': props<{ facReport: Report }>(),
-    'Load One Facility Report': props<{ report: Report }>(),
+    'Load Current Facility Report': props<{ currentReport: Report }>(),
   }
 });
 
@@ -18,7 +18,6 @@ export const HrHousingAction = createActionGroup({
     'Load Facility Reports': props<{ facReports: Report[] }>(),
     'Delete Housing': props<{ id: string }>(),
     'Create Housing': props<{ house: Housing }>(),
-
-    'Load One Facility Report': props<{ report: Report }>(), // duplicated above?
+    'Load Current Facility Report': props<{ currentReport: Report }>(), // duplicated above?
   }
 });

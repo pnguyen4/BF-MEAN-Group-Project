@@ -1,5 +1,5 @@
 import { EmployeeHousingAction } from './../../../store/housing.action';
-import { selectOneFacReport } from './../../../store/housing.selector';
+import { selectCurrentFacReport } from './../../../store/housing.selector';
 import { Report } from './../../../shared/data.model';
 import { Component, OnInit } from '@angular/core';
 import { HousingService } from 'app/shared/housing.service';
@@ -16,7 +16,7 @@ export class FacilityReportComponent implements OnInit {
 
   // [single] facReport$ = this.store.select(selectFacReport)
 
-  report$ = this.store.select(selectOneFacReport);
+  report$ = this.store.select(selectCurrentFacReport);
   reportID: string | null = "";
 
   constructor(
@@ -44,8 +44,8 @@ export class FacilityReportComponent implements OnInit {
 
     if( this.reportID ) {
       this.housingService.getOneFacilityReport(userobj.housing_id, this.reportID).subscribe(res => {
-        this.store.dispatch(EmployeeHousingAction.loadOneFacilityReport({
-          report: res.report
+        this.store.dispatch(EmployeeHousingAction.loadCurrentFacilityReport({
+          currentReport: res.report
         }));
       });
     }
