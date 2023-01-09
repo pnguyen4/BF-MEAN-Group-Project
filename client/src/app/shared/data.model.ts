@@ -114,6 +114,7 @@ export class VisaStatus {
     public OPTReceiptUrl:string,
     public OPTEADurl:string,
     public I983:string,
+    public I20:string,
     public workAuth:string,
     public startDate:Date,
     public endDate:Date

@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Address, Application, SimpleUser, User, VisaStatus } from 'app/shared/data.model';
 import { HttpService } from 'app/shared/http.service';
@@ -15,7 +16,6 @@ export class EmployeeProfilesComponent implements OnInit {
   displayedColumns: string[] = ['username', 'email', 'admin', 'more'];
   dataSource!:User[];
   userDetail:Application = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"",{number:"",expiration:"",imgUrl:""});
-  visaDetail:any = new VisaStatus('','','','','','','','',new Date(),new Date());
 
   constructor(private http:HttpService) { }
 
@@ -49,19 +49,16 @@ export class EmployeeProfilesComponent implements OnInit {
   }
 
   getApplication(id:string) {
-    console.log(id);
     if (!id) {
       window.alert("User's application no exist");
     }
     else {
       this.http.getApplicationById(id).subscribe(
         (res)=>{
-          console.log(res.app);
           this.userDetail = res.app;
         }
       );
     }
   }
-
 }
 

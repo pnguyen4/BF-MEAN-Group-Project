@@ -36,14 +36,34 @@ exports.createRegToken = async (req, res) => {
 };
 
 exports.getRegTokens = async (req, res) => {
-  console.log(1);
-  console.log(2);
     try {
       const regtokens = await RegToken.find();
       res.json({status: '200', regtokens});
     } catch (error) {
       res.json({status: '400', message: 'cannot retrieve registration link history'});
     }
+}
+
+
+exports.statusReport = async (req, res) => {
+  
+  let transporter = nodemailer.createTransport({
+    service : "hotmail",
+    auth: {
+      user: "bfmean2022@outlook.com",
+      pass: "Example123!",
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: 'bfmean2022@outlook.com', // sender address
+    to: req.body.email, // list of receivers
+    subject: req.body.status?"Your VisaStatus is approved":"Your VisaStatus is rejected", // Subject line
+    text: "Reason ....", // plain text body
+    //html: "<b>Hello world?</b>", // html body
+  }); 
+  console.log("Message sent: %s", info.messageId);
+  res.status(200).json();
 }
 
 async function sendmail(email, link) {
@@ -68,3 +88,5 @@ async function sendmail(email, link) {
 
   console.log("Message sent: %s", info.messageId);
 }
+
+

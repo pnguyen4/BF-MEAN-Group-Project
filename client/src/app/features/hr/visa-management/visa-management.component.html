@@ -1,48 +1,10 @@
-<mat-card id="search">
-  <mat-card-title>Search a user</mat-card-title>
-  <br>
-  <label for="searchInput">Search by Keyword:</label>
-  <input [(ngModel)]="searchInput" type="text" (ngModelChange)="this.searchInputSubject.next($event)" id="searchInput">
-  <br>
-  <mat-card *ngIf="userDetail._id" id="userInfo">
-    <mat-card-title [ngStyle]="{'margin':'30px'}">{{userDetail.firstname + " " + userDetail.lastname + "\'s Information"}}</mat-card-title>
-    <div>
-      <b>Personal Information: </b>
-      <p>Email: {{userDetail.email}}</p>
-      <p>Full name: {{userDetail.firstname + " " + userDetail.middlename + " " + userDetail.lastname}}</p>
-      <p>Perfer name: {{userDetail.preferredname}}</p>
-      <p>Phone: {{userDetail.cellphone}}</p>
-      <p>Work Phone: {{userDetail.workphone}}</p>
-      <p>Address: {{userDetail.currentAddress.street + " " + userDetail.currentAddress.suiteOrAptNumber
-        + " " + userDetail.currentAddress.city + " " + userDetail.currentAddress.state + " " + userDetail.currentAddress.zipcode}}</p>
-      <p>SSN: {{userDetail.ssn}}</p>
-      <p>Citizen of USA: {{userDetail.isCitizenUSA?"Yes":"No"}}</p>
-      <p>Reference: {{userDetail.reference.firstname + " " + userDetail.reference.lastname}}&nbsp;&nbsp;&nbsp;
-        {{"Phone: " + userDetail.reference.phone}}&nbsp;&nbsp;&nbsp;{{"Email: " + userDetail.reference.email}}
-      </p>
-      <p>Status: {{userDetail.status}}</p>
-      <br>
-      <br>
-      <b>Contactor: </b>
-      <p *ngFor="let item of userDetail.emergencyContact">
-        {{item.firstname + " " + item.lastname}}&nbsp;&nbsp;&nbsp;
-        {{"Phone: " + item.phone}}&nbsp;&nbsp;&nbsp;{{"Email: " + item.email}}
-      </p>
-      <br>
-      <br>
-      <b>Driver License: </b>
-      <p>Number: {{userDetail.driverLicense.number}}</p>
-      <p>Expiration: {{userDetail.driverLicense.expiration | date:"MM/dd/yy"}}</p>
-      <img [src]="userDetail.driverLicense.imgUrl" [alt]="userDetail.driverLicense.number">
-    </div>
-    <br>
-  </mat-card>
-  <br>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<mat-card>
 
-    <ng-container matColumnDef="username">
+  <h1>All Pending</h1>
+  <table mat-table [dataSource]="dataSourcePending" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Username </th>
-      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.first + ' ' + element.last}} </td>
     </ng-container>
 
     <ng-container matColumnDef="email">
@@ -50,17 +12,86 @@
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="admin">
-      <th mat-header-cell *matHeaderCellDef> Admin </th>
-      <td mat-cell *matCellDef="let element"> {{element.admin?"HR":"employee"}} </td>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
     </ng-container>
 
     <ng-container matColumnDef="more">
       <th mat-header-cell *matHeaderCellDef> More Information </th>
-      <td mat-cell *matCellDef="let element"> <button (click)="getApplication(element.application_id)">More Info</button> </td>
+      <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getVisaInfo(element)">More Info</button> </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
+  </table>
+
+  <br>
+
+  <mat-card *ngIf="visaDetail._id" id="userInfo">
+    <mat-card-title [ngStyle]="{'margin':'30px'}">{{visaDetail.first + " " + visaDetail.last + "\'s Information"}}</mat-card-title>
+    <div>
+      <div>
+        <br>
+        <b>Basic Information: </b><button (click)="visaDetail=[]">Hide</button>
+        <br>
+        <br>
+        <p>Email: {{visaDetail.email}}</p>
+        <p>Full name: {{visaDetail.first + " " + visaDetail.last}}</p>
+        <div>
+          Status: {{visaDetail.status}} &nbsp;
+          <button [ngStyle]="{'margin':'5px'}" *ngIf="visaDetail.status === 'pending'" (click)="approve()">Approve </button>
+          <button *ngIf="visaDetail.status === 'pending'" (click)="reject()">Reject </button>
+          <button *ngIf="visaDetail.status === 'done'" (click)="sendEmailApprove()">Send email </button>
+          <button *ngIf="visaDetail.status === 'rejected'" (click)="sendEmailReject()">Send email </button>
+        </div>
+        <br>
+        <p>Work Authentication: {{visaDetail.workAuth}}</p>
+        <p>Start Date: {{visaDetail.startDate | date:"MM/dd/yy"}}</p>
+        <p>End Date: {{visaDetail.endDate | date:"MM/dd/yy"}}</p>
+      </div>
+      <br>
+      <div>
+        <br>
+        <b>Document: </b>
+        <br>
+        <br>
+        <img [src]="visaDetail.OPTReceiptUrl" [alt]="visaDetail.OPTReceiptUrl">
+        <img [src]="visaDetail.OPTEADurl" [alt]="visaDetail.OPTEADurl">
+        <img [src]="visaDetail.I983" [alt]="visaDetail.I983">
+        <img [src]="visaDetail.I20" [alt]="visaDetail.I20">
+      </div>
+    </div>
+    <br>
+  </mat-card>
+
+  <br>
+
+  <h1>All Users</h1>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Username </th>
+      <td mat-cell *matCellDef="let element"> {{element.first + ' ' + element.last}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="more">
+      <th mat-header-cell *matHeaderCellDef> More Information </th>
+      <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getVisaInfo(element)">More Info</button> </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </mat-card>
+
+
