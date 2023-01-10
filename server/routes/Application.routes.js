@@ -2,7 +2,8 @@ const controller = require("../controllers/Application.controller.js");
 const router = require("express").Router();
 const { verifyUser, verifyHr } = require("../middleware/auth");
 
-router.get('/api/applications/:id', [ verifyUser, verifyHr ], controller.getApplicationById);
+// note: removed auth middleware, client does not yet token in authorization header
+router.get('/api/applications/:id', controller.getApplicationById);
 
 router.get('/api/applications', controller.getApplicationAll);
 
