@@ -35,13 +35,19 @@ exports.createApplication = async function (req, res) {
                              {application_id: application._id});
 
         let newVisaStatus = req.body.visaStatus;
-        newVisaStatus.user_id = req.body.application.user_id;
-        newVisaStatus.application_id = application._id;
-        const visaStatus = await VisaStatus.create(newVisaStatus);
-        await Application.updateOne({_id: application._id}, {visaStatus});
+        console.log(JSON.stringify(newVisaStatus))
+        const { OPTReceiptUrl, workAuth, startDate, endDate } = newVisaStatus;
+        if (OPTReceiptUrl && workAuth && startDate && endDate) {
+            newVisaStatus.user_id = req.body.application.user_id;
+            newVisaStatus.application_id = application._id;
+            const visaStatus = await VisaStatus.create(newVisaStatus);
+            await Application.updateOne({_id: application._id}, {visaStatus});
+            return res.json({status: '200', application, visaStatus});
+        }
 
-        return res.json({status: '200', application, visaStatus});
+        return res.json({status: '200', application});
     } catch (error) {
+        console.log(error);
         return res.json({status: "500", msg: error});
     }
 }

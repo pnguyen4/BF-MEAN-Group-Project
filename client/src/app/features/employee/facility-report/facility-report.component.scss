@@ -1,0 +1,38 @@
+.report-details {
+  &-author {
+    &-title {
+      font-weight: 500;
+      font-size: 1rem;
+      display: inline-block;
+    }
+    &-name {
+      font-size: 1rem;
+      display: inline-block;
+    }
+  }
+
+  &-desc {
+    &-title {
+      font-weight: 500;
+      font-size: 1rem;
+      margin: 0 0;
+    }
+    &-message {
+      font-size: 1rem;
+      margin: 0 0;
+    }
+  }
+
+}
+
+.ul-landlord-info {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.report-comment-form {
+  input, label, textarea {
+    display: block;
+}
+
+}

@@ -29,7 +29,9 @@ import { DetailHousingManagementComponent } from './features/hr/detail-housing-m
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
 import { housingReducer } from './store/housing.reducer';
+
 import { isOnboardingReducer } from './store/isOnboarding.reducer';
+import { FacilityReportComponent } from './features/employee/facility-report/facility-report.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { isOnboardingReducer } from './store/isOnboarding.reducer';
     HousingManagementComponent,
     EmployeeNavbarComponent,
     HrNavbarComponent,
-    DetailHousingManagementComponent
+    DetailHousingManagementComponent,
+    FacilityReportComponent
   ],
   imports: [
     FormsModule,
