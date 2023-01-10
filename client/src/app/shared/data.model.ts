@@ -1,3 +1,4 @@
+type WorkAuthorizationType = "green-card" | "citizen" | "h1b-etc" | "f1-etc" | "other" | ""
 
 // to use it: let application = new Application(_id,email,user_id.....)
 export class Application {
@@ -11,13 +12,12 @@ export class Application {
     public middlename:string,
     public preferredname:string,
     public currentAddress:Address,
-    public cellphone:number,
-    public workphone:number,
+    public cellphone:number|string,
+    public workphone:number|string,
     public ssn:number,
     public reference:SimpleUser,
     public emergencyContact:SimpleUser[],
     public isCitizenUSA:boolean,
-    public workAuthorization:string,
     public visaStatus:string,
     public driverLicense:{number:string,expiration:string,imgUrl:string}
   ){}
@@ -39,7 +39,7 @@ export class SimpleUser {
     public _id:string,
     public firstname:string,
     public lastname:string,
-    public phone:number,
+    public phone:number|string,
     public email:string
   ){}
 }
@@ -112,9 +112,13 @@ export class VisaStatus {
     public user_id:string,
     public application_id:string,
     public status:string,
-    public profileImgUrl:string,
-    public driverLicenseImgUrl:string,
-    public workAuthorizationImgUrl:string
+    public OPTReceiptUrl:string,
+    public OPTEADurl:string,
+    public I983:string,
+    public I20:string,
+    public workAuth:string,
+    public startDate:Date,
+    public endDate:Date
   ){}
 }
 

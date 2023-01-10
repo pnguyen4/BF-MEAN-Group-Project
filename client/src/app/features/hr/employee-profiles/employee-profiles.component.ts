@@ -1,10 +1,8 @@
+
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { User } from 'app/shared/data.model';
+import { Address, Application, SimpleUser, User, VisaStatus } from 'app/shared/data.model';
 import { HttpService } from 'app/shared/http.service';
-import { Observable } from 'rxjs';
-import { saveUser } from '../../../store/user.action';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-employee-profiles',
@@ -13,49 +11,54 @@ import { saveUser } from '../../../store/user.action';
 })
 export class EmployeeProfilesComponent implements OnInit {
 
-  user$: Observable<User>;
-  user!:User;
-  editMode = false;
-  comfirm = "";
-  error = "";
+  searchInputSubject = new Subject<string>();
+  searchInput = "";
+  displayedColumns: string[] = ['username', 'email', 'admin', 'more'];
+  dataSource!:User[];
+  userDetail:Application = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"",{number:"",expiration:"",imgUrl:""});
 
-  constructor(private http:HttpService, private router:Router, private store: Store<{ user: User }>) {
-    this.user$ = store.select('user');
-    this.user$.subscribe((req)=>{
-      this.user! = {
-        _id: req._id,
-        username:req.username,
-        email:req.email,
-        password:req.password,
-        admin:req.admin,
-        application_id:req.application_id,
-        housing_id:req.housing_id,
-      };
-    });
+  constructor(private http:HttpService) { }
+
+  ngOnInit(): void {
+    this.http.getUserAll().subscribe(
+      (value)=> {
+        this.dataSource = value.users;
+      }
+    )
+
+    this.searchInputSubject.pipe(
+      debounceTime(600),
+      distinctUntilChanged())
+      .subscribe(value => {
+        if (value) {
+          this.http.getUserByKeyword(value).subscribe(
+            (value)=> {
+              this.dataSource = value.users;
+            }
+          )
+        }
+        else {
+          this.userDetail = new Application("","",0,"","","","","",new Address("","","","","",""),0,0,0,new SimpleUser("","","",0,""),[],false,"",{number:"",expiration:"",imgUrl:""});
+          this.http.getUserAll().subscribe(
+            (value)=> {
+              this.dataSource = value.users;
+            }
+          )
+        }
+      });
   }
 
-  ngOnInit() {}
-
-  startEdit() {
-    this.editMode = !this.editMode;
-    this.user.password = '';
-  }
-
-  validation() {
-    if (!this.user.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+*!=]).*$/)) {
-      this.error = "Invalid password format";
-      return;
+  getApplication(id:string) {
+    if (!id) {
+      window.alert("User's application no exist");
     }
-    if (this.user.password !== this.comfirm) {
-      this.error = "Comfirm password does not match";
-      return;
+    else {
+      this.http.getApplicationById(id).subscribe(
+        (res)=>{
+          this.userDetail = res.app;
+        }
+      );
     }
-    this.error = '';
-
-    this.editMode = !this.editMode;
-    this.store.dispatch(saveUser({userInfo:this.user}));
-    this.http.editUserWithPassword(this.user);
-    window.alert("Successful edited");
-    //this.router.navigate(['/host',this.user._id]);
   }
 }
+

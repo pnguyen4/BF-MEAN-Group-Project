@@ -58,7 +58,36 @@ export class HttpService {
     return this.http.get<{visa:VisaStatus}>("http://localhost:3000/api/visaStatus/"+id);
   }
 
+  editVisaById(visa:VisaStatus) {
+    return this.http.post("http://localhost:3000/api/visaStatus/"+visa._id,visa);
+  }
+
+  getVisaAll() {
+    return this.http.get<{visa:VisaStatus[]}>("http://localhost:3000/api/visaStatus");
+  }
+
   getUserAll() {
     return this.http.get<{users:User[]}>("http://localhost:3000/api/users");
+  }
+
+  getApplicationAll() {
+    return this.http.get<{app:Application[]}>("http://localhost:3000/api/applications");
+  }
+
+  // just a getter for a single field
+  getApplicationStatus(id: string) {
+    return this.http.get<any>("http://localhost:3000/api/applications/"+id+"/status");
+  }
+
+  getApplicationWithVisa(id: String) {
+    return this.http.get<any>("http://localhost:3000/api/applications/"+id+"/withvisa");
+  }
+
+  editVisaApprove(id:string) {
+    return this.http.put("http://localhost:3000/api/visaStatus/"+id,id);
+  }
+
+  editVisaReject(id:string) {
+    return this.http.put("http://localhost:3000/api/visaStatus/"+id+'/'+id,id);
   }
 }

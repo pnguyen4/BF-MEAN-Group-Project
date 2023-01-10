@@ -52,29 +52,29 @@ const ApplicationSchema = new mongoose.Schema({
         }, 
     },
     cellphone: { 
-        type: Number, 
+        type: String,
         // unique: true
         // required: [true, 'Cell number must be provided'],
     },
     workphone: { 
-        type: Number, 
+        type: String,
         // unique: true,
         // required: [ true, 'Work number must be provided' ]
     },
     ssn: { 
-        type: Number, unique: true, 
+        type: Number // note: remove required unique, makes testing impossible
         // required: [true, 'SSN is required']
     },
     reference: { 
         firstname: { type: String, required: [true, 'First name of reference must be provided'] },
         lastname: { type: String, required: [true, 'Last name of reference must be provided'] },
-        phone: { type: Number, required: [true, 'Phone contact of reference must be provided']},
+        phone: { type: String, required: [true, 'Phone contact of reference must be provided']},
         email: { type: String, required: [true, 'Email of reference must be provided'] },
     },
     emergencyContact: [{ 
         firstname: { type: String, required: [true, 'First name of emergency contact must be provided'] },
         lastname: { type: String, required: [true, 'Last name of emergency contact must be provided'] },
-        phone: { type: Number, required: [true, 'Phone contact of emergency contact must be provided']},
+        phone: { type: String, required: [true, 'Phone contact of emergency contact must be provided']},
         email: { type: String, required: [true, 'Email of emergency contact must be provided'] },
     }],
     // moved citizenship out of visaStatus

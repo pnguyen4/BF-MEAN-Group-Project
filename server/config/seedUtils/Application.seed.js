@@ -32,10 +32,14 @@ module.exports.generateApplication = () => {
         email: `${firstname}sfamily@seed.com`
     };
     const isCitizenUSA = getRandomInt(0, 10) < 5 ? true : false;
-
+    const driverLicense = {
+        number: getRandomInt(100000000,900000000),
+        expiration: new Date(getRandomInt(10000000,200000000)),
+        imgUrl: "https://www.dol.wa.gov/driverslicense/images/DLsample-New-Adult-Standard-2018.png",
+    };
     const application = {
         firstname, lastname, middlename, preferredname, currentAddress, 
-        cellphone, workphone, ssn, reference, emergencyContact, isCitizenUSA
+        cellphone, workphone, ssn, reference, emergencyContact, isCitizenUSA, driverLicense
     };
 
     console.log({application});
