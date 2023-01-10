@@ -82,10 +82,10 @@ export class FacilityReportComponent implements OnInit {
 
       this.housingService.addMsgToFacilityReport(housing_id, this.reportID, msg).subscribe(res => {
         if (res.status == '200') {
-          console.log(res)
           this.store.dispatch(EmployeeHousingAction.loadCurrentFacilityReport({
             currentReport: res.report
           }));
+          console.log(res.report.author_id.application_id.firstname)
         } else {
           console.log(res);
         }

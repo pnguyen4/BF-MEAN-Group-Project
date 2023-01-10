@@ -51,6 +51,6 @@ export const housingReducer = createReducer(
   })),
 
   on(HrHousingAction.loadCurrentFacilityReport, (state, action) => ({
-    ...state, currentReport: action.currentReport// add identifier to grab appropriate facility report by id
+    ...state, currentReport: action.currentReport
   }))
 );

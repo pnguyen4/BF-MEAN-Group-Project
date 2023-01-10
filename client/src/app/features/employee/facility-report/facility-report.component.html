@@ -63,6 +63,16 @@
                   </tr>
               </thead>
               <tbody>
+                <ng-container *ngIf="report$ | async as report" >
+
+                  <tr *ngFor="let message of report.messages">
+                    <td>
+                      {{message?.author_id?.application_id?.firstname}}
+                      {{message?.author_id?.application_id?.lastname}}</td>
+                    <td>{{message?.message}}</td>
+                    <td>{{message?.createdAt}}</td>
+                  </tr>
+                </ng-container>
 
 
               </tbody>

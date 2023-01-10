@@ -153,20 +153,10 @@ exports.addMsgToFacilityReport = async( req, res ) => {
         // check if user is author of original report, or is an admin
         // if( newMsg.author_id !== facReport.author_id || !req.user.admin) throw new Error(404);
         for( const message of report.messages ) {
-            console.log(message)
+            console.log(message.author_id.application_id.firstname)
         }
-
         // update message
         report.messages.push(newMsg._id);
-        report.populate('author_id')
-        // report.populate({
-        //     path: 'messages',
-        //     model: 'FacReportMsg',
-        //     populate: {
-        //         path: 'author_id',
-        //         model: 'User'
-        //     }
-        // })
         await report.save();
 
         // return entire facReport? all messages? or just single new message?
