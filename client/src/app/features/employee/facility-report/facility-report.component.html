@@ -60,6 +60,7 @@
                       <th>Author</th>
                       <th>Comment</th>
                       <th>Timestamp</th>
+                      <th>Action</th>
                   </tr>
               </thead>
               <tbody>
@@ -68,10 +69,16 @@
                     <tr *ngFor="let message of report.messages">
                       <td>
                         {{message?.author_id?.application_id.firstname}}
-                        {{message?.author_id?.application_id.lastname}}
+                        {{message?.author_id?.application_id  .lastname}}
                       </td>
                       <td>{{message?.message}}</td>
                       <td>{{message?.createdAt}}</td>
+                      <td *ngIf="message?.author_id?._id === this.userID; else nonAuthor">
+                          <button>Edit</button>
+                      </td>
+                      <ng-template #nonAuthor>
+                        <td>N/A</td>
+                      </ng-template>
                     </tr>
                   </ng-container>
                 </ng-container>

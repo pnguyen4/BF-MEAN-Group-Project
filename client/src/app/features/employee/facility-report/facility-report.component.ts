@@ -20,6 +20,7 @@ export class FacilityReportComponent implements OnInit {
   housing$ = this.store.select(selectEmployeeHousing);
   report$ = this.store.select(selectCurrentFacReport);
   reportID: string = "";
+  userID: string | null = '';
 
   constructor(
     private housingService: HousingService,
@@ -40,6 +41,7 @@ export class FacilityReportComponent implements OnInit {
 
     // should implement user._id === facReport.author_id after confirmation of data fetch
     let userobj: User = JSON.parse(user);
+    this.userID = userobj._id;
     if (!userobj?.housing_id) {
       return;
     }
