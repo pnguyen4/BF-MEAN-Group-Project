@@ -71,10 +71,29 @@
                         {{message?.author_id?.application_id.firstname}}
                         {{message?.author_id?.application_id  .lastname}}
                       </td>
-                      <td>{{message?.message}}</td>
+                      <td>
+                        <span *ngIf="this.editID === message._id; else msg">
+                          <form [formGroup]="editCommentForm" >
+                            <input
+                              id="comment-message"
+                              formControlName="message"
+                              type="text" name="message"
+                              value="hello">
+                          </form>
+                        </span>
+                        <ng-template #msg>
+                          {{message?.message}}
+                        </ng-template>
+                      </td>
                       <td>{{message?.createdAt}}</td>
                       <td *ngIf="message?.author_id?._id === this.userID; else nonAuthor">
-                          <button>Edit</button>
+                        <span *ngIf="message._id === this.editID; else noneditmode">
+                          <button (click)="submitEdit(message._id, message.author_id._id)" >Save</button>
+                          <button (click)="toggleEdit(message._id, message.message)">Cancel</button>
+                        </span>
+                        <ng-template #noneditmode>
+                          <button (click)="toggleEdit(message._id, message.message)" >Edit</button>
+                        </ng-template>
                       </td>
                       <ng-template #nonAuthor>
                         <td>N/A</td>

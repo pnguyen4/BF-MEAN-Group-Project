@@ -20,7 +20,8 @@ export class FacilityReportComponent implements OnInit {
   housing$ = this.store.select(selectEmployeeHousing);
   report$ = this.store.select(selectCurrentFacReport);
   reportID: string = "";
-  userID: string | null = '';
+  userID: string | null = null;
+  editID: string | null = null;
 
   constructor(
     private housingService: HousingService,
@@ -29,6 +30,9 @@ export class FacilityReportComponent implements OnInit {
     private fb: FormBuilder ) { }
 
     facReportCommentForm: FormGroup = this.fb.nonNullable.group({
+      message: ['', Validators.required]
+    })
+    editCommentForm: FormGroup = this.fb.nonNullable.group({
       message: ['', Validators.required]
     })
 
@@ -94,4 +98,56 @@ export class FacilityReportComponent implements OnInit {
       });
     }
   }
+
+  toggleEdit( messageID: string, msg: string): void {
+    if( !this.editID ) {
+      this.editID = messageID;
+      this.editCommentForm = this.fb.nonNullable.group({
+        message: [msg, Validators.required]
+      })
+    } else {
+      this.editID = null;
+      this.editCommentForm = this.fb.nonNullable.group({
+        message: ['', Validators.required]
+      })
+    }
+
+  }
+
+  submitEdit( messageID: string, authorid: string ): void {
+    let user = this.editCommentForm.valid
+      ? localStorage.getItem('user')
+      : null;
+    let userobj: User = typeof user == 'string'
+      ? JSON.parse(user)
+      : null
+
+    if( !userobj || userobj._id !== authorid ) return;
+
+    let housing_id = '';
+    this.housing$.subscribe(housing => {
+      housing_id = housing._id;
+    });
+
+    const message = this.editCommentForm.getRawValue().message;
+
+    this.housingService.editMsgOnFacilityReport(
+      housing_id,
+      this.reportID,
+      messageID,
+      message
+    ).subscribe(res => {
+        if (res.status == '200') {
+          this.store.dispatch(
+            EmployeeHousingAction.loadCurrentFacilityReport({ currentReport: res.report })
+          );
+        } else {
+          console.log(res);
+        }
+      })
+
+    this.toggleEdit(messageID, '');
+  }
+
+
 }

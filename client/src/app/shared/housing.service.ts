@@ -44,4 +44,8 @@ export class HousingService {
   addMsgToFacilityReport(houseid: string, reportid: string, msg: Object ): Observable<any> {
     return this.http.post(`${API_URL}/api/housing/${houseid}/reports/${reportid}/msg`, msg );
   }
+
+  editMsgOnFacilityReport(houseid: string, reportid: string, messageid: string, message: string): Observable<any> {
+    return this.http.put(`${API_URL}/api/housing/${houseid}/reports/${reportid}/msg/${messageid}`, {message} )
+  }
 }

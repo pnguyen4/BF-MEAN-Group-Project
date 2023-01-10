@@ -86,8 +86,7 @@ exports.createFacilityReport = async (req, res) => {
     }
 }
 
-exports.getOneFacReport = async( req, res ) => {
-    const { houseid: housing_id, reportid } = req.params;
+async function getAndPopulateFacReport( reportid ) {
     try {
         const report = await FacReport.findOne({_id: reportid})
             .populate({
@@ -109,8 +108,18 @@ exports.getOneFacReport = async( req, res ) => {
                         select: ['firstname', 'lastname']
                     }
                 }
-            })
-        console.log({report})
+            });
+        
+        return report;
+    } catch(error) {
+        return error;
+    }
+}
+
+exports.getOneFacReport = async( req, res ) => {
+    const { houseid: housing_id, reportid } = req.params;
+    try {
+        const report = await getAndPopulateFacReport(reportid);
         if( !report ) throw new Error(400)
         
         return res.json({status: "200", report});
@@ -131,27 +140,7 @@ exports.addMsgToFacilityReport = async( req, res ) => {
         await newMsg.save();
 
         // update facReport
-        const report = await FacReport.findOne({_id: facReport_id})
-            .populate({
-                path: 'author_id',
-                select: [ 'admin', 'application_id' ],
-                populate: {
-                    path: 'application_id',
-                    select: [ 'firstname', 'lastname' ]
-                }
-            })
-            .populate({
-                path: 'messages',
-                select: [ 'author_id', 'message', 'createdAt', 'updatedAt'],
-                populate: {
-                    path:'author_id',
-                    select: [ '_id', 'admin', 'username', ],
-                    populate: {
-                        path: 'application_id',
-                        select: ['firstname', 'lastname']
-                    }
-                }
-            })
+        const report = await getAndPopulateFacReport(reportid);
         // check if user is author of original report, or is an admin
         // if( newMsg.author_id !== facReport.author_id || !req.user.admin) throw new Error(404);
         
@@ -166,20 +155,23 @@ exports.addMsgToFacilityReport = async( req, res ) => {
 }
 
 exports.editMsgOnFacilityReport = async( req, res ) => {
+    console.log('edit start')
     const _id = req.params.msgid;
     const message = req.body.message;
+    console.log({_id, message})
     try {
         const oldMsg = await FacReportMsg.findOne({_id});
-        
+        const reportid = oldMsg.facReport_id;
         // user auth check
-        if( req.user._id !== oldMsg.author_id ) {
-            return res.json({status: "404", message: "User not authorized to edit this message"});
-        }
+        // if( req.user._id !== oldMsg.author_id ) {
+        //     return res.json({status: "404", message: "User not authorized to edit this message"});
+        // }
 
         oldMsg.message = message;
         await oldMsg.save();
 
-        return res.json({status: "200", })
+        const report = await getAndPopulateFacReport(reportid);
+        return res.json({status: "200", report })
     } catch(error) {
         return res.json({status: "500", msg: error});
     }
