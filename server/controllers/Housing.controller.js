@@ -141,15 +141,15 @@ exports.addMsgToFacilityReport = async( req, res ) => {
         await newMsg.save();
 
         // update facReport
-        const report = await FacReport.findOne({_id: reportid});
+        const tempReport = await FacReport.findOne({_id: reportid});
         // check if user is author of original report, or is an admin
         // if( newMsg.author_id !== facReport.author_id || !req.user.admin) throw new Error(404);
-        console.log({report})
         
-        report.messages.push(newMsg._id);
-        await report.save();
+        tempReport.messages.push(newMsg._id);
+        await tempReport.save();
 
-        // return entire facReport? all messages? or just single new message?
+        const report = await getAndPopulateFacReport(reportid);
+
         return res.json({status: "200", report})
     } catch(error) {
         return res.json({status: "500", msg: error});

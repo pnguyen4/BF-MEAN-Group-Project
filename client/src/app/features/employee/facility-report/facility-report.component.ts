@@ -50,21 +50,20 @@ export class FacilityReportComponent implements OnInit {
       return;
     }
 
-    this.route.paramMap.subscribe( params => {
-      this.reportID = params.get('reportid') ?? '';
-    } )
-
     this.housingService.getHousingDetails(userobj.housing_id).subscribe(res => {
       this.store.dispatch(EmployeeHousingAction.loadHousing({house: res.house}));
     });
 
-    if( this.reportID ) {
-      this.housingService.getOneFacilityReport(userobj.housing_id, this.reportID).subscribe(res => {
-        this.store.dispatch(EmployeeHousingAction.loadCurrentFacilityReport({
-          currentReport: res.report
-        }));
-      });
-    }
+    this.route.paramMap.subscribe( params => {
+      this.reportID = params.get('reportid') ?? '';
+    } )
+
+    this.housingService.getOneFacilityReport(userobj.housing_id, this.reportID).subscribe(res => {
+      this.store.dispatch(EmployeeHousingAction.loadCurrentFacilityReport({
+        currentReport: res.report
+      }));
+    });
+
 
     // housingService.getFacReportDetails.subscribe then this.store.dispatch
   }

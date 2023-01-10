@@ -45,6 +45,7 @@ export class HousingService {
     return this.http.post(`${API_URL}/api/housing/${houseid}/reports/${reportid}/msg`, msg );
   }
 
+  // may need to convert message: string into object like in addMsgToFacReport
   editMsgOnFacilityReport(houseid: string, reportid: string, messageid: string, message: string): Observable<any> {
     return this.http.put(`${API_URL}/api/housing/${houseid}/reports/${reportid}/msg/${messageid}`, {message} )
   }
