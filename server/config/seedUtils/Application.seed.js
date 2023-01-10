@@ -11,6 +11,7 @@ module.exports.generateApplication = () => {
         return name;
     };
 
+    const status = "pending";
     const firstname = getRandomName(firstnameList);
     const lastname = getRandomName(lastnameList);
     const middlename = getRandomInt(0, 10) < 5 ? "Middle" : null
@@ -39,7 +40,7 @@ module.exports.generateApplication = () => {
         imgUrl: "https://www.dol.wa.gov/driverslicense/images/DLsample-New-Adult-Standard-2018.png",
     };
     const application = {
-        firstname, lastname, middlename, preferredname, currentAddress, 
+        status, firstname, lastname, middlename, preferredname, currentAddress,
         cellphone, workphone, ssn, reference, emergencyContact, isCitizenUSA, driverLicense
     };
 

@@ -34,9 +34,6 @@ export class HiringManagementComponent implements OnInit {
     this.http.getApplicationAll().subscribe(res => {
       this.store.dispatch(HrApplicationAction.loadAllApplications({applications: res.app}))
     });
-    this.applications$.subscribe(application => {
-      console.log(application);
-    });
   }
 
   submit(): void {
@@ -59,22 +56,16 @@ export class HiringManagementComponent implements OnInit {
     this.applicationDetail$.subscribe(application => this.currentid = application._id)
   }
 
-  approve(): void {
+  updateStatus(status: string): void {
     // step 1: update item in store, update view
     this.store.dispatch(HrApplicationAction.updateApplicationStatus({
       id: this.currentid,
-      status: "approved"
+      status
     }));
     // step 2: save this change to database
-  }
-
-  reject(): void {
-    // step 1: update item in store, update view
-    this.store.dispatch(HrApplicationAction.updateApplicationStatus({
-      id: this.currentid,
-      status: "rejected"
-    }));
-    // step 2: save this change to database
+    this.http.editApplication(this.currentid, {status}).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }

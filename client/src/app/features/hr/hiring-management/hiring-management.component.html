@@ -55,8 +55,10 @@
       <div>Last name: {{application.lastname}}</div>
       <div>Driver License: {{application.driverLicense.imgUrl}}</div>
       <button [ngStyle]="{'margin':'5px'}"
-              *ngIf="application.status === 'pending'" (click)="approve()"> Approve </button>
-      <button *ngIf="application.status === 'pending'" (click)="reject()"> Reject </button>
+              *ngIf="application.status === 'pending'"
+              (click)="updateStatus('approved')"> Approve </button>
+      <button *ngIf="application.status === 'pending'"
+              (click)="updateStatus('rejected')"> Reject </button>
       more to do
     </ng-container>
   </mat-card>

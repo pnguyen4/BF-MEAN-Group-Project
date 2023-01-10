@@ -30,7 +30,7 @@ async function run() {
     if( await Application.collection ) await Application.collection.drop();
     if( await VisaStatus.collection ) await VisaStatus.collection.drop();
     if( await Housing.collection ) await Housing.collection.drop();
-    //if( await RegToken.collection ) await RegToken.collection.drop();
+    if( await RegToken.collection ) await RegToken.collection.drop();
 
     //[top][HOUSING]
     let houseCount = 3;
