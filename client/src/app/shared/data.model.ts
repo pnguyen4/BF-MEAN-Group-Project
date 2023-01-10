@@ -52,7 +52,7 @@ export class Report {
     public status:string,
     public title:string,
     public description:string,
-    public message:string[] // change to ReportMessage[]?
+    public messages:string[] // change to ReportMessage[]?
   ){}
 }
 

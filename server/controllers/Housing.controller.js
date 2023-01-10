@@ -88,26 +88,28 @@ exports.createFacilityReport = async (req, res) => {
 
 exports.getOneFacReport = async( req, res ) => {
     const { houseid: housing_id, reportid } = req.params;
-    console.log('get one fac report start: ', reportid)
     try {
         const report = await FacReport.findOne({_id: reportid})
             .populate({
                 path: 'author_id',
-                model: 'User',
+                select: [ 'admin', 'application_id' ],
                 populate: {
                     path: 'application_id',
-                    model: 'Application'
+                    select: [ 'firstname', 'lastname' ]
                 }
             })
             .populate({
                 path: 'messages',
-                model: 'FacReportMsg',
+                select: [ 'author_id', 'message', 'createdAt', 'updatedAt'],
                 populate: {
                     path:'author_id',
-                    model: 'User'
+                    select: [ '_id', 'admin', 'username' ],
+                    populate: {
+                        path: 'application_id',
+                        select: ['firstname', 'lastname']
+                    }
                 }
-            }
-        );
+            })
         console.log({report})
         if( !report ) throw new Error(400)
         
@@ -140,10 +142,10 @@ exports.addMsgToFacilityReport = async( req, res ) => {
             })
             .populate({
                 path: 'messages',
-                select: [ 'author_id', 'message'],
+                select: [ 'author_id', 'message', 'createdAt', 'updatedAt'],
                 populate: {
                     path:'author_id',
-                    select: [ '_id', 'admin', 'username'],
+                    select: [ '_id', 'admin', 'username', ],
                     populate: {
                         path: 'application_id',
                         select: ['firstname', 'lastname']
@@ -152,10 +154,7 @@ exports.addMsgToFacilityReport = async( req, res ) => {
             })
         // check if user is author of original report, or is an admin
         // if( newMsg.author_id !== facReport.author_id || !req.user.admin) throw new Error(404);
-        for( const message of report.messages ) {
-            console.log(message.author_id.application_id.firstname)
-        }
-        // update message
+        
         report.messages.push(newMsg._id);
         await report.save();
 
