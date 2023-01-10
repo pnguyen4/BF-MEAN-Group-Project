@@ -31,6 +31,7 @@ import { StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
 import { housingReducer } from './store/housing.reducer';
 import { applicationReducer } from './store/application.reducer';
+import { registerTokenReducer } from './store/registerToken.reducer';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { applicationReducer } from './store/application.reducer';
     StoreModule.forRoot({
       user: userReducer,
       housing: housingReducer,
-      application: applicationReducer
+      application: applicationReducer,
+      registerToken: registerTokenReducer
     })
   ],
   providers: [],

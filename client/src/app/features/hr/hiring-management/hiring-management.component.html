@@ -19,102 +19,139 @@
 <br>
 
 <mat-card>
-<h1>Onboarding Applications</h1>
-<mat-card>
+  <h1>Onboarding Applications</h1>
+  <mat-card>
 
-  <!-- TODO: add pagination with mat-paginator, 5 rows per page -->
-  <h1>Pending</h1>
-  <table mat-table [dataSource]="applications$ | async | pending" class="mat-elevation-z8">
-    <ng-container matColumnDef="fullname">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cel *matCellDef="let element"> {{element.firstname}} {{element.middlename}} {{element.lastname}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="more">
-      <th mat-header-cell *matHeaderCellDef> More Information </th>
-      <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getApplicationInfo(element)">View Application</button> </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
-  </table>
-
-  <br>
-
-  <h1>Rejected</h1>
-  <table mat-table [dataSource]="applications$ | async | rejected" class="mat-elevation-z8">
-    <ng-container matColumnDef="fullname">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cel *matCellDef="let element"> {{element.firstname}} {{element.middlename}} {{element.lastname}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="more">
-      <th mat-header-cell *matHeaderCellDef> More Information </th>
-      <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getApplicationInfo(element)">View Application</button> </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
-  </table>
-
-  <br>
-
-  <h1>Approved</h1>
-  <table mat-table [dataSource]="applications$ | async | approved" class="mat-elevation-z8">
-    <ng-container matColumnDef="fullname">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cel *matCellDef="let element"> {{element.firstname}} {{element.middlename}} {{element.lastname}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="more">
-      <th mat-header-cell *matHeaderCellDef> More Information </th>
-      <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getApplicationInfo(element)">View Application</button> </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
-  </table>
-
-  <br>
-
-  <!-- TODO: display same form as in employee onboarding, with values populated but uneditable -->
-  <div *ngIf="toggleView" class="backdrop"></div>
-  <mat-card *ngIf="toggleView" id="applicationInfo" class="frontandcenter">
-    <button (click)="toggleView = false">Hide</button>
-
-    <ng-container *ngIf="(applicationDetail$ | async) as application">
-      <div>Application Status: {{application.status}}</div>
-      <div *ngIf="application?.feedback">Previous Feedback: {{application.feedback}}</div>
-      <div>First name: {{application.firstname}}</div>
-      <div>Last name: {{application.lastname}}</div>
-      <div>Driver License: {{application.driverLicense.imgUrl}}</div>
-      <ng-container *ngIf="application.status == 'pending'">
-        <button [ngStyle]="{'margin':'5px'}"
-                *ngIf="application.status === 'pending'"
-                (click)="updateStatus('approved')"> Approve </button>
-        <button *ngIf="application.status === 'pending'"
-                (click)="rejectWithFeedback()"> Reject </button>
-        <br>
-        <label for="feedback">Provide Feedback: </label>
-        <input type="text" id="feedback" name="feedback" [formControl]="feedback">
+    <!-- TODO: add pagination with mat-paginator, 5 rows per page -->
+    <h1>Pending</h1>
+    <table mat-table [dataSource]="applications$ | async | pending" class="mat-elevation-z8">
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cel *matCellDef="let element"> {{element.firstname}} {{element.middlename}} {{element.lastname}}</td>
       </ng-container>
-    </ng-container>
-  </mat-card>
 
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="more">
+        <th mat-header-cell *matHeaderCellDef> More Information </th>
+        <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getApplicationInfo(element)">View Application</button> </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
+    </table>
+
+    <br>
+
+    <h1>Rejected</h1>
+    <table mat-table [dataSource]="applications$ | async | rejected" class="mat-elevation-z8">
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cel *matCellDef="let element">
+          {{element.firstname}} {{element.middlename}} {{element.lastname}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="more">
+        <th mat-header-cell *matHeaderCellDef> More Information </th>
+        <td mat-cell *matCellDef="let element;let i = index">
+          <button (click)="getApplicationInfo(element)">View Application</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
+    </table>
+
+    <br>
+
+    <h1>Approved</h1>
+    <table mat-table [dataSource]="applications$ | async | approved" class="mat-elevation-z8">
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cel *matCellDef="let element">
+          {{element.firstname}} {{element.middlename}} {{element.lastname}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="more">
+        <th mat-header-cell *matHeaderCellDef> More Information </th>
+        <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getApplicationInfo(element)">View Application</button> </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
+    </table>
+
+    <br>
+
+    <!-- TODO: display same form as in employee onboarding, with values populated but uneditable -->
+    <div *ngIf="toggleView" class="backdrop"></div>
+    <mat-card *ngIf="toggleView" id="applicationInfo" class="frontandcenter">
+      <button (click)="toggleView = false">Hide</button>
+
+      <ng-container *ngIf="(applicationDetail$ | async) as application">
+        <div>Application Status: {{application.status}}</div>
+        <div *ngIf="application?.feedback">Previous Feedback: {{application.feedback}}</div>
+        <div>First name: {{application.firstname}}</div>
+        <div>Last name: {{application.lastname}}</div>
+        <div>Driver License: {{application.driverLicense.imgUrl}}</div>
+        <ng-container *ngIf="application.status == 'pending'">
+          <button [ngStyle]="{'margin':'5px'}"
+                  *ngIf="application.status === 'pending'"
+                  (click)="updateStatus('approved')"> Approve </button>
+          <button *ngIf="application.status === 'pending'"
+                  (click)="rejectWithFeedback()"> Reject </button>
+          <br>
+          <label for="feedback">Provide Feedback: </label>
+          <input type="text" id="feedback" name="feedback" [formControl]="feedback">
+        </ng-container>
+      </ng-container>
+    </mat-card>
+
+  </mat-card>
 </mat-card>
+
+<br>
+
+<mat-card>
+  <h1>Registration History</h1>
+
+    <table mat-table [dataSource]="registerTokens$ | async " class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cel *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="registered">
+        <th mat-header-cell *matHeaderCellDef> Registered? </th>
+        <td mat-cell *matCellDef="let element" class="wrap"> {{element.registered}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="link">
+        <th mat-header-cell *matHeaderCellDef> Link</th>
+        <td mat-cell *matCellDef="let element"> <a href="{{element.link}}">Hover To View</a> </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['name', 'email', 'registered', 'link']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name', 'email', 'registered', 'link'];"></tr>
+    </table>
 </mat-card>

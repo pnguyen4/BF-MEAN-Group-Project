@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { selectAllApplications,
          selectCurrentApplication } from 'app/store/application.selector';
 import { HrApplicationAction } from 'app/store/application.action';
+import { selectAllRegisterTokens } from 'app/store/registerToken.selector';
+import { HrRegisterTokenAction } from 'app/store/registerToken.action';
 
 @Component({
   selector: 'app-hiring-management',
@@ -14,6 +16,7 @@ import { HrApplicationAction } from 'app/store/application.action';
 })
 export class HiringManagementComponent implements OnInit {
 
+  registerTokens$ = this.store.select(selectAllRegisterTokens);
   applications$ = this.store.select(selectAllApplications);
   applicationDetail$ = this.store.select(selectCurrentApplication);
   currentid = '';
@@ -34,6 +37,11 @@ export class HiringManagementComponent implements OnInit {
   ngOnInit(): void {
     this.http.getApplicationAll().subscribe(res => {
       this.store.dispatch(HrApplicationAction.loadAllApplications({applications: res.app}))
+    });
+    this.registrationService.getAllRegToken().subscribe(res => {
+      this.store.dispatch(HrRegisterTokenAction.loadAllRegisterTokens({
+        registerTokens: res.regtokens
+      }));
     });
   }
 
