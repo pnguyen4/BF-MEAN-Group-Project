@@ -14,9 +14,8 @@ const { RegToken } = require('../models/RegToken.model');
 // utils
 const { generateUsers } = require('./seedUtils/User.seed');
 const { generateApplication } = require('./seedUtils/Application.seed');
-const { generateVisaStatus } = require('../config/seedUtils/VisaStatus.seed');
-const { generateAddress } = require('../utils/generateAddress.utils');
-const { getRandomInt } = require("../utils/getRandomInt.utils");
+const { generateVisaStatus } = require('./seedUtils/VisaStatus.seed');
+const { generateAddress, getRandomInt } = require("../utils/generators.utils");
 
 
 

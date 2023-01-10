@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-lg-3">
+          <div class="row bg-light p-3">
+              <h1 class="text-center">Housing Details</h1>
+              <ng-container *ngIf="housing$ | async as housing">
+                <div>
+                    <h2>Address</h2>
+                    {{housing?.address?.street}}
+                    <ng-container *ngIf="(housing$ | async)?.address?.suiteOrAptNumber">
+                        #{{housing?.address?.suiteOrAptNumber}},
+                    </ng-container>
+                    {{housing?.address?.city}},
+                    {{housing?.address?.state}}
+                    {{housing?.address?.zipcode}}
+                </div> <!-- [end] housing address -->
+
+                <div class="my-3 landlord">
+                  <h2>Landlord</h2>
+                  <ul class="ul-landlord-info">
+                    <li>Name: {{housing?.landlord?.fullname}}</li>
+                    <li>Phone: {{housing?.landlord?.phone}}</li>
+                    <li>Email: {{housing?.landlord?.email}}</li>
+                  </ul>
+                </div> <!-- [end] landlord info -->
+
+                <div class="my-3">
+                    <h2>Facility Report Details</h2>
+                    <ng-container *ngIf="report$ | async as report">
+                      <div class="report-details">
+                        <p class="report-details-author-title">Author: </p> &nbsp;
+                        <p class="report-details-author-name">
+                          {{report.author_id.application_id.firstname}}
+                          {{report.author_id.application_id.lastname}}
+                        </p>
+                        <p class="report-details-desc-title">Description: </p> &nbsp;
+                        <p class="report-details-desc-message"> {{report.description}} </p>
+                      </div>
+                    </ng-container>
+                </div> <!-- [end] report details -->
+
+              </ng-container> <!-- [end] ng-container: housing -->
+
+              <div class="row bg-light py-3 report-comment-form">
+                <h1 class="text-center">Add Comment to Facility Report</h1>
+                <form [formGroup]="facReportCommentForm" (ngSubmit)="submit()">
+                    <label for="message">Comment</label>
+                    <textarea cols="45" rows="10" formControlName="message"></textarea>
+                    <button class="btn btn-success">Submit Report</button>
+                </form>
+            </div> <!-- [end] comment form -->
+          </div>
+
+      </div>
+      <div class="col-lg-9 my-3">
+          <h1 class="text-center">Facility Reports Message Thread</h1>
+          <table class="table table-hover">
+              <thead class="thead-dark">
+                  <tr>
+                      <th>Author</th>
+                      <th>Comment</th>
+                      <th>Timestamp</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngIf="report$ | async as report" >
+                  <ng-container *ngIf="(report$ | async)?.author_id?.application_id?.firstname" >
+                    <tr *ngFor="let message of report.messages">
+                      <td>
+                        {{message?.author_id?.application_id.firstname}}
+                        {{message?.author_id?.application_id  .lastname}}
+                      </td>
+                      <td>
+                        <span *ngIf="this.editID === message._id; else msg">
+                          <form [formGroup]="editCommentForm" >
+                            <input
+                              id="comment-message"
+                              formControlName="message"
+                              type="text" name="message"
+                              value="hello">
+                          </form>
+                        </span>
+                        <ng-template #msg>
+                          {{message?.message}}
+                        </ng-template>
+                      </td>
+                      <td>{{message?.createdAt}}</td>
+                      <td *ngIf="message?.author_id?._id === this.userID; else nonAuthor">
+                        <span *ngIf="message._id === this.editID; else noneditmode">
+                          <button (click)="submitEdit(message._id, message.author_id._id)" >Save</button>
+                          <button (click)="toggleEdit(message._id, message.message)">Cancel</button>
+                        </span>
+                        <ng-template #noneditmode>
+                          <button (click)="toggleEdit(message._id, message.message)" >Edit</button>
+                        </ng-template>
+                      </td>
+                      <ng-template #nonAuthor>
+                        <td>N/A</td>
+                      </ng-template>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+
+
+              </tbody>
+          </table>
+      </div> <!-- [end] message thread -->
+  </div>
+</div>

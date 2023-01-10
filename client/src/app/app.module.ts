@@ -32,6 +32,7 @@ import { userReducer } from './store/user.reducer';
 import { housingReducer } from './store/housing.reducer';
 import { applicationReducer } from './store/application.reducer';
 import { registerTokenReducer } from './store/registerToken.reducer';
+import { FacilityReportComponent } from './features/employee/facility-report/facility-report.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { registerTokenReducer } from './store/registerToken.reducer';
     DetailHousingManagementComponent,
     PendingPipe,
     RejectedPipe,
-    ApprovedPipe
+    ApprovedPipe,
+    FacilityReportComponent
   ],
   imports: [
     FormsModule,

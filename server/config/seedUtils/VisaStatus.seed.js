@@ -1,4 +1,4 @@
-const { getRandomInt } = require('../../utils/getRandomInt.utils');
+const { getRandomInt } = require('../../utils/generators.utils');
 
 module.exports.generateVisaStatus = ( 
     status= getRandomInt(0, 10) < 5 ? "pending" : "done",

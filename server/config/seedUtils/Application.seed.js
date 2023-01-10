@@ -1,7 +1,6 @@
 // seed utils
 const { firstnameList, lastnameList } = require('./seedStore/names.store');
-const { getRandomInt } = require('../../utils/getRandomInt.utils');
-const { generateAddress } = require('../../utils/generateAddress.utils');
+const { getRandomInt, generateAddress } = require('../../utils/generators.utils');
 
 
 module.exports.generateApplication = () => {
