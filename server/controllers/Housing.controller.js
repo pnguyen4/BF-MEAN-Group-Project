@@ -85,3 +85,96 @@ exports.createFacilityReport = async (req, res) => {
         return res.json({status: "500", msg: error});
     }
 }
+
+async function getAndPopulateFacReport( reportid ) {
+    try {
+        const report = await FacReport.findOne({_id: reportid})
+            .populate({
+                path: 'author_id',
+                select: [ 'admin', 'application_id' ],
+                populate: {
+                    path: 'application_id',
+                    select: [ 'firstname', 'lastname' ]
+                }
+            })
+            .populate({
+                path: 'messages',
+                select: [ 'author_id', 'message', 'createdAt', 'updatedAt'],
+                populate: {
+                    path:'author_id',
+                    select: [ '_id', 'admin', 'username' ],
+                    populate: {
+                        path: 'application_id',
+                        select: ['firstname', 'lastname']
+                    }
+                }
+            });
+        
+        return report;
+    } catch(error) {
+        return error;
+    }
+}
+
+exports.getOneFacReport = async( req, res ) => {
+    const { houseid: housing_id, reportid } = req.params;
+    try {
+        const report = await getAndPopulateFacReport(reportid);
+        if( !report ) throw new Error(400)
+        
+        return res.json({status: "200", report});
+    } catch(error) {
+        if( error.message === String('400') ) return res.json({status: "400", msg: "Bad Request"})
+        else return res.json({status: "500", msg: error});
+    }
+}
+
+exports.addMsgToFacilityReport = async( req, res ) => {
+    const { reportid } = req.params;
+    const { author_id, message } = req.body;
+    console.log({reportid, author_id, message})
+    try {
+        // create new message
+        const newMsg = await FacReportMsg.create({
+            facReport_id: reportid, author_id, message
+        });
+        await newMsg.save();
+
+        // update facReport
+        const tempReport = await FacReport.findOne({_id: reportid});
+        // check if user is author of original report, or is an admin
+        // if( newMsg.author_id !== facReport.author_id || !req.user.admin) throw new Error(404);
+        
+        tempReport.messages.push(newMsg._id);
+        await tempReport.save();
+
+        const report = await getAndPopulateFacReport(reportid);
+
+        return res.json({status: "200", report})
+    } catch(error) {
+        return res.json({status: "500", msg: error});
+    }
+}
+
+exports.editMsgOnFacilityReport = async( req, res ) => {
+    console.log('edit start')
+    const _id = req.params.msgid;
+    const message = req.body.message;
+    console.log({_id, message})
+    try {
+        const oldMsg = await FacReportMsg.findOne({_id});
+        const reportid = oldMsg.facReport_id;
+        // user auth check
+        // if( req.user._id !== oldMsg.author_id ) {
+        //     return res.json({status: "404", message: "User not authorized to edit this message"});
+        // }
+
+        oldMsg.message = message;
+        await oldMsg.save();
+
+        const report = await getAndPopulateFacReport(reportid);
+        return res.json({status: "200", report })
+    } catch(error) {
+        return res.json({status: "500", msg: error});
+    }
+}
