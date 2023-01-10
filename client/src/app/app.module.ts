@@ -25,11 +25,13 @@ import { MatTableModule } from '@angular/material/table';
 import { EmployeeNavbarComponent } from './features/employee/employee-navbar/employee-navbar.component';
 import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
 import { DetailHousingManagementComponent } from './features/hr/detail-housing-management/detail-housing-management.component';
+import { PendingPipe, RejectedPipe, ApprovedPipe } from './shared/filter.pipe';
 
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
 import { housingReducer } from './store/housing.reducer';
-
+import { applicationReducer } from './store/application.reducer';
+import { registerTokenReducer } from './store/registerToken.reducer';
 import { isOnboardingReducer } from './store/isOnboarding.reducer';
 import { FacilityReportComponent } from './features/employee/facility-report/facility-report.component';
 
@@ -51,6 +53,9 @@ import { FacilityReportComponent } from './features/employee/facility-report/fac
     EmployeeNavbarComponent,
     HrNavbarComponent,
     DetailHousingManagementComponent,
+    PendingPipe,
+    RejectedPipe,
+    ApprovedPipe,
     FacilityReportComponent
   ],
   imports: [
@@ -67,6 +72,8 @@ import { FacilityReportComponent } from './features/employee/facility-report/fac
     StoreModule.forRoot({
       user: userReducer,
       housing: housingReducer,
+      application: applicationReducer,
+      registerToken: registerTokenReducer
       isOnboarding: isOnboardingReducer
     })
   ],

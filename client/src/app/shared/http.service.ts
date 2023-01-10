@@ -79,8 +79,12 @@ export class HttpService {
     return this.http.get<any>("http://localhost:3000/api/applications/"+id+"/status");
   }
 
-  getApplicationWithVisa(id: String) {
+  getApplicationWithVisa(id: string) {
     return this.http.get<any>("http://localhost:3000/api/applications/"+id+"/withvisa");
+  }
+
+  editApplication(id: string, values: any) {
+    return this.http.put<any>("http://localhost:3000/api/applications/"+id, {id, values});
   }
 
   editVisaApprove(id:string) {

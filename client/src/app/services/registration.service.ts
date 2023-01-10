@@ -22,4 +22,9 @@ export class RegistrationService {
   statusReport(email:string,status:boolean) {
     return this.http.post(`${API_URL}/api/regtokens/${email}`,{email,status})
   }
+
+  getAllRegToken(): Observable<any> {
+    return this.http.get(`${API_URL}/api/regtokens`);
+  }
+
 }

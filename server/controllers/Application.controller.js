@@ -28,6 +28,8 @@ exports.createApplication = async function (req, res) {
             return res.json({status: '400', msg: 'missing application'});
         }
         let newapplication = req.body.application;
+        // delete old versions when updating
+        await Application.deleteMany({user_id: newapplication.user_id});
         newapplication.status = "pending";
         const application = await Application.create(newapplication);
 
@@ -56,16 +58,18 @@ exports.createApplication = async function (req, res) {
 exports.getApplicationStatus = async function (req, res) {
     try {
         let application = await Application.findOne({_id:req.params.id},{});
-        res.json({status: '200', status: application.status});
+        return res.json({status: '200', status: application.status});
     } catch (error) {
-
+        return res.json({status: '500', msg: error});
     }
 }
 
 exports.updateApplication = async function (req, res) {
     try {
-
+        await Application.updateOne({_id: req.body.id},
+                                    {...req.body.values});
+        return res.json({status: '200'});
     } catch (error) {
-
+        return res.json({status: '500', msg: error});
     }
 }
