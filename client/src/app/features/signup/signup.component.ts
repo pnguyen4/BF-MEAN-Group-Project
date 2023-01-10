@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'app/shared/http.service';
@@ -8,9 +8,16 @@ import { HttpService } from 'app/shared/http.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
 
   constructor(private router:Router, private http:HttpService, private aroute: ActivatedRoute) { }
+
+  ngOnInit() {
+    if (typeof(localStorage.getItem("user"))!=='undefined') {
+      window.alert("New registraion will log our your current account");
+    }
+    localStorage.clear();
+  }
 
   regtoken: string = "";
   error:string | null = "";
