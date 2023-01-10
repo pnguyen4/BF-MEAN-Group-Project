@@ -18,3 +18,31 @@
   background-color: red;
 }
 
+.frontandcenter {
+  position: fixed;
+  top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 100px;
+  right: 100px;
+  z-index: 999;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(100, 100, 100, .25);
+  z-index: 500;
+  backdrop-filter: blur(2px);
+}
+
+table {
+  width: 100%;
+}
+
+mat-card {
+  width: 90%;
+}

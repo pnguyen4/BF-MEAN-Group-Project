@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { EmployeeNavbarComponent } from './features/employee/employee-navbar/employee-navbar.component';
 import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
 import { DetailHousingManagementComponent } from './features/hr/detail-housing-management/detail-housing-management.component';
+import { PendingPipe, RejectedPipe, ApprovedPipe } from './shared/filter.pipe';
 
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
@@ -48,7 +49,10 @@ import { applicationReducer } from './store/application.reducer';
     HousingManagementComponent,
     EmployeeNavbarComponent,
     HrNavbarComponent,
-    DetailHousingManagementComponent
+    DetailHousingManagementComponent,
+    PendingPipe,
+    RejectedPipe,
+    ApprovedPipe
   ],
   imports: [
     FormsModule,

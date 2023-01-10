@@ -9,7 +9,7 @@ const { User } = require("../models/User.model");
 const { Application } = require('../models/Application.model');
 const { VisaStatus } = require("../models/VisaStatus.model");
 const { Housing } = require('../models/Housing.model');
-//const { Regtoken } = require('../models/RegToken.model');
+const { RegToken } = require('../models/RegToken.model');
 
 // utils
 const { generateUsers } = require('./seedUtils/User.seed');

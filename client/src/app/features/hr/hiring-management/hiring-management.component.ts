@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../../../services/registration.service';
 import { HttpService } from 'app/shared/http.service';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ export class HiringManagementComponent implements OnInit {
   applications$ = this.store.select(selectAllApplications);
   applicationDetail$ = this.store.select(selectCurrentApplication);
   currentid = '';
+  feedback = new FormControl('');
   toggleView = false;
   displayedPendingColumns: string[] = ['fullname', 'email', 'more'];
 
@@ -58,9 +59,10 @@ export class HiringManagementComponent implements OnInit {
 
   updateStatus(status: string): void {
     // step 1: update item in store, update view
-    this.store.dispatch(HrApplicationAction.updateApplicationStatus({
+    this.store.dispatch(HrApplicationAction.updateApplication({
       id: this.currentid,
-      status
+      field: 'status',
+      value: status
     }));
     // step 2: save this change to database
     this.http.editApplication(this.currentid, {status}).subscribe(res => {
@@ -68,4 +70,16 @@ export class HiringManagementComponent implements OnInit {
     });
   }
 
+  rejectWithFeedback(): void {
+    // provide feedback then update status
+    this.store.dispatch(HrApplicationAction.updateApplication({
+      id: this.currentid,
+      field: 'feedback',
+      value: this.feedback.value ?? ''
+    }));
+    this.http.editApplication(this.currentid, {feedback: this.feedback.value}).subscribe(res => {
+      console.log(res);
+    });
+    this.updateStatus("rejected");
+  }
 }

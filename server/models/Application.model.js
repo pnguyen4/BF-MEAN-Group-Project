@@ -98,6 +98,9 @@ const ApplicationSchema = new mongoose.Schema({
         expiration: { type: Date },
         imgUrl: { type: String },
     },
+    feedback: {
+        type: String
+    }
 }, {timestamps: true});
 
 module.exports = ApplicationSchema;

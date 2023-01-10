@@ -12,9 +12,9 @@ const initialState: ApplicationState = {
   applications: []
 };
 
-function modifyhelper(apps: any[], id: string, status: string) {
+function modifyhelper(apps: any[], id: string, field: string, value: string) {
   let idx = apps.findIndex(apps => apps._id == id);
-  let updated = {...apps[idx], status};
+  let updated = {...apps[idx], [field]: value};
   return [...apps.slice(0, idx), updated, ...apps.slice(idx + 1)];
 }
 
@@ -29,9 +29,9 @@ export const applicationReducer = createReducer(
     ...state, currentApplication: action.application
   })),
 
-  on(HrApplicationAction.updateApplicationStatus, (state, action) => ({
+  on(HrApplicationAction.updateApplication, (state, action) => ({
     ...state,
-    currentApplication: {...state.currentApplication, status: action.status},
-    applications: modifyhelper(state.applications, action.id, action.status)
+    currentApplication: {...state.currentApplication, [action.field]: action.value},
+    applications: modifyhelper(state.applications, action.id, action.field, action.value)
   })),
 );

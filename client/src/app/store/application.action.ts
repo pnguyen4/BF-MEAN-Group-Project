@@ -6,6 +6,6 @@ export const HrApplicationAction = createActionGroup({
   events: {
     'Load All Applications': props<{ applications: any }>(),
     'Load Current Application': props<{ application: any }>(),
-    'Update Application Status': props<{id: string, status: string}>(),
+    'Update Application': props<{id: string, field: string, value: string}>(),
   }
 });
