@@ -1,77 +1,68 @@
-<div class="container-fluid">
 <mat-card>
-    <mat-card-title>Onboarding Application</mat-card-title>
+    <mat-card-title class="marginLeft">Onboarding Application</mat-card-title>
     <br>
-
     <form [formGroup]="applicationForm" (ngSubmit)="submit()">
-        <h2>Personal Information</h2>
-        <mat-form-field>
-            <label for="firstname">First Name</label>
-            <br>
-            <input type="text" id="firstname" name="firstname"
+      <br>
+      <h2 class="marginLeft">Personal Information</h2>
+      <br>
+      <div class="wrapper">
+
+        <mat-form-field class="big">
+            <input type="text" id="firstname" placeholder="First Name" name="firstname"
                    formControlName="firstname" matInput>
         </mat-form-field>
 
-        <mat-form-field>
-            <label for="lastname">Last Name</label>
-            <input type="text" id="lastname" name="lastname"
+        <mat-form-field class="big">
+            <input type="text" id="lastname" name="lastname" placeholder="Last Name"
                    formControlName="lastname" matInput>
         </mat-form-field>
 
-        <mat-form-field>
-            <label for="middlename">Middle Name</label>
-            <input type="text" id="middlename" name="middlename"
+        <mat-form-field class="big">
+            <input type="text" id="middlename" name="middlename" placeholder="Middle Name"
                    formControlName="middlename" matInput>
         </mat-form-field>
 
-        <mat-form-field>
-            <label for="preferredname">Preferred Name</label>
-            <input type="text" id="preferredname" name="preferredname"
+        <mat-form-field class="big">
+            <input type="text" id="preferredname" name="preferredname" placeholder="Preferred Name"
                    formControlName="preferredname" matInput>
         </mat-form-field>
 
-        <mat-form-field>
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email"
+        <mat-form-field class="small">
+            <input type="text" id="email" name="email" placeholder="email" placeholder="Email"
                    formControlName="email" matInput>
         </mat-form-field>
 
-        <mat-form-field>
-            <label for="cellphone">Cell Phone Number</label>
-            <input type="text" id="cellphone" name="cellphone"
+        <mat-form-field class="small">
+            <input type="text" id="cellphone" name="cellphone" placeholder="Cellphone"
                    formControlName="cellphone" matInput>
         </mat-form-field>
 
-        <mat-form-field>
-            <label for="workphone">Work Phone Number</label>
-            <input type="text" id="workphone" name="workphone"
+        <mat-form-field class="small">
+            <input type="text" id="workphone" name="workphone" placeholder="Workphone"
                    formControlName="workphone" matInput>
         </mat-form-field>
 
-        <mat-form-field>
-            <label for="ssn">Social Security Number</label>
-            <input type="text" id="ssn" name="ssn"
+        <mat-form-field class="small">
+            <input type="text" id="ssn" name="ssn" placeholder="SSN"
                    formControlName="ssn" matInput>
         </mat-form-field>
-
-        <div formGroupName="driverLicense">
-            <h2>Driver's License</h2>
-
-            <mat-form-field>
-                <label for="number">License Number</label>
-                <input type="text" id="number" name="number"
+      </div>
+      <br>
+      <h2 class="marginLeft">Driver's License</h2>
+      <br>
+      <div formGroupName="driverLicense" class="wrapper">
+            <mat-form-field class="medium">
+                <input type="text" id="number" name="number" placeholder="Number"
                        formControlName="number" matInput>
             </mat-form-field>
 
-            <mat-form-field>
-                <label for="expiration">License Expiration Date</label>
-                <input type="date" id="expiration" name="expiration"
+            <mat-form-field class="medium">
+                <input type="date" id="expiration" name="expiration" placeholder="Expiration"
                        formControlName="expiration" matInput>
             </mat-form-field>
 
-            <div class="my-3" *ngIf="editMode">
+            <div class="my-3" *ngIf="editMode" class="medium">
                 <label for="img">Upload Driver's License (png, jpg, pdf)</label>
-                <br>
                 <input type="file" id="img" name="img"
                        (change)="driverLicenseFileSelect($event)">
             </div>
@@ -82,147 +73,134 @@
                    Driver's License
                 </a>
             </div>
-        </div>
-
-        <div formGroupName="currentAddress">
-            <h2>Current Address</h2>
-
-            <mat-form-field>
-                <label for="street">Street</label>
-                <input type="text" id="street" name="street"
+      </div>
+      <br>
+      <h2 class="marginLeft">Current Address</h2>
+      <br>
+        <div formGroupName="currentAddress" class="wrapper">
+            <mat-form-field class="big">
+                <input type="text" id="street" name="street" placeholder="Street"
                        formControlName="street" matInput>
             </mat-form-field>
 
-            <mat-form-field>
-                <label for="suiteOrAptNumber">Suite/Apt Number</label>
-                <input type="text" id="suiteOrAptNumber" name="suiteOrAptNumber"
+            <mat-form-field class="big">
+                <input type="text" id="suiteOrAptNumber" name="suiteOrAptNumber" placeholder="Suite/Apt Number"
                        formControlName="suiteOrAptNumber" matInput>
             </mat-form-field>
 
-            <mat-form-field>
-                <label for="city">City</label>
-                <input type="text" id="city" name="city"
+            <mat-form-field class="medium">
+                <input type="text" id="city" name="city" placeholder="City"
                        formControlName="city" matInput>
             </mat-form-field>
 
-            <mat-form-field>
-                <label for="state">State</label>
-                <input type="text" id="state" name="state"
+            <mat-form-field class="medium">
+                <input type="text" id="state" name="state" placeholder="State"
                        formControlName="state" matInput>
             </mat-form-field>
 
-            <mat-form-field>
-                <label for="zipcode">Zip Code</label>
-                <input type="text" id="zipcode" name="zipcode"
+            <mat-form-field class="medium">
+                <input type="text" id="zipcode" name="zipcode" placeholder="Zip Code"
                        formControlName="zipcode" matInput>
             </mat-form-field>
         </div>
-
-        <div formGroupName="reference">
-            <h2>Reference</h2>
-            <mat-form-field>
-                <label for="firstname">First Name</label>
-                <br>
-                <input type="text" id="firstname" name="firstname"
-                       formControlName="firstname" matInput>
-            </mat-form-field>
-
-            <mat-form-field>
-                <label for="lastname">Last Name</label>
-                <input type="text" id="lastname" name="lastname"
-                       formControlName="lastname" matInput>
-            </mat-form-field>
-
-            <mat-form-field>
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email"
-                       formControlName="email" matInput>
-            </mat-form-field>
-
-            <mat-form-field>
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone"
-                       formControlName="phone" matInput>
-            </mat-form-field>
-        </div>
-
-        <div formGroupName="emergencyContact">
-            <h2>Emergency Contact</h2>
-            <mat-form-field>
-                <label for="firstname">First Name</label>
-                <br>
-                <input type="text" id="firstname" name="firstname"
-                       formControlName="firstname" matInput>
-            </mat-form-field>
-
-            <mat-form-field>
-                <label for="lastname">Last Name</label>
-                <input type="text" id="lastname" name="lastname"
-                       formControlName="lastname" matInput>
-            </mat-form-field>
-
-            <mat-form-field>
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email"
-                       formControlName="email" matInput>
-            </mat-form-field>
-
-            <mat-form-field>
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone"
-                       formControlName="phone" matInput>
-            </mat-form-field>
-        </div>
-
-        <div class="my-3">
-        <label for="isCitizenUSA">Are you a citizen or permanent resident of the US?</label>
         <br>
+        <h2 class="marginLeft">Reference</h2>
+        <br>
+        <div formGroupName="reference" class="wrapper">
+            <mat-form-field class="small">
+                <input type="text" id="firstname" name="firstname" placeholder="First Name"
+                       formControlName="firstname" matInput>
+            </mat-form-field>
+
+            <mat-form-field class="small">
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name"
+                       formControlName="lastname" matInput>
+            </mat-form-field>
+
+            <mat-form-field class="small">
+                <input type="text" id="email" name="email" placeholder="Email"
+                       formControlName="email" matInput>
+            </mat-form-field>
+
+            <mat-form-field class="small">
+                <input type="text" id="phone" name="phone" placeholder="Phone"
+                       formControlName="phone" matInput>
+            </mat-form-field>
+        </div>
+        <br>
+        <h2 class="marginLeft">Emergency Contact</h2>
+        <br>
+        <div formGroupName="emergencyContact" class="wrapper">
+            <mat-form-field class="small">
+                <input type="text" id="firstname" name="firstname" placeholder="First Name"
+                       formControlName="firstname" matInput>
+            </mat-form-field>
+
+            <mat-form-field class="small">
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name"
+                       formControlName="lastname" matInput>
+            </mat-form-field>
+
+            <mat-form-field class="small">
+                <input type="text" id="email" name="email" placeholder="Email"
+                       formControlName="email" matInput>
+            </mat-form-field>
+
+            <mat-form-field class="small">
+                <input type="text" id="phone" name="phone" placeholder="Phone"
+                       formControlName="phone" matInput>
+            </mat-form-field>
+        </div>
+        <br>
+          <h2 class="marginLeft">Identity</h2>
+
+        <div class="my-3" class="marginLeft">
+        <label for="isCitizenUSA" class="marginRight">Are you a citizen or permanent resident of the US?</label>
         <input type="checkbox" id="isCitizenUSA" name="isCitizenUSA"
                formControlName="isCitizenUSA">
         </div>
-
+        <br>
         <div>
-            <h2>Skip this section if answered yes to:
-                "Are you a citizen or permanent resident of the US?"</h2>
+            <h3 class="marginLeft">Skip this section if answered yes to:
+                "Are you a citizen or permanent resident of the US?"</h3>
 
-            <div class="my-3">
-                <label for="workAuth">What is your work authorization?</label>
-                <div>
-                <input type="radio" value="F1" name="workAuth" formControlName="workAuth">
-                <label for="F1">F1</label>
-                </div>
-                <div>
-                <input type="radio" value="J1" name="workAuth" formControlName="workAuth">
-                <label for="J1">J1</label>
-                </div>
+            <div class="my-3" class="marginLeft">
+                <label for="workAuth" class="marginRight">What is your work authorization?</label>
+                <input type="radio" value="F1" name="workAuth" formControlName="workAuth" class="marginRight1">
+                <label for="F1" class="marginRight">F1</label>
+                <input type="radio" value="J1" name="workAuth" formControlName="workAuth" class="marginRight1">
+                <label for="J1" class="marginRight">J1</label>
             </div>
-
-            <div class="my-3" *ngIf="editMode">
+            <br>
+            <div class="my-3" *ngIf="editMode" class="marginLeft">
                 <label for="opt"><b>If F1 (CPT/OPT):</b> Upload OPT Receipt</label>
                 <br>
                 <input type="file" id="opt" name="opt" (change)="optFileSelect($event)">
             </div>
-
-            <div class="my-3" *ngIf="!editMode && application?.visaStatus?.OPTReceiptUrl">
+            <br>
+            <div class="my-3" *ngIf="!editMode && application?.visaStatus?.OPTReceiptUrl" class="marginLeft">
                 <a href="{{application?.visaStatus?.OPTReceiptUrl}}"
                    target="_blank" rel="noopener noreferrer">
                     OPT Receipt
                 </a>
             </div>
-
-            <mat-form-field>
+            <div class="wrapper">
+            <mat-form-field class="big">
                 <label for="startDate">Start Date</label>
                 <input type="date" id="startDate" name="startDate"
                        formControlName="startDate" matInput>
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field class="big">
                 <label for="endDate">End Date</label>
                 <input type="date" id="endDate" name="endDate"
                        formControlName="endDate" matInput>
             </mat-form-field>
+          </div>
         </div>
-        <button class="btn btn-primary">Submit Application</button>
+        <br>
+        <button class="btn btn-primary marginLeft">Submit Application</button>
     </form>
+    <br>
 </mat-card>
-</div>
+

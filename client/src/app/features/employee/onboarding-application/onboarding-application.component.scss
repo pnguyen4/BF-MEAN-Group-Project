@@ -6,9 +6,8 @@
   margin: 100px 0px;
 }
 
-.mat-form-field {
-  width: 100%;
-  min-width: 300px;
+.mat-card {
+  width:80%;
 }
 
 .error {
@@ -16,4 +15,34 @@
   width: 300px;
   color: white;
   background-color: red;
+}
+
+.small {
+  width: 22%;
+}
+
+.big {
+  width: 47%;
+}
+
+.medium {
+  width: 30%;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.marginRight1 {
+  margin-right: 5px;
+}
+
+.marginLeft {
+  margin-left: 1%;
 }

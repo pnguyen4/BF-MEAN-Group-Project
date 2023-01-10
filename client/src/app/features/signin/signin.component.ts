@@ -6,6 +6,7 @@ import { User } from 'app/shared/data.model';
 import { HttpService } from 'app/shared/http.service';
 import { Observable } from 'rxjs';
 import { saveUser } from '../../store/user.action';
+import { saveOnboarding } from '../../store/isOnboarding.action';
 
 @Component({
   selector: 'app-signin',
@@ -15,7 +16,8 @@ import { saveUser } from '../../store/user.action';
 export class SigninComponent implements OnInit {
 
   user$: Observable<User>;
-  constructor(private router:Router, private http:HttpService, private store: Store<{ user: User }>) {
+
+  constructor(private router:Router, private http:HttpService, private store: Store<{ user: User, isOnboarding: boolean }>) {
     this.user$ = store.select('user');
   }
 
@@ -57,6 +59,7 @@ export class SigninComponent implements OnInit {
                 if (res.status !=  "approved") {
                   this.router.navigate(['/employee/onboarding-application']);
                 } else {
+                  this.store.dispatch(saveOnboarding({isOnboarding:true}));
                   this.router.navigate(['/employee']);
                 }
               });

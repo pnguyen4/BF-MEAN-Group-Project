@@ -32,6 +32,7 @@ import { userReducer } from './store/user.reducer';
 import { housingReducer } from './store/housing.reducer';
 import { applicationReducer } from './store/application.reducer';
 import { registerTokenReducer } from './store/registerToken.reducer';
+import { isOnboardingReducer } from './store/isOnboarding.reducer';
 import { FacilityReportComponent } from './features/employee/facility-report/facility-report.component';
 
 @NgModule({
@@ -73,6 +74,7 @@ import { FacilityReportComponent } from './features/employee/facility-report/fac
       housing: housingReducer,
       application: applicationReducer,
       registerToken: registerTokenReducer
+      isOnboarding: isOnboardingReducer
     })
   ],
   providers: [],
