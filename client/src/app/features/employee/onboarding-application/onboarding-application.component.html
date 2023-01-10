@@ -50,7 +50,7 @@
       <br>
       <h2 class="marginLeft">Driver's License</h2>
       <br>
-      <div formGroupName="driverLicense" class="wrapper">
+      <div formGroupName="driverLicense" class="wrapper1">
             <mat-form-field class="medium">
                 <input type="text" id="number" name="number" placeholder="Number"
                        formControlName="number" matInput>
@@ -199,7 +199,7 @@
           </div>
         </div>
         <br>
-        <button class="btn btn-primary marginLeft">Submit Application</button>
+        <button class="btn btn-primary marginLeft" [disabled]="disabled">Submit Application</button>
     </form>
     <br>
 </mat-card>

@@ -24,6 +24,7 @@ export class OnboardingApplicationComponent implements OnInit {
   driverLicenseUrl = '';
   optReceiptUrl = '';
   user$ = this.store.select('user');
+  disabled = false;
 
   // TODO: input validation
   applicationForm: FormGroup = this.fb.nonNullable.group({
@@ -90,9 +91,12 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.user$.subscribe(user => {
       this.id = user.application_id;
       if (user.application_id) {
+        window.alert("Form already submitted, please waiting HR's response")
+        this.disabled = true;
         this.httpService.getApplicationWithVisa(this.id).subscribe(res => {
           let startDate = '';
           let endDate = '';
@@ -139,9 +143,9 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   submit(): void {
-    if (!this.driverLicenseUrl) {
+   /* if (!this.driverLicenseUrl) {
       return alert("Driver's license invalid or missing!");
-    }
+    } */
 
     if (this.applicationForm.valid) {
       let user = localStorage.getItem('user');
@@ -166,7 +170,8 @@ export class OnboardingApplicationComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(updateduser));
           this.store.dispatch(saveUser({userInfo: updateduser}));
       });
-      this.router.navigate(['/employee']);
+      // window.alert("Form submitted");
+      //this.router.navigate(['/employee']);
     }
   }
 
