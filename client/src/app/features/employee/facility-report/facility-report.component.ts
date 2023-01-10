@@ -92,6 +92,9 @@ export class FacilityReportComponent implements OnInit {
           this.store.dispatch(EmployeeHousingAction.loadCurrentFacilityReport({
             currentReport: res.report
           }));
+
+          // TODO: message thread not updating after comment submission; only after refresh
+
         } else {
           console.log(res);
         }
@@ -142,12 +145,10 @@ export class FacilityReportComponent implements OnInit {
             EmployeeHousingAction.loadCurrentFacilityReport({ currentReport: res.report })
           );
         } else {
+          // not sure how to handle errors
           console.log(res);
         }
       })
-
-    this.toggleEdit(messageID, '');
+      this.toggleEdit(messageID, '');
   }
-
-
 }

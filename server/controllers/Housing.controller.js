@@ -130,19 +130,21 @@ exports.getOneFacReport = async( req, res ) => {
 }
 
 exports.addMsgToFacilityReport = async( req, res ) => {
-    const { reportid: facReport_id,  } = req.params;
+    const { reportid } = req.params;
     const { author_id, message } = req.body;
+    console.log({reportid, author_id, message})
     try {
         // create new message
         const newMsg = await FacReportMsg.create({
-            facReport_id, author_id, message
+            facReport_id: reportid, author_id, message
         });
         await newMsg.save();
 
         // update facReport
-        const report = await getAndPopulateFacReport(reportid);
+        const report = await FacReport.findOne({_id: reportid});
         // check if user is author of original report, or is an admin
         // if( newMsg.author_id !== facReport.author_id || !req.user.admin) throw new Error(404);
+        console.log({report})
         
         report.messages.push(newMsg._id);
         await report.save();
