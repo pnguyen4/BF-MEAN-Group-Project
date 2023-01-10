@@ -8,6 +8,7 @@ export const EmployeeHousingAction = createActionGroup({
     'Load Facility Reports': props<{ facReports: Report[] }>(),
     'Create Facility Report': props<{ facReport: Report }>(),
     'Load Current Facility Report': props<{ currentReport: Report }>(),
+    'Add Message to Current Facility Report': props<{message: ReportMessage}>()
   }
 });
 

@@ -119,24 +119,58 @@ exports.getOneFacReport = async( req, res ) => {
 }
 
 exports.addMsgToFacilityReport = async( req, res ) => {
-    const facReport_id = req.params.reportid;
+    const { reportid: facReport_id,  } = req.params;
+    const { author_id, message } = req.body;
     try {
         // create new message
-        const newMsg = {
-            facReport_id,
-            author_id: req.body.author_id,
-            message: req.body.message
-        }
-        const message = await FacReportMsg.create(newMsg);
-        await message.save();
+        const newMsg = await FacReportMsg.create({
+            facReport_id, author_id, message
+        });
+        await newMsg.save();
 
         // update facReport
-        const facReport = await FacReport.findOne({facReport_id});
-        facReport.messages.push(message._id);
-        await facReport.save();
+        const report = await FacReport.findOne({_id: facReport_id})
+            .populate({
+                path: 'author_id',
+                select: [ 'admin', 'application_id' ],
+                populate: {
+                    path: 'application_id',
+                    select: [ 'firstname', 'lastname' ]
+                }
+            })
+            .populate({
+                path: 'messages',
+                select: [ 'author_id', 'message'],
+                populate: {
+                    path:'author_id',
+                    select: [ '_id', 'admin', 'username'],
+                    populate: {
+                        path: 'application_id',
+                        select: ['firstname', 'lastname']
+                    }
+                }
+            })
+        // check if user is author of original report, or is an admin
+        // if( newMsg.author_id !== facReport.author_id || !req.user.admin) throw new Error(404);
+        for( const message of report.messages ) {
+            console.log(message)
+        }
+
+        // update message
+        report.messages.push(newMsg._id);
+        report.populate('author_id')
+        // report.populate({
+        //     path: 'messages',
+        //     model: 'FacReportMsg',
+        //     populate: {
+        //         path: 'author_id',
+        //         model: 'User'
+        //     }
+        // })
+        await report.save();
 
         // return entire facReport? all messages? or just single new message?
-        return res.json({status: "200", facReport})
+        return res.json({status: "200", report})
     } catch(error) {
         return res.json({status: "500", msg: error});
     }

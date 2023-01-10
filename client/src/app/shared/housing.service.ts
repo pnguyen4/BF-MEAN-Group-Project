@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { ReportMessage } from './data.model';
+
 const API_URL = "http://localhost:3000";
 
 @Injectable({
@@ -39,5 +41,7 @@ export class HousingService {
     return this.http.get(`${API_URL}/api/housing/${houseid}/reports/${reportid}`);
   }
 
-
+  addMsgToFacilityReport(houseid: string, reportid: string, msg: Object ): Observable<any> {
+    return this.http.post(`${API_URL}/api/housing/${houseid}/reports/${reportid}/msg`, msg );
+  }
 }

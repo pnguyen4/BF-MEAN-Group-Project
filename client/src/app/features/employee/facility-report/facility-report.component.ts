@@ -1,6 +1,7 @@
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { EmployeeHousingAction } from './../../../store/housing.action';
 import { selectCurrentFacReport, selectEmployeeHousing } from './../../../store/housing.selector';
-import { Report } from './../../../shared/data.model';
+import { Report, ReportMessage } from './../../../shared/data.model';
 import { Component, OnInit } from '@angular/core';
 import { HousingService } from 'app/shared/housing.service';
 import { Store } from '@ngrx/store';
@@ -18,13 +19,17 @@ export class FacilityReportComponent implements OnInit {
 
   housing$ = this.store.select(selectEmployeeHousing);
   report$ = this.store.select(selectCurrentFacReport);
-  reportID: string | null = "";
+  reportID: string = "";
 
   constructor(
     private housingService: HousingService,
     private store: Store,
-    private route: ActivatedRoute ) { }
+    private route: ActivatedRoute,
+    private fb: FormBuilder ) { }
 
+    facReportCommentForm: FormGroup = this.fb.nonNullable.group({
+      message: ['', Validators.required]
+    })
 
   ngOnInit(): void {
     // user check
@@ -40,7 +45,7 @@ export class FacilityReportComponent implements OnInit {
     }
 
     this.route.paramMap.subscribe( params => {
-      this.reportID = params.get('reportid');
+      this.reportID = params.get('reportid') ?? '';
     } )
 
     this.housingService.getHousingDetails(userobj.housing_id).subscribe(res => {
@@ -58,4 +63,33 @@ export class FacilityReportComponent implements OnInit {
     // housingService.getFacReportDetails.subscribe then this.store.dispatch
   }
 
+  submit(): void {
+    if (this.facReportCommentForm.valid) {
+      let user = localStorage.getItem('user');
+      if (typeof user != "string") return;
+      const userobj: User = JSON.parse(user);
+      const formdata = this.facReportCommentForm.getRawValue();
+
+      let housing_id = '';
+      this.housing$.subscribe(housing => {
+        housing_id = housing._id;
+      });
+
+      let msg: Object = {
+        author_id:  userobj._id,
+        message: formdata.message
+      };
+
+      this.housingService.addMsgToFacilityReport(housing_id, this.reportID, msg).subscribe(res => {
+        if (res.status == '200') {
+          console.log(res)
+          this.store.dispatch(EmployeeHousingAction.loadCurrentFacilityReport({
+            currentReport: res.report
+          }));
+        } else {
+          console.log(res);
+        }
+      });
+    }
+  }
 }
