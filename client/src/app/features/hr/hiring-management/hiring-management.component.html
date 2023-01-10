@@ -17,7 +17,48 @@
   </form>
 </mat-card>
 <br>
-<br>
-<br>
 
 
+<mat-card>
+
+  <!-- TODO: add pagination with mat-paginator, 5 rows per page -->
+  <h1>All Pending</h1>
+  <table mat-table [dataSource]="applications$ | async" class="mat-elevation-z8">
+    <ng-container matColumnDef="fullname">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cel *matCellDef="let element"> {{element.firstname}} {{element.middlename}} {{element.lastname}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="more">
+      <th mat-header-cell *matHeaderCellDef> More Information </th>
+      <td mat-cell *matCellDef="let element;let i = index"> <button (click)="getApplicationInfo(element)">View Application</button> </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
+  </table>
+
+  <br>
+
+  <!-- TODO: display same form as in employee onboarding, with values populated but uneditable -->
+  <mat-card *ngIf="toggleView" id="applicationInfo">
+    <button (click)="toggleView = false">Hide</button>
+
+    <ng-container *ngIf="applicationDetail$ | async as application">
+      <div>Application Status: {{application.status}}</div>
+      <div>First name: {{application.firstname}}</div>
+      <div>Last name: {{application.lastname}}</div>
+      <div>Driver License: {{application.driverLicense.imgUrl}}</div>
+      <button [ngStyle]="{'margin':'5px'}"
+              *ngIf="application.status === 'pending'" (click)="approve()"> Approve </button>
+      <button *ngIf="application.status === 'pending'" (click)="reject()"> Reject </button>
+      more to do
+    </ng-container>
+  </mat-card>
+
+</mat-card>

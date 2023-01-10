@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../../../services/registration.service';
 import { HttpService } from 'app/shared/http.service';
+import { Store } from '@ngrx/store';
+import { selectAllApplications,
+         selectCurrentApplication } from 'app/store/application.selector';
+import { HrApplicationAction } from 'app/store/application.action';
 
 @Component({
   selector: 'app-hiring-management',
@@ -10,16 +14,30 @@ import { HttpService } from 'app/shared/http.service';
 })
 export class HiringManagementComponent implements OnInit {
 
+  applications$ = this.store.select(selectAllApplications);
+  applicationDetail$ = this.store.select(selectCurrentApplication);
+  currentid = '';
+  toggleView = false;
+  displayedPendingColumns: string[] = ['fullname', 'email', 'more'];
+
   newEmployeeForm: FormGroup = this.fb.nonNullable.group ({
     email: ['', [Validators.email, Validators.required]],
     name: ['', [Validators.required]]
   });
 
   constructor(private fb: FormBuilder,
+              private store: Store,
               private registrationService: RegistrationService,
               private http:HttpService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.http.getApplicationAll().subscribe(res => {
+      this.store.dispatch(HrApplicationAction.loadAllApplications({applications: res.app}))
+    });
+    this.applications$.subscribe(application => {
+      console.log(application);
+    });
+  }
 
   submit(): void {
     if (this.newEmployeeForm.get('email')?.errors) {
@@ -34,6 +52,29 @@ export class HiringManagementComponent implements OnInit {
     this.registrationService.generateRegTokenAndEmail(email, name).subscribe();
     window.alert("Email Sent");
   }
+
+  getApplicationInfo(item: any): void {
+    this.toggleView = true;
+    this.store.dispatch(HrApplicationAction.loadCurrentApplication({application: item}));
+    this.applicationDetail$.subscribe(application => this.currentid = application._id)
+  }
+
+  approve(): void {
+    // step 1: update item in store, update view
+    this.store.dispatch(HrApplicationAction.updateApplicationStatus({
+      id: this.currentid,
+      status: "approved"
+    }));
+    // step 2: save this change to database
+  }
+
+  reject(): void {
+    // step 1: update item in store, update view
+    this.store.dispatch(HrApplicationAction.updateApplicationStatus({
+      id: this.currentid,
+      status: "rejected"
+    }));
+    // step 2: save this change to database
+  }
+
 }
-
-
