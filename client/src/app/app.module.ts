@@ -73,7 +73,7 @@ import { FacilityReportComponent } from './features/employee/facility-report/fac
       user: userReducer,
       housing: housingReducer,
       application: applicationReducer,
-      registerToken: registerTokenReducer
+      registerToken: registerTokenReducer,
       isOnboarding: isOnboardingReducer
     })
   ],
