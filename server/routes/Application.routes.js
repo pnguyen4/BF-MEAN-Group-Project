@@ -5,7 +5,9 @@ const { verifyUser, verifyHr } = require("../middleware/auth");
 // note: removed auth middleware, client does not yet token in authorization header
 router.get('/api/applications/:id', controller.getApplicationById);
 
-router.get('/api/applications', controller.getApplicationAll);
+// NOTE: this change should not break anything but leave old functionality just incase
+//router.get('/api/applications', controller.getApplicationAll);
+router.get('/api/applications', controller.getApplicationAllWithVisa);
 
 router.post('/api/applications/', controller.createApplication);
 

@@ -28,12 +28,13 @@
 
   <br>
 
-  <mat-card *ngIf="visaDetail._id" id="userInfo">
+  <div *ngIf="visaDetail._id" class="backdrop"></div>
+  <mat-card *ngIf="visaDetail._id" id="userInfo" class="frontandcenter">
     <mat-card-title [ngStyle]="{'margin':'30px'}">{{visaDetail.first + " " + visaDetail.last + "\'s Information"}}</mat-card-title>
     <div>
       <div>
         <br>
-        <b>Basic Information: </b><button (click)="visaDetail=[]">Hide</button>
+        <b>Basic Information: </b><button (click)="visaDetail=[]" class="hidebtn">Hide</button>
         <br>
         <br>
         <p>Email: {{visaDetail.email}}</p>
