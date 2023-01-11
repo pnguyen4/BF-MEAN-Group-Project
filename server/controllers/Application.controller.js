@@ -73,3 +73,22 @@ exports.updateApplication = async function (req, res) {
         return res.json({status: '500', msg: error});
     }
 }
+
+exports.editApplicationById = async function (req, res) {    
+    await Application.updateOne (
+        {_id: req.body.id},
+        {
+            firstname: req.body.values.firstname,
+            lastname: req.body.values.lastname,
+            middlename: req.body.values.middlename,
+            preferredname: req.body.values.preferredname,
+            email: req.body.values.email,
+            cellphone: req.body.values.cellphone,
+            workphone: req.body.values.workphone,
+            ssn: req.body.values.ssn,
+            currentAddress: req.body.values.currentAddress,
+            emergencyContact: req.body.values.emergencyContact
+        },
+    ); 
+    res.status(200).json();   
+}

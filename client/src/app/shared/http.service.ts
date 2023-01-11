@@ -94,4 +94,8 @@ export class HttpService {
   editVisaReject(id:string) {
     return this.http.put("http://localhost:3000/api/visaStatus/"+id+'/'+id,id);
   }
+
+  editApplicationById(id: string, values: any) {
+    return this.http.put("http://localhost:3000/api/applications/"+id+"/"+id, {id, values});
+  }
 }

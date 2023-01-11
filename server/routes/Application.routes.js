@@ -9,6 +9,8 @@ router.get('/api/applications', controller.getApplicationAll);
 
 router.post('/api/applications/', controller.createApplication);
 
+router.put('/api/applications/:id/:id', controller.editApplicationById);
+
 router.put('/api/applications/:id', controller.updateApplication);
 
 router.get('/api/applications/:id/status', controller.getApplicationStatus);
