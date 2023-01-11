@@ -70,6 +70,7 @@ exports.signin = async function (req,res) {
            process.env.JWT_KEY,
           {expiresIn:'3h'}
           );
+        copy.password = undefined;
         return res.json({
           status: '200',
           user: copy,
