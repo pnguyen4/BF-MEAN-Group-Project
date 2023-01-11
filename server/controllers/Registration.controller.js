@@ -14,9 +14,11 @@ exports.createRegToken = async (req, res) => {
               message: 'cannot generate registration token without email or name'
             });
         }
-        // TODO: check email is valid email
         const email = req.body.email;
         const name = req.body.name;
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+          return res.json({status: '409', msg: 'not a valid email address'});
+        }
  
         const token_payload = {
             email,
