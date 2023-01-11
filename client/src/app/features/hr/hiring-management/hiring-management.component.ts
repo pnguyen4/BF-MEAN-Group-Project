@@ -76,6 +76,7 @@ export class HiringManagementComponent implements OnInit {
     this.http.editApplication(this.currentid, {status}).subscribe(res => {
       console.log(res);
     });
+    this.toggleView = false;
   }
 
   rejectWithFeedback(): void {
@@ -89,5 +90,6 @@ export class HiringManagementComponent implements OnInit {
       console.log(res);
     });
     this.updateStatus("rejected");
+    this.toggleView = false;
   }
 }

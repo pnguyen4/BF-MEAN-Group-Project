@@ -1,4 +1,6 @@
 <mat-card>
+    <button class="marginLeft" (click)="logout()">Log out</button>
+    <h1 [ngStyle]="{'color':'red','font-weight':'bold','margin':'30px 30px 30px 10px'}">{{note}}</h1>
     <mat-card-title class="marginLeft">Onboarding Application</mat-card-title>
     <br>
     <form [formGroup]="applicationForm" (ngSubmit)="submit()">
@@ -50,7 +52,7 @@
       <br>
       <h2 class="marginLeft">Driver's License</h2>
       <br>
-      <div formGroupName="driverLicense" class="wrapper1">
+      <div formGroupName="driverLicense" class="wrapper">
             <mat-form-field class="medium">
                 <input type="text" id="number" name="number" placeholder="Number"
                        formControlName="number" matInput>
@@ -201,6 +203,7 @@
         <br>
         <button class="btn btn-primary marginLeft" [disabled]="disabled">Submit Application</button>
     </form>
+
     <br>
 </mat-card>
 

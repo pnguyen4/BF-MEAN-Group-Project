@@ -15,19 +15,10 @@ export class EmployeeNavbarComponent implements OnInit {
 
   employee = "/employee";
   information = "/employee/personal-information";
-  visa = "/employee/personal-information";
+  visa = "/employee/visa-status";
   housing = "/employee/housing";
 
-  ngOnInit(): void {
-    this.store.select('isOnboarding').subscribe((res)=>{
-      if (!res) {
-        this.employee = "/employee/onboarding-application";
-        this.information = "/employee/onboarding-application";
-        this.visa = "/employee/onboarding-application";
-        this.housing = "/employee/onboarding-application";
-      }
-    });
-  }
+  ngOnInit(): void {}
 
   logout(): void {
     localStorage.clear();
