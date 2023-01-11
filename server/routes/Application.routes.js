@@ -13,6 +13,8 @@ router.post('/api/applications/', [verifyToken], controller.createApplication);
 
 router.put('/api/applications/:id', [verifyToken], controller.updateApplication);
 
+router.put('/api/applications/:id/:id', [verifyToken], controller.editApplicationById);
+
 router.get('/api/applications/:id/status', [verifyToken], controller.getApplicationStatus);
 
 router.get('/api/applications/:id/withvisa', [verifyToken], controller.getApplicationWithVisa);

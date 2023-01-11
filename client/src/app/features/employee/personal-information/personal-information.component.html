@@ -1,4 +1,7 @@
 <mat-card>
+  <button class="marginLeft" (click)="edit()" [disabled]="!disabled">Edit</button>
+  <br>
+  <br>
   <mat-card-title class="marginLeft">Onboarding Application</mat-card-title>
   <br>
   <form [formGroup]="applicationForm" (ngSubmit)="submit()">
@@ -48,33 +51,6 @@
       </mat-form-field>
     </div>
     <br>
-    <h2 class="marginLeft">Driver's License</h2>
-    <br>
-    <div formGroupName="driverLicense" class="wrapper">
-          <mat-form-field class="medium">
-              <input type="text" id="number" name="number" placeholder="Number"
-                     formControlName="number" matInput>
-          </mat-form-field>
-
-          <mat-form-field class="medium">
-              <input type="date" id="expiration" name="expiration" placeholder="Expiration"
-                     formControlName="expiration" matInput>
-          </mat-form-field>
-
-          <div class="my-3" *ngIf="editMode" class="medium">
-              <label for="img">Upload Driver's License (png, jpg, pdf)</label>
-              <input type="file" id="img" name="img"
-                     (change)="driverLicenseFileSelect($event)">
-          </div>
-
-          <div class="my-3" *ngIf="!editMode">
-              <a href="{{application?.driverLicense?.imgUrl}}"
-                 target="_blank" rel="noopener noreferrer">
-                 Driver's License
-              </a>
-          </div>
-    </div>
-    <br>
     <h2 class="marginLeft">Current Address</h2>
     <br>
       <div formGroupName="currentAddress" class="wrapper">
@@ -104,30 +80,6 @@
           </mat-form-field>
       </div>
       <br>
-      <h2 class="marginLeft">Reference</h2>
-      <br>
-      <div formGroupName="reference" class="wrapper">
-          <mat-form-field class="small">
-              <input type="text" id="firstname" name="firstname" placeholder="First Name"
-                     formControlName="firstname" matInput>
-          </mat-form-field>
-
-          <mat-form-field class="small">
-              <input type="text" id="lastname" name="lastname" placeholder="Last Name"
-                     formControlName="lastname" matInput>
-          </mat-form-field>
-
-          <mat-form-field class="small">
-              <input type="text" id="email" name="email" placeholder="Email"
-                     formControlName="email" matInput>
-          </mat-form-field>
-
-          <mat-form-field class="small">
-              <input type="text" id="phone" name="phone" placeholder="Phone"
-                     formControlName="phone" matInput>
-          </mat-form-field>
-      </div>
-      <br>
       <h2 class="marginLeft">Emergency Contact</h2>
       <br>
       <div formGroupName="emergencyContact" class="wrapper">
@@ -152,59 +104,8 @@
           </mat-form-field>
       </div>
       <br>
-        <h2 class="marginLeft">Identity</h2>
-
-      <div class="my-3" class="marginLeft">
-      <label for="isCitizenUSA" class="marginRight">Are you a citizen or permanent resident of the US?</label>
-      <input type="checkbox" id="isCitizenUSA" name="isCitizenUSA"
-             formControlName="isCitizenUSA">
-      </div>
-      <br>
-      <div>
-          <h3 class="marginLeft">Skip this section if answered yes to:
-              "Are you a citizen or permanent resident of the US?"</h3>
-
-          <div class="my-3" class="marginLeft">
-              <label for="workAuth" class="marginRight">What is your work authorization?</label>
-              <input type="radio" value="F1" name="workAuth" formControlName="workAuth" class="marginRight1">
-              <label for="F1" class="marginRight">F1</label>
-              <input type="radio" value="J1" name="workAuth" formControlName="workAuth" class="marginRight1">
-              <label for="J1" class="marginRight">J1</label>
-          </div>
-          <br>
-          <div class="my-3" *ngIf="editMode" class="marginLeft">
-              <label for="opt"><b>If F1 (CPT/OPT):</b> Upload OPT Receipt</label>
-              <br>
-              <input type="file" id="opt" name="opt" (change)="optFileSelect($event)">
-          </div>
-          <br>
-          <div class="my-3" *ngIf="!editMode && application?.visaStatus?.OPTReceiptUrl" class="marginLeft">
-              <a href="{{application?.visaStatus?.OPTReceiptUrl}}"
-                 target="_blank" rel="noopener noreferrer">
-                  OPT Receipt
-              </a>
-          </div>
-          <div class="wrapper">
-          <mat-form-field class="big">
-              <label for="startDate">Start Date</label>
-              <input type="date" id="startDate" name="startDate"
-                     formControlName="startDate" matInput>
-          </mat-form-field>
-
-          <mat-form-field class="big">
-              <label for="endDate">End Date</label>
-              <input type="date" id="endDate" name="endDate"
-                     formControlName="endDate" matInput>
-          </mat-form-field>
-        </div>
-      </div>
-      <br>
-      <button class="btn btn-primary marginLeft" [disabled]="disabled">Submit Application</button>
+      <button class="btn btn-primary marginLeft" [ngStyle]="{'visibility':disabled?'hidden':'visible'}">Submit Application</button>
   </form>
   <br>
 </mat-card>
-
-
-
-
 
