@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { HttpService } from 'app/shared/http.service';
-import { RegistrationService } from 'app/services/registration.service';
+import { RegistrationService } from 'app/shared/registration.service';
 
 @Component({
   selector: 'app-visa-management',
