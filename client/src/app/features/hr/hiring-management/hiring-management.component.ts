@@ -59,10 +59,42 @@ export class HiringManagementComponent implements OnInit {
     window.alert("Email Sent");
   }
 
+  toDateStr(date: Date): string {
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const today = date.getFullYear()+"-"+(month)+"-"+(day);
+    return today;
+  }
+
   getApplicationInfo(item: any): void {
     this.toggleView = true;
     this.store.dispatch(HrApplicationAction.loadCurrentApplication({application: item}));
-    this.applicationDetail$.subscribe(application => this.currentid = application._id)
+    this.applicationDetail$.subscribe(app => {
+      this.currentid = app._id
+      let startDate = '';
+      let endDate = '';
+      let expiration = '';
+      if (app?.visaStatus) {
+        startDate = this.toDateStr(new Date(app?.visaStatus.startDate));
+        endDate = this.toDateStr(new Date(app?.visaStatus.endDate));
+      }
+      expiration = this.toDateStr(new Date(app?.driverLicense.expiration));
+      // literally magic
+      this.applicationForm.patchValue({
+        ...app,
+        driverLicense: {
+          number: app?.driverLicense.number ?? '',
+          expiration,
+        },
+        emergencyContact: app?.emergencyContact[0] ?? {},
+        workAuth: app?.visaStatus?.workAuth,
+        startDate,
+        endDate,
+      });
+      if (app?.status == "pending" || app?.status == "approved") {
+        this.applicationForm.disable();
+      }
+    });
   }
 
   updateStatus(status: string): void {
@@ -90,4 +122,52 @@ export class HiringManagementComponent implements OnInit {
     });
     this.updateStatus("rejected");
   }
+
+  // NOTE: this form is not meant to be submitted, view only
+  applicationForm: FormGroup = this.fb.nonNullable.group({
+    firstname: [''],
+    lastname: [''],
+    middlename: [''],
+    preferredname: [''],
+
+    email: [''],
+    cellphone: [''],
+    workphone: [''],
+    ssn: [''],
+
+    driverLicense: this.fb.nonNullable.group({
+      number: [''],
+      expiration: [''],
+      //imgUrl: ['', Validators.required]  // I handled this elsewhere
+    }),
+
+    currentAddress: this.fb.nonNullable.group({
+      street: [''],
+      suiteOrAptNumber: [''],
+      city: [''],
+      state: [''],
+      zipcode: [''],
+    }),
+
+    reference: this.fb.nonNullable.group({
+      firstname: [''],
+      lastname: [''],
+      phone: [''],
+      email: [''],
+    }),
+
+    emergencyContact: this.fb.nonNullable.group({
+      firstname: [''],
+      lastname: [''],
+      phone: [''],
+      email: [''],
+    }),
+
+    isCitizenUSA: [false],
+
+    workAuth: [''],
+    //OptReceiptUrl: [''], // handled this elsewhere
+    startDate: [''],
+    endDate: ['']
+  });
 }

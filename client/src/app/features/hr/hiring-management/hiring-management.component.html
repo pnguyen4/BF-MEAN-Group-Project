@@ -101,23 +101,215 @@
     <!-- TODO: display same form as in employee onboarding, with values populated but uneditable -->
     <div *ngIf="toggleView" class="backdrop"></div>
     <mat-card *ngIf="toggleView" id="applicationInfo" class="frontandcenter">
-      <button (click)="toggleView = false">Hide</button>
+      <button (click)="toggleView = false" class="hidebtn">Hide</button>
 
       <ng-container *ngIf="(applicationDetail$ | async) as application">
-        <div>Application Status: {{application.status}}</div>
-        <div *ngIf="application?.feedback">Previous Feedback: {{application.feedback}}</div>
-        <div>First name: {{application.firstname}}</div>
-        <div>Last name: {{application.lastname}}</div>
-        <div>Driver License: {{application.driverLicense.imgUrl}}</div>
-        <ng-container *ngIf="application.status == 'pending'">
-          <button [ngStyle]="{'margin':'5px'}"
-                  *ngIf="application.status === 'pending'"
-                  (click)="updateStatus('approved')"> Approve </button>
-          <button *ngIf="application.status === 'pending'"
-                  (click)="rejectWithFeedback()"> Reject </button>
+          <mat-card-title class="marginLeft">
+            Onboarding Application [ {{application.status}} ]
+          </mat-card-title>
           <br>
-          <label for="feedback">Provide Feedback: </label>
-          <input type="text" id="feedback" name="feedback" [formControl]="feedback">
+          <form [formGroup]="applicationForm">
+            <br>
+            <h2 class="marginLeft">Personal Information</h2>
+            <br>
+            <div class="wrapper">
+
+              <mat-form-field class="big">
+                <input type="text" id="firstname" placeholder="First Name" name="firstname"
+                       formControlName="firstname" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="big">
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name"
+                       formControlName="lastname" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="big">
+                <input type="text" id="middlename" name="middlename" placeholder="Middle Name"
+                       formControlName="middlename" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="big">
+                <input type="text" id="preferredname" name="preferredname" placeholder="Preferred Name"
+                       formControlName="preferredname" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="email" name="email" placeholder="email" placeholder="Email"
+                       formControlName="email" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="cellphone" name="cellphone" placeholder="Cellphone"
+                       formControlName="cellphone" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="workphone" name="workphone" placeholder="Workphone"
+                       formControlName="workphone" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="ssn" name="ssn" placeholder="SSN"
+                       formControlName="ssn" matInput>
+              </mat-form-field>
+            </div>
+            <br>
+            <h2 class="marginLeft">Driver's License</h2>
+            <br>
+            <div formGroupName="driverLicense" class="wrapper">
+              <mat-form-field class="medium">
+                <input type="text" id="number" name="number" placeholder="Number"
+                       formControlName="number" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="medium">
+                <input type="date" id="expiration" name="expiration" placeholder="Expiration"
+                       formControlName="expiration" matInput>
+              </mat-form-field>
+
+              <div class="my-3">
+                <a href="{{application?.driverLicense?.imgUrl}}"
+                   target="_blank" rel="noopener noreferrer">
+                  Driver's License
+                </a>
+              </div>
+            </div>
+            <br>
+            <h2 class="marginLeft">Current Address</h2>
+            <br>
+            <div formGroupName="currentAddress" class="wrapper">
+              <mat-form-field class="big">
+                <input type="text" id="street" name="street" placeholder="Street"
+                       formControlName="street" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="big">
+                <input type="text" id="suiteOrAptNumber" name="suiteOrAptNumber" placeholder="Suite/Apt Number"
+                       formControlName="suiteOrAptNumber" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="medium">
+                <input type="text" id="city" name="city" placeholder="City"
+                       formControlName="city" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="medium">
+                <input type="text" id="state" name="state" placeholder="State"
+                       formControlName="state" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="medium">
+                <input type="text" id="zipcode" name="zipcode" placeholder="Zip Code"
+                       formControlName="zipcode" matInput>
+              </mat-form-field>
+            </div>
+            <br>
+            <h2 class="marginLeft">Reference</h2>
+            <br>
+            <div formGroupName="reference" class="wrapper">
+              <mat-form-field class="small">
+                <input type="text" id="firstname" name="firstname" placeholder="First Name"
+                       formControlName="firstname" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name"
+                       formControlName="lastname" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="email" name="email" placeholder="Email"
+                       formControlName="email" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="phone" name="phone" placeholder="Phone"
+                       formControlName="phone" matInput>
+              </mat-form-field>
+            </div>
+            <br>
+            <h2 class="marginLeft">Emergency Contact</h2>
+            <br>
+            <div formGroupName="emergencyContact" class="wrapper">
+              <mat-form-field class="small">
+                <input type="text" id="firstname" name="firstname" placeholder="First Name"
+                       formControlName="firstname" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name"
+                       formControlName="lastname" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="email" name="email" placeholder="Email"
+                       formControlName="email" matInput>
+              </mat-form-field>
+
+              <mat-form-field class="small">
+                <input type="text" id="phone" name="phone" placeholder="Phone"
+                       formControlName="phone" matInput>
+              </mat-form-field>
+            </div>
+            <br>
+            <h2 class="marginLeft">Identity</h2>
+
+            <div class="my-3" class="marginLeft">
+              <label for="isCitizenUSA" class="marginRight">Are you a citizen or permanent resident of the US?</label>
+              <input type="checkbox" id="isCitizenUSA" name="isCitizenUSA"
+                     formControlName="isCitizenUSA">
+            </div>
+            <br>
+            <div>
+              <h3 class="marginLeft">Skip this section if answered yes to:
+                "Are you a citizen or permanent resident of the US?"</h3>
+
+              <div class="my-3" class="marginLeft">
+                <label for="workAuth" class="marginRight">What is your work authorization?</label>
+                <input type="radio" value="F1" name="workAuth" formControlName="workAuth" class="marginRight1">
+                <label for="F1" class="marginRight">F1</label>
+                <input type="radio" value="J1" name="workAuth" formControlName="workAuth" class="marginRight1">
+                <label for="J1" class="marginRight">J1</label>
+              </div>
+              <br>
+              <div class="my-3" class="marginLeft">
+                <a href="{{application?.visaStatus?.OPTReceiptUrl}}"
+                   target="_blank" rel="noopener noreferrer">
+                  OPT Receipt
+                </a>
+              </div>
+              <div class="wrapper">
+                <mat-form-field class="big">
+                  <label for="startDate">Start Date</label>
+                  <input type="date" id="startDate" name="startDate"
+                         formControlName="startDate" matInput>
+                </mat-form-field>
+
+                <mat-form-field class="big">
+                  <label for="endDate">End Date</label>
+                  <input type="date" id="endDate" name="endDate"
+                         formControlName="endDate" matInput>
+                </mat-form-field>
+              </div>
+            </div>
+            <br>
+          </form>
+          <br>
+
+        <div *ngIf="application?.feedback">Previous Feedback: {{application.feedback}}</div>
+        <ng-container *ngIf="application.status == 'pending'">
+          <div class="appaction">
+            <button [ngStyle]="{'margin':'5px'}" class="btn-success btn"
+                    *ngIf="application.status === 'pending'"
+                    (click)="updateStatus('approved')"> Approve </button>
+            <button *ngIf="application.status === 'pending'" class="btn-danger btn"
+                    (click)="rejectWithFeedback()"> Reject </button>
+          </div>
+          <div class="feedback">
+            <label for="feedback">Provide Feedback</label>
+            <input type="text" id="feedback" name="feedback" [formControl]="feedback">
+          </div>
         </ng-container>
       </ng-container>
     </mat-card>

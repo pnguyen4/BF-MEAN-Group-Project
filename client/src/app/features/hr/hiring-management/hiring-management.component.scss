@@ -20,12 +20,30 @@
 
 .frontandcenter {
   position: fixed;
-  top: 200px;
+  top: 50px;
   margin-left: auto;
   margin-right: auto;
-  left: 100px;
-  right: 100px;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 999;
+  overflow:auto;
+  height: 90%;
+  width: 90%;
+}
+
+.hidebtn {
+  position: fixed;
+  right: 200px;
+  margin-right: 10px;
+}
+
+.feedback, .appaction {
+  label {
+    display: block;
+  }
+  text-align: center;
+  margin: 0 auto;
 }
 
 .backdrop {
@@ -43,6 +61,36 @@ table {
   width: 100%;
 }
 
-mat-card {
-  width: 90%;
+.mat-card {
+  width:80%;
+}
+
+.small {
+  width: 22%;
+}
+
+.big {
+  width: 47%;
+}
+
+.medium {
+  width: 30%;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.marginRight1 {
+  margin-right: 5px;
+}
+
+.marginLeft {
+  margin-left: 1%;
 }
