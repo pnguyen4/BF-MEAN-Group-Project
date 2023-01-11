@@ -10,6 +10,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const { MongoClient, ObjectId } = require('mongodb');
 
 exports.createUser = async ( req, res ) => {
+    const passwordComplexity =
+          new RegExp('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+*!=]).*$');
+    if (!passwordComplexity.test(req.body.password)) {
+      return res.json({status: '409', msg: 'Password does not meet complexity requirements'});
+    }
     const hashed = await bcrypt.hash(req.body.password, Number(process.env.SALT));
 
     const houses = await Housing.find();
@@ -29,7 +34,7 @@ exports.createUser = async ( req, res ) => {
     if (copy1 === null && copy2 === null) { // if email not exist
       // almost forgot to do this, but mark the token used by this employee as successfully registered
       const token = req.headers.authorization;
-      const regtoken = await RegToken.updateOne(
+      await RegToken.updateOne(
         {link: {"$regex": token, "$options": "i"}},
         {registered: true}
       );
