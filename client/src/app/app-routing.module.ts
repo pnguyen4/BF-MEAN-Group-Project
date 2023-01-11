@@ -24,7 +24,7 @@ import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
   { path:'signin',  canActivate: [LoginGuard], component: SigninComponent},
-  { path:'signup/:regtoken', canActivate: [LoginGuard, RegistrationGuard], component: SignupComponent},
+  { path:'signup/:regtoken', canActivate: [RegistrationGuard], component: SignupComponent},
   { path:'employee', canActivate: [EmployeeLoginGuard], component: EmployeeComponent,
     children:[
       {path:'onboarding-application', component: OnboardingApplicationComponent},

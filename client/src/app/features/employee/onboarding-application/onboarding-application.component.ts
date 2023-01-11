@@ -20,10 +20,12 @@ export class OnboardingApplicationComponent implements OnInit {
 
   id = ''
   editMode = true;
+  note = "";
   application: any = {}
   driverLicenseUrl = '';
   optReceiptUrl = '';
   user$ = this.store.select('user');
+  disabled = false;
 
   // TODO: input validation
   applicationForm: FormGroup = this.fb.nonNullable.group({
@@ -90,6 +92,7 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.user$.subscribe(user => {
       this.id = user.application_id;
       if (user.application_id) {
@@ -115,9 +118,14 @@ export class OnboardingApplicationComponent implements OnInit {
             endDate,
           });
           this.application = res?.app;
-          if (res?.app?.status == "pending" || res?.app?.status == "approved") {
+          if (res?.app?.status == "pending") {
+            this.note = "Form already submitted, please waiting HR's response";
             this.editMode = false;
+            this.disabled = true;
             this.applicationForm.disable();
+          }
+          else { // rejected
+            this.note = "Form have been rejected, please submit it again";
           }
         });
       }
@@ -166,8 +174,14 @@ export class OnboardingApplicationComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(updateduser));
           this.store.dispatch(saveUser({userInfo: updateduser}));
       });
-      this.router.navigate(['/employee']);
+      window.alert("Submitted");
+      //this.router.navigate(['/employee']);
     }
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/signin']);
   }
 
 }
