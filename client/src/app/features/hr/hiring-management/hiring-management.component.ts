@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RegistrationService } from '../../../services/registration.service';
+import { RegistrationService } from 'app/shared/registration.service';
 import { HttpService } from 'app/shared/http.service';
 import { Store } from '@ngrx/store';
 import { selectAllApplications,

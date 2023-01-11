@@ -43,7 +43,7 @@ const routes: Routes = [
       {path:'housing-management/:housingid', component: DetailHousingManagementComponent},
     ]
   },
-  { path:'**', redirectTo:'/signin' }]; // TODO redirect to signin or error page
+  { path:'**', redirectTo:'/signin' }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

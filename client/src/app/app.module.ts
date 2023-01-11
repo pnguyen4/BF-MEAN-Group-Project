@@ -26,6 +26,7 @@ import { EmployeeNavbarComponent } from './features/employee/employee-navbar/emp
 import { HrNavbarComponent } from './features/hr/hr-navbar/hr-navbar.component';
 import { DetailHousingManagementComponent } from './features/hr/detail-housing-management/detail-housing-management.component';
 import { PendingPipe, RejectedPipe, ApprovedPipe } from './shared/filter.pipe';
+import { httpInterceptorProviders } from './interceptors';
 
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
@@ -77,7 +78,7 @@ import { FacilityReportComponent } from './features/employee/facility-report/fac
       isOnboarding: isOnboardingReducer
     })
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

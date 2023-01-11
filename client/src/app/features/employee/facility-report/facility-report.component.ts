@@ -92,8 +92,6 @@ export class FacilityReportComponent implements OnInit {
             currentReport: res.report
           }));
 
-          // TODO: message thread not updating after comment submission; only after refresh
-
         } else {
           console.log(res);
         }

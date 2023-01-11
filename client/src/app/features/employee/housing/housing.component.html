@@ -56,11 +56,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- TODO: make each clicking on each row open new details page -->
                     <tr *ngFor="let facReport of facReports$ | async">
                         <td><a href="" title="{{facReport._id}}" routerLink="{{facReport.housing_id}}/reports/{{facReport._id}}">{{facReport.title}}</a></td>
                         <td>{{facReport.status}}</td>
-                        <td>{{facReport.createdAt}}</td> <!-- TODO: format date -->
+                        <td>{{facReport.createdAt | date:'longDate'}}</td>
                     </tr>
                 </tbody>
             </table>

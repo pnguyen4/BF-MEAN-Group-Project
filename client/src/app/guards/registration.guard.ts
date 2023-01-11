@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } fro
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { RegistrationService } from '../services/registration.service';
+import { RegistrationService } from '../shared/registration.service';
 
 // too long, made alias
 type GuardType = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;

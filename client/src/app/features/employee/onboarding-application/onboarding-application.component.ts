@@ -27,52 +27,65 @@ export class OnboardingApplicationComponent implements OnInit {
   user$ = this.store.select('user');
   disabled = false;
 
-  // TODO: input validation
   applicationForm: FormGroup = this.fb.nonNullable.group({
-    firstname: ['', Validators.required],
-    lastname: ['', Validators.required],
-    middlename: [''],
-    preferredname: [''],
+    // no numbers
+    firstname: ['', [Validators.required, Validators.minLength(2),
+                     Validators.pattern(/^([^0-9]*)$/)]],
+    lastname: ['', [Validators.required, Validators.minLength(2),
+                     Validators.pattern(/^([^0-9]*)$/)]],
+    middlename: ['', Validators.pattern(/^([^0-9]*)$/)],
+    preferredname: ['', Validators.pattern(/^([^0-9]*)$/)],
 
     email: ['', [Validators.required, Validators.email]],
-    cellphone: ['', Validators.required],
-    workphone: [''],
-    ssn: ['', Validators.required],
+    // 10 digit number, seperators optional
+    cellphone: ['', [Validators.required,
+                     Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
+    workphone: ['', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
+    ssn: ['', [Validators.required,
+               Validators.pattern(/^(?!000|666)[0-9]{3}([ -]?)(?!00)[0-9]{2}\1(?!0000)[0-9]{4}$/)]],
 
     driverLicense: this.fb.nonNullable.group({
-      number: ['', Validators.required],
+      number: ['', [Validators.required, Validators.minLength(4)]],
       expiration: ['', Validators.required],
       //imgUrl: ['', Validators.required]  // I handled this elsewhere
     }),
 
     currentAddress: this.fb.nonNullable.group({
-      street: ['', Validators.required],
+      street: ['', [Validators.required, Validators.minLength(5)]],
       suiteOrAptNumber: [''],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zipcode: ['', Validators.required],
+      city: ['',
+             [Validators.required, Validators.minLength(2), Validators.pattern(/^([^0-9]*)$/)]],
+      state: ['', [Validators.required, Validators.minLength(2),
+                   Validators.pattern(/^([^0-9]*)$/)]],
+      // 5 digit number or 5 digit number dash 4 digit number
+      zipcode: ['', [Validators.required,
+                     Validators.pattern(/(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)/)]],
     }),
 
     reference: this.fb.nonNullable.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      phone: ['', Validators.required],
+      firstname: ['', [Validators.required,
+                  Validators.minLength(2), Validators.pattern(/^([^0-9]*)$/)]],
+      lastname: ['', [Validators.required, Validators.minLength(2),
+                      Validators.pattern(/^([^0-9]*)$/)]],
+      phone: ['', [Validators.required,
+                   Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
       email: ['', [Validators.required, Validators.email]],
     }),
 
     emergencyContact: this.fb.nonNullable.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      phone: ['', Validators.required],
+      firstname: ['', [Validators.required, Validators.minLength(2),
+                       Validators.pattern(/^([^0-9]*)$/)]],
+      lastname: ['', [Validators.required, Validators.minLength(2),
+                      Validators.pattern(/^([^0-9]*)$/)]],
+      phone: ['', [Validators.required,
+                   Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
       email: ['', [Validators.required, Validators.email]],
     }),
 
     isCitizenUSA: [false, Validators.required],
 
-    // TODO: conditional validatotion based on whether or not isCitizenUSA is true
     workAuth: [''],
     //OptReceiptUrl: [''], // handled this elsewhere
-    // TODO: if other workAuth, have input box to specify visa title
     startDate: [''],
     endDate: ['']
   });
@@ -84,6 +97,27 @@ export class OnboardingApplicationComponent implements OnInit {
               private onboardingService: OnboardingService,
               private s3Service: S3ServiceService) { }
 
+  conditionalValidators() {
+    const workAuth = this.applicationForm.get('workAuth');
+    const startDate = this.applicationForm.get('startDate');
+    const endDate = this.applicationForm.get('endDate');
+
+    this.applicationForm.get('isCitizenUSA')?.valueChanges.subscribe(isCitizenUSA => {
+      if (isCitizenUSA) {
+        workAuth?.setValidators(null);
+        startDate?.setValidators(null);
+        endDate?.setValidators(null);
+      } else {
+        workAuth?.setValidators([Validators.required]);
+        startDate?.setValidators([Validators.required]);
+        endDate?.setValidators([Validators.required]);
+      }
+      workAuth?.updateValueAndValidity();
+      startDate?.updateValueAndValidity();
+      endDate?.updateValueAndValidity();
+    });
+  }
+
   toDateStr(date: Date): string {
     const day = ("0" + date.getDate()).slice(-2);
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -92,7 +126,7 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.conditionalValidators();
     this.user$.subscribe(user => {
       this.id = user.application_id;
       if (user.application_id) {
@@ -123,8 +157,13 @@ export class OnboardingApplicationComponent implements OnInit {
             this.editMode = false;
             this.disabled = true;
             this.applicationForm.disable();
+          } else if (res?.app.status == "approved") {
+            this.editMode = false;
+            this.disabled = true;
+            this.applicationForm.disable();
+            this.router.navigate(['/employee']); // shouldn't let approved fill out again
           }
-          else { // rejected
+          else if (res?.app?.status == "rejected"){ // rejected
             this.note = "Form have been rejected, please submit it again";
           }
         });
@@ -161,13 +200,17 @@ export class OnboardingApplicationComponent implements OnInit {
       formdata.user_id = userobj._id;
 
       let {workAuth, startDate, endDate, ...application} = formdata;
+      console.log(workAuth);
+      if (workAuth == "F1" && !this.optReceiptUrl) {
+        return alert("OPT Receipt Required for F1");
+      }
       let visaStatus = {};
       if (!formdata.isCitizenUSA) {
         visaStatus = { OPTReceiptUrl: this.optReceiptUrl, workAuth, startDate, endDate };
       }
+
       this.onboardingService.createOnboardingApplication(application, visaStatus)
         .subscribe(res => {
-          // TODO save application state to store
           console.log(res)
           this.id = res.application._id;
           let updateduser = {...userobj, 'application_id': this.id}

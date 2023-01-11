@@ -11,6 +11,18 @@
     }
   }
 
+  &-status {
+    &-title {
+      font-weight: 500;
+      font-size: 1rem;
+      display: inline-block;
+    }
+    &-message {
+      font-size: 1rem;
+      display: inline-block;
+    }
+  }
+
   &-desc {
     &-title {
       font-weight: 500;

@@ -8,7 +8,7 @@ const ApplicationSchema = new mongoose.Schema({
     },
     user_id: { 
         type: objectID, ref: 'User',
-        // required: false, default: null
+        required: true
     },
     status: {
         type: String,
@@ -18,11 +18,11 @@ const ApplicationSchema = new mongoose.Schema({
     },
     firstname: { 
         type: String, 
-        // required: [true, 'First name must be provided'] 
+        required: [true, 'First name must be provided']
     },
     lastname: {  
         type: String, 
-        // required: [true, 'Last name must be provided'] 
+        required: [true, 'Last name must be provided']
     },
     middlename: {  
         type: String, 
@@ -35,20 +35,24 @@ const ApplicationSchema = new mongoose.Schema({
         default: null
     },
     currentAddress: { 
-        street: { type: String, 
-            // required: [true, 'Street is required']
+        street: {
+            type: String,
+            required: [true, 'Street is required']
         },
         suiteOrAptNumber: { type: String, 
             required: false, default: null
         }, 
-        city: { type: String, 
-            // required: [true, 'Street is required']
+        city: {
+            type: String,
+            required: [true, 'Street is required']
         },
-        state: { type: String, 
-            // required: [true, 'State must be included'],
+        state: {
+            type: String,
+            required: [true, 'State must be included'],
         }, 
-        zipcode: { type: String, 
-            // required: [ true, 'Zipcode must be included' ] 
+        zipcode: {
+            type: String,
+            required: [ true, 'Zipcode must be included' ]
         }, 
     },
     cellphone: { 
@@ -62,8 +66,8 @@ const ApplicationSchema = new mongoose.Schema({
         // required: [ true, 'Work number must be provided' ]
     },
     ssn: { 
-        type: Number // note: remove required unique, makes testing impossible
-        // required: [true, 'SSN is required']
+        type: Number, // note: remove required unique, makes testing impossible
+        required: [true, 'SSN is required']
     },
     reference: { 
         firstname: { type: String, required: [true, 'First name of reference must be provided'] },

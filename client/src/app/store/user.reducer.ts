@@ -2,7 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { User } from 'app/shared/data.model';
 import { saveUser } from './user.action';
 
-export let initialState = new User('','','','',true,'','');
+export let initialState = new User('','','',true,'','');
 
 const _userReducer = createReducer(
   initialState,
