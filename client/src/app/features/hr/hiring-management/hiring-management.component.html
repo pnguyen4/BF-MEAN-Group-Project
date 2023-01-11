@@ -97,7 +97,6 @@
 
     <br>
 
-    <!-- TODO: display same form as in employee onboarding, with values populated but uneditable -->
     <div *ngIf="toggleView" class="backdrop"></div>
     <mat-card *ngIf="toggleView" id="applicationInfo" class="frontandcenter">
       <button (click)="toggleView = false" class="hidebtn">Hide</button>
@@ -270,6 +269,8 @@
                 <label for="F1" class="marginRight">F1</label>
                 <input type="radio" value="J1" name="workAuth" formControlName="workAuth" class="marginRight1">
                 <label for="J1" class="marginRight">J1</label>
+                <input type="radio" value="H1-B" name="workAuth" formControlName="workAuth" class="marginRight1">
+                <label for="H1-B" class="marginRight">H1-B</label>
               </div>
               <br>
               <div class="my-3" class="marginLeft">

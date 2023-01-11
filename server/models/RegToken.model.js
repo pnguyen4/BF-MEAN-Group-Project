@@ -5,7 +5,8 @@ const refType = mongoose.Types.ObjectId;
 const RegTokenSchema = new Schema({
   email: {
     type: String,
-    required: true // TODO: add email validator
+    required: true,
+    match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   },
   name: {
     type: String,

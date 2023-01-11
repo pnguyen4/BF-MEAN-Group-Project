@@ -5,21 +5,21 @@ const UserSchema = new mongoose.Schema({
     username: { 
         type: String, 
         unique: true,
-        // required: [true, 'User name is required to register a user'],
+        required: [true, 'User name is required to register a user'],
     },
     email: { 
         type: String, 
         unique: true,
-        // required: [true, 'Email is required to register a user']
+        match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        required: [true, 'Email is required to register a user']
     },
     password: { 
         type: String,
-        // required: [true, 'Password is required to register user'],
+        required: [true, 'Password is required to register user'],
     },
     admin: { 
         type: Boolean, 
         default: false,
-        // required: [true, 'Employee status must be provided'],
     },
     application_id: { 
         type: objectID, ref: 'Application',
