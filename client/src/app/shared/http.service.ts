@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Application, User, VisaStatus } from './data.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class HttpService {
       _id:'',
       username:userInfo.username,
       email:userInfo.email,
-      password:userInfo.password,
+      //password:userInfo.password,
       admin:false,
       application_id:'',
       housing_id:''
@@ -25,16 +26,12 @@ export class HttpService {
     return this.http.post("http://localhost:3000/api/users", user, {headers}); // send http request
   }
 
-  checkUserByPassword(userInfo:any) { // get user with password: for login
+  signin(userInfo:any): Observable<any> { // get user with password: for login
     const user: any = { // create model
       account:userInfo.account,
       password:userInfo.password
     }
-    return this.http.post<{message:string}>("http://localhost:3000/api/users/:account", user); // check login
-  }
-
-  getUserByAccount(userInfo:any) {
-    return this.http.get<{user:any,token:any,expiresAt:number}>("http://localhost:3000/api/users/"+userInfo.account); // get user
+    return this.http.post("http://localhost:3000/api/users/signin", user); // check login
   }
 
   editUserWithPassword(userInfo:any) { // must include password changing

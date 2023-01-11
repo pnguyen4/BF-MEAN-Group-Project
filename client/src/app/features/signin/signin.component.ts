@@ -30,49 +30,30 @@ export class SigninComponent implements OnInit {
   });
 
   submit() {
-    this.http.checkUserByPassword(this.form.value).subscribe({
-      next:(res)=>{ // if request ok
+    this.http.signin(this.form.value).subscribe(res => { // if request ok
+      if (res.status == '200') {
         window.alert("Successful sign in");
-        this.http.getUserByAccount(this.form.value).subscribe(
-          (res)=>{
-            const user:User = {
-              _id:res.user.id,
-              username: res.user.username,
-              email:res.user.email,
-              password:res.user.password,
-              admin:res.user.admin,
-              application_id: res.user.application_id !== undefined ? res.user.application_id : '',
-              housing_id: res.user.housing_id !== undefined ? res.user.housing_id : ''
-            }
+        const user:User = {
+          _id:res.user.id,
+          username: res.user.username,
+          email:res.user.email,
+          //password:res.user.password,
+          admin:res.user.admin,
+          application_id: res.user.application_id !== undefined ? res.user.application_id : '',
+          housing_id: res.user.housing_id !== undefined ? res.user.housing_id : ''
+        }
 
-            this.store.dispatch(saveUser({userInfo:user}));
-            localStorage.setItem('token', res.token);
-            localStorage.setItem('user', JSON.stringify(res.user));
-            if (res.user.admin) {
-              this.router.navigate(['/hr']);
-            }
-            else {
-              this.router.navigate(['/employee']);
-            }
-            /*
-            else if (user.application_id == '') {
-              this.router.navigate(['/employee/onboarding-application']);
-            } else {
-              this.http.getApplicationStatus(user.application_id).subscribe(res => {
-                // in other words, if "unsubmitted", "rejected", or "pending"
-                if (res.status !=  "approved") {
-                  this.router.navigate(['/employee/onboarding-application']);
-                } else {
-                  this.store.dispatch(saveOnboarding({isOnboarding:true}));
-                  this.router.navigate(['/employee']);
-                }
-              });
-            } */
-          }
-        );
-      },
-      error:(res)=>{ // if request failed
-        this.error = "Account not exist or password incorrect";
+        this.store.dispatch(saveUser({userInfo:user}));
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        if (res.user.admin) {
+          this.router.navigate(['/hr']);
+        }
+        else {
+          this.router.navigate(['/employee']);
+        }
+      } else {
+        this.error = res.msg;
         setTimeout(()=>{this.error = ''},2000);
       }
     });

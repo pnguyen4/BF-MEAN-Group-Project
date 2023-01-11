@@ -50,37 +50,46 @@ exports.createUser = async ( req, res ) => {
 }    
 
 
-exports.checkUserByPassword = async function (req,res) {
-    let copy = await User.findOne({email:req.body.account},{});  // check if input is email
-    if (copy === null) copy = await User.findOne({username:req.body.account},{});  // check if input is username
-    if (copy && bcrypt.compareSync(req.body.password, copy.password)) { // found the exactly account and compare password
-        res.status(200).json({});
-    }
-    else {
-        res.status(500).json({});
+exports.signin = async function (req,res) {
+    try {
+      let copy = await User.findOne({email:req.body.account},{});  // check if input is email
+      if (copy === null) {
+        copy = await User.findOne({username:req.body.account},{});  // check if input is username
+      }
+      if (!copy) {
+        return res.json({status: '500', msg: "Account not found."});
+      }
+      if (copy && bcrypt.compareSync(req.body.password, copy.password)) { // found the exactly account and compare password
+          const token = jwt.sign(  // create token
+          {
+              userId:copy._id,
+              username:copy.username,
+              email:copy.email,
+              admin:copy.admin
+          },
+           process.env.JWT_KEY,
+          {expiresIn:'3h'}
+          );
+        return res.json({
+          status: '200',
+          user: copy,
+          token: token,
+          expiresAt:(new Date()).setTime((new Date().getTime() + (3*60*60*1000)))
+        });
+      }
+      return res.json({status: '500', msg: "Invalid Password."});
+    } catch (error) {
+      return res.json({status: '500', msg: "Some other server error has occured."});
     }
 }
 
-exports.getUserByAccount = async function (req,res) { 
-    let copy = await User.findOne({email:req.params.account},{}); 
+exports.getUserByAccount = async function (req,res) {
+  console.log(req.params.account);
+  return res.json({msg: 'test'})
+    let copy = await User.findOne({email:req.params.account},{});
     if (copy === null) copy = await User.findOne({username:req.params.account},{}); 
     
-    const token = jwt.sign(  // create token
-    {
-        userId:copy._id,
-        username:copy.username,
-        email:copy.email,
-        admin:copy.admin
-    },
-        process.env.JWT_KEY,
-        {expiresIn:'3h'}
-    );      
-    res.status(200).json({
-        user: copy,
-        token: token,
-        expiresAt:(new Date()).setTime((new Date().getTime() + (3*60*60*1000)))
-    });    
-} 
+}
 
 exports.getUserAll = async function (req,res) { 
     let copy = await User.find({},{}); 

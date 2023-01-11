@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
         _id:copy.id,
         username: copy.username,
         email:copy.email,
-        password:copy.password,
+        //password:copy.password,
         admin:copy.admin,
         application_id: copy.application_id !== undefined ? copy.application_id : '',
         housing_id: copy.housing_id !== undefined ? copy.housing_id : ''

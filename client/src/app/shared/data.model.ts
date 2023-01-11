@@ -99,7 +99,7 @@ export class User {
     public _id:string,
     public username:string,
     public email:string,
-    public password:string,
+    //public password:string,
     public admin:boolean,
     public application_id:string,
     public housing_id:string
