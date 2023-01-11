@@ -2,7 +2,9 @@
   <button class="marginLeft" (click)="edit()" [disabled]="!disabled">Edit</button>
   <br>
   <br>
+  <!--
   <mat-card-title class="marginLeft">Onboarding Application</mat-card-title>
+  -->
   <br>
   <form [formGroup]="applicationForm" (ngSubmit)="submit()">
     <br>
@@ -104,7 +106,7 @@
           </mat-form-field>
       </div>
       <br>
-      <button class="btn btn-primary marginLeft" [ngStyle]="{'visibility':disabled?'hidden':'visible'}">Submit Application</button>
+      <button class="btn btn-primary marginLeft" [ngStyle]="{'visibility':disabled?'hidden':'visible'}">Save Changes</button>
   </form>
   <br>
 </mat-card>

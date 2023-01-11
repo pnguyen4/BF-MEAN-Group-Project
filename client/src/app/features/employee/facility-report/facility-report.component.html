@@ -33,6 +33,9 @@
                           {{report.author_id.application_id.firstname}}
                           {{report.author_id.application_id.lastname}}
                         </p>
+                        <br>
+                        <p class="report-details-status-title">Status: </p> &nbsp;
+                        <p class="report-details-status-message"> {{report.status}} </p>
                         <p class="report-details-desc-title">Description: </p> &nbsp;
                         <p class="report-details-desc-message"> {{report.description}} </p>
                       </div>
@@ -85,7 +88,7 @@
                           {{message?.message}}
                         </ng-template>
                       </td>
-                      <td>{{message?.createdAt}}</td>
+                      <td>{{message?.createdAt | date:'short'}}</td>
                       <td *ngIf="message?.author_id?._id === this.userID; else nonAuthor">
                         <span *ngIf="message._id === this.editID; else noneditmode">
                           <button (click)="submitEdit(message._id, message.author_id._id)" >Save</button>
