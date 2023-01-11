@@ -4,7 +4,11 @@
   <label for="searchInput">Search by Keyword:</label>
   <input [(ngModel)]="searchInput" type="text" (ngModelChange)="this.searchInputSubject.next($event)" id="searchInput">
   <br>
-  <mat-card *ngIf="userDetail._id" id="userInfo">
+  <div *ngIf="userDetail._id" class="backdrop"></div>
+  <mat-card *ngIf="userDetail._id" id="userInfo" class="frontandcenter">
+    <button (click)="userDetail._id=''" class="hidebtn">Hide</button>
+    <br>
+    <br>
     <mat-card-title [ngStyle]="{'margin':'30px'}">{{userDetail.firstname + " " + userDetail.lastname + "\'s Information"}}</mat-card-title>
     <div>
       <b>Personal Information: </b>

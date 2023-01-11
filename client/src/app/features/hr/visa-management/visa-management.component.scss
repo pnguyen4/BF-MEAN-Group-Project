@@ -1,3 +1,38 @@
+.frontandcenter {
+  padding-top: 0;
+  position: fixed;
+  top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+  overflow:auto;
+  height: 90%;
+  width: 90%;
+  img {
+    max-width: 80%;
+  }
+}
+
+.hidebtn {
+  position: fixed;
+  top: 80px;
+  right: 140px;
+  margin-right: 10px;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(100, 100, 100, .25);
+  z-index: 500;
+  backdrop-filter: blur(2px);
+}
 
 
 :host {
