@@ -84,10 +84,8 @@ export class OnboardingApplicationComponent implements OnInit {
 
     isCitizenUSA: [false, Validators.required],
 
-    // TODO: conditional validatotion based on whether or not isCitizenUSA is true
     workAuth: [''],
     //OptReceiptUrl: [''], // handled this elsewhere
-    // TODO: if other workAuth, have input box to specify visa title
     startDate: [''],
     endDate: ['']
   });
@@ -99,6 +97,27 @@ export class OnboardingApplicationComponent implements OnInit {
               private onboardingService: OnboardingService,
               private s3Service: S3ServiceService) { }
 
+  conditionalValidators() {
+    const workAuth = this.applicationForm.get('workAuth');
+    const startDate = this.applicationForm.get('startDate');
+    const endDate = this.applicationForm.get('endDate');
+
+    this.applicationForm.get('isCitizenUSA')?.valueChanges.subscribe(isCitizenUSA => {
+      if (isCitizenUSA) {
+        workAuth?.setValidators(null);
+        startDate?.setValidators(null);
+        endDate?.setValidators(null);
+      } else {
+        workAuth?.setValidators([Validators.required]);
+        startDate?.setValidators([Validators.required]);
+        endDate?.setValidators([Validators.required]);
+      }
+      workAuth?.updateValueAndValidity();
+      startDate?.updateValueAndValidity();
+      endDate?.updateValueAndValidity();
+    });
+  }
+
   toDateStr(date: Date): string {
     const day = ("0" + date.getDate()).slice(-2);
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -107,7 +126,7 @@ export class OnboardingApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.conditionalValidators();
     this.user$.subscribe(user => {
       this.id = user.application_id;
       if (user.application_id) {
@@ -181,10 +200,15 @@ export class OnboardingApplicationComponent implements OnInit {
       formdata.user_id = userobj._id;
 
       let {workAuth, startDate, endDate, ...application} = formdata;
+      console.log(workAuth);
+      if (workAuth == "F1" && !this.optReceiptUrl) {
+        return alert("OPT Receipt Required for F1");
+      }
       let visaStatus = {};
       if (!formdata.isCitizenUSA) {
         visaStatus = { OPTReceiptUrl: this.optReceiptUrl, workAuth, startDate, endDate };
       }
+
       this.onboardingService.createOnboardingApplication(application, visaStatus)
         .subscribe(res => {
           console.log(res)
