@@ -6,7 +6,6 @@ import { User } from 'app/shared/data.model';
 import { HttpService } from 'app/shared/http.service';
 import { Observable } from 'rxjs';
 import { saveUser } from '../../store/user.action';
-import { saveOnboarding } from '../../store/isOnboarding.action';
 
 @Component({
   selector: 'app-signin',
@@ -51,7 +50,12 @@ export class SigninComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(res.user));
             if (res.user.admin) {
               this.router.navigate(['/hr']);
-            } else if (user.application_id == '') {
+            }
+            else {
+              this.router.navigate(['/employee']);
+            }
+            /*
+            else if (user.application_id == '') {
               this.router.navigate(['/employee/onboarding-application']);
             } else {
               this.http.getApplicationStatus(user.application_id).subscribe(res => {
@@ -63,7 +67,7 @@ export class SigninComponent implements OnInit {
                   this.router.navigate(['/employee']);
                 }
               });
-            }
+            } */
           }
         );
       },

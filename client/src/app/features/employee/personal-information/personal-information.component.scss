@@ -1,31 +1,48 @@
 :host {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin: 100px 0px;
 }
 
-mat-card {
-  padding: 30px;
-  width: 800px;
-  height: auto;
-  display:flex;
-  flex-direction: column;
+.mat-card {
+  width:80%;
 }
 
-h1 {
-  text-align: center;
-  font-weight: bold;
-  font-size: 30px;
-  margin: 50px;
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
 }
 
-label {
-  font-size: 20px;
-  margin:10px 0;
-  font-weight: bold;
+.small {
+  width: 22%;
 }
 
-input {
-  font-size: 20px;
+.big {
+  width: 47%;
 }
 
+.medium {
+  width: 30%;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.marginRight1 {
+  margin-right: 5px;
+}
+
+.marginLeft {
+  margin-left: 1%;
+}

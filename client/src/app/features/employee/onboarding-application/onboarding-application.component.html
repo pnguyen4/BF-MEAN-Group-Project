@@ -1,4 +1,6 @@
 <mat-card>
+    <button class="marginLeft" (click)="logout()">Log out</button>
+    <h1 [ngStyle]="{'color':'red','font-weight':'bold','margin':'30px 30px 30px 10px'}">{{note}}</h1>
     <mat-card-title class="marginLeft">Onboarding Application</mat-card-title>
     <br>
     <form [formGroup]="applicationForm" (ngSubmit)="submit()">
@@ -199,8 +201,9 @@
           </div>
         </div>
         <br>
-        <button class="btn btn-primary marginLeft">Submit Application</button>
+        <button class="btn btn-primary marginLeft" [disabled]="disabled">Submit Application</button>
     </form>
+
     <br>
 </mat-card>
 
