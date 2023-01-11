@@ -37,6 +37,7 @@ export class OnboardingApplicationComponent implements OnInit {
     preferredname: ['', Validators.pattern(/^([^0-9]*)$/)],
 
     email: ['', [Validators.required, Validators.email]],
+    // 10 digit number, seperators optional
     cellphone: ['', [Validators.required,
                      Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
     workphone: ['', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
@@ -66,7 +67,6 @@ export class OnboardingApplicationComponent implements OnInit {
                   Validators.minLength(2), Validators.pattern(/^([^0-9]*)$/)]],
       lastname: ['', [Validators.required, Validators.minLength(2),
                       Validators.pattern(/^([^0-9]*)$/)]],
-      // 10 digit number, seperators optional
       phone: ['', [Validators.required,
                    Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
       email: ['', [Validators.required, Validators.email]],

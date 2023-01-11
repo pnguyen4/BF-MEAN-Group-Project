@@ -2,7 +2,6 @@ const controller = require("../controllers/Housing.controller");
 const router = require("express").Router();
 const { verifyToken, verifyEmployee, verifyHr } = require("../middleware/auth");
 
-// TODO: add respective middlewares, first need to add http interceptor on client to add token to header
 router.get('/api/housing/:id', [verifyToken], controller.getHousingDetails);
 router.get('/api/housing', [verifyToken], controller.getHousingSummary);
 router.post('/api/housing', [verifyToken], controller.createHousing);

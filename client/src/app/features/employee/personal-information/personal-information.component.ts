@@ -17,28 +17,41 @@ export class PersonalInformationComponent implements OnInit {
   app_id = "";
 
   applicationForm: FormGroup = this.fb.nonNullable.group({
-    firstname: ['', Validators.required],
-    lastname: ['', Validators.required],
-    middlename: [''],
-    preferredname: [''],
+    // no numbers
+    firstname: ['', [Validators.required, Validators.minLength(2),
+                     Validators.pattern(/^([^0-9]*)$/)]],
+    lastname: ['', [Validators.required, Validators.minLength(2),
+                     Validators.pattern(/^([^0-9]*)$/)]],
+    middlename: ['', Validators.pattern(/^([^0-9]*)$/)],
+    preferredname: ['', Validators.pattern(/^([^0-9]*)$/)],
 
     email: ['', [Validators.required, Validators.email]],
-    cellphone: ['', Validators.required],
-    workphone: [''],
-    ssn: ['', Validators.required],
+    // 10 digit number, seperators optional
+    cellphone: ['', [Validators.required,
+                     Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
+    workphone: ['', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
+    ssn: ['', [Validators.required,
+               Validators.pattern(/^(?!000|666)[0-9]{3}([ -]?)(?!00)[0-9]{2}\1(?!0000)[0-9]{4}$/)]],
 
     currentAddress: this.fb.nonNullable.group({
-      street: ['', Validators.required],
+      street: ['', [Validators.required, Validators.minLength(5)]],
       suiteOrAptNumber: [''],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zipcode: ['', Validators.required],
+      city: ['',
+             [Validators.required, Validators.minLength(2), Validators.pattern(/^([^0-9]*)$/)]],
+      state: ['', [Validators.required, Validators.minLength(2),
+                   Validators.pattern(/^([^0-9]*)$/)]],
+      // 5 digit number or 5 digit number dash 4 digit number
+      zipcode: ['', [Validators.required,
+                     Validators.pattern(/(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)/)]],
     }),
 
     emergencyContact: this.fb.nonNullable.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      phone: ['', Validators.required],
+      firstname: ['', [Validators.required, Validators.minLength(2),
+                       Validators.pattern(/^([^0-9]*)$/)]],
+      lastname: ['', [Validators.required, Validators.minLength(2),
+                      Validators.pattern(/^([^0-9]*)$/)]],
+      phone: ['', [Validators.required,
+                   Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
       email: ['', [Validators.required, Validators.email]],
     }),
   });
