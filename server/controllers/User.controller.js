@@ -1,4 +1,5 @@
 const { User } = require('../models/User.model');
+const { Housing } = require('../models/Housing.model');
 const { RegToken } = require('../models/RegToken.model');
 const bcrypt = require('bcryptjs');
 const express = require('express');
@@ -8,15 +9,21 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 const { MongoClient, ObjectId } = require('mongodb');
 
-// TODO: randomly assign a house from existing houses
 exports.createUser = async ( req, res ) => {
     const hashed = await bcrypt.hash(req.body.password, Number(process.env.SALT));
+
+    const houses = await Housing.find();
+    const randomIndex = Math.floor(Math.random() * houses.length);
+    const assignedHouse = houses[randomIndex];
     const user = new User({ // create schema
       username: req.body.username,
       email: req.body.email,
       password: hashed,
       admin: req.body.admin,
+      housing_id: assignedHouse._id
     });
+  await Housing.updateOne({ _id: assignedHouse._id },
+                          { "$push": { tenants: user._id }});
     const copy1 = await User.findOne({email:req.body.email},{}); // check if email already exist
     const copy2 = await User.findOne({username:req.body.username},{});  // check if username already exist
     if (copy1 === null && copy2 === null) { // if email not exist

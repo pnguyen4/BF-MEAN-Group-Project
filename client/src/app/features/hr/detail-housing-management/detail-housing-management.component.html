@@ -49,7 +49,7 @@
                     <tr *ngFor="let facReport of facReports$ | async">
                         <td>{{facReport.title}}</td>
                         <td>{{facReport.status}}</td>
-                        <td>{{facReport.createdAt}}</td> <!-- TODO: format date -->
+                        <td>{{facReport.createdAt | date:'longDate'}}</td> <!-- TODO: format date -->
                     </tr>
                 </tbody>
             </table>
