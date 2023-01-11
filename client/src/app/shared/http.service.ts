@@ -23,7 +23,7 @@ export class HttpService {
       application_id:'',
       housing_id:''
     }
-    return this.http.post("http://localhost:3000/api/users", user, {headers}); // send http request
+    return this.http.post("http://localhost:3000/api/users", {...user, password: userInfo.password}, {headers}); // send http request
   }
 
   signin(userInfo:any): Observable<any> { // get user with password: for login
