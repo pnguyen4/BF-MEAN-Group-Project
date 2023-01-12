@@ -30,6 +30,7 @@
 
   <div *ngIf="visaDetail._id" class="backdrop"></div>
   <mat-card *ngIf="visaDetail._id" id="userInfo" class="frontandcenter">
+    <div class="frontandcenter-content">
     <mat-card-title [ngStyle]="{'margin':'30px'}">{{visaDetail.first + " " + visaDetail.last + "\'s Information"}}</mat-card-title>
     <div>
       <div>
@@ -57,13 +58,14 @@
         <b>Document: </b>
         <br>
         <br>
-        <img [src]="visaDetail.OPTReceiptUrl" [alt]="visaDetail.OPTReceiptUrl">
-        <img [src]="visaDetail.OPTEADurl" [alt]="visaDetail.OPTEADurl">
-        <img [src]="visaDetail.I983" [alt]="visaDetail.I983">
-        <img [src]="visaDetail.I20" [alt]="visaDetail.I20">
+        <img class="visa" [src]="visaDetail.OPTReceiptUrl" [alt]="visaDetail.OPTReceiptUrl">
+        <img class="visa" [src]="visaDetail.OPTEADurl" [alt]="visaDetail.OPTEADurl">
+        <img class="visa" [src]="visaDetail.I983" [alt]="visaDetail.I983">
+        <img class="visa" [src]="visaDetail.I20" [alt]="visaDetail.I20">
       </div>
     </div>
     <br>
+    </div>
   </mat-card>
 
   <br>

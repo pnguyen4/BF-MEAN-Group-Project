@@ -1,8 +1,5 @@
 .frontandcenter {
-  img {
-    max-width: 80%;
-  }
-  padding-top: 45rem;
+  padding-top: 5rem;
   position: fixed;
   top: 50px;
   margin-left: auto;
@@ -14,9 +11,10 @@
   overflow:auto;
   height: 90%;
   width: 90%;
-  img {
-    max-width: 80%;
-  }
+}
+
+.visa {
+  height: 150px;
 }
 
 .hidebtn {
