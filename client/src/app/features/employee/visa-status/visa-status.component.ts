@@ -24,7 +24,7 @@ export class VisaStatusComponent implements OnInit {
   I20 = "";
   editMode = false;
   visaStatus = false;
-  app!:any;
+  app:any;
   formStatus = "";
 
   constructor(private fb: FormBuilder,
@@ -33,11 +33,19 @@ export class VisaStatusComponent implements OnInit {
     private s3Service: S3ServiceService) { }
 
   ngOnInit(): void {
-    this.conditionalValidators();
+    //this.conditionalValidators();
     this.user$.subscribe(user => {
       this.httpService.getApplicationWithVisa(user.application_id).subscribe(res => {
         this.app = res.app;
+        // Load all or any if available
+        this.OPTReceiptUrl = this.app.visaStatus?.OptReceiptUrl;
+        this.OPTEADurl = this.app.visaStatus?.OptEADurl;
+        this.I983 = this.app.visaStatus?.I983;
+        this.I20= this.app.visaStatus?.I20;
         this.formStatus = res.app.visaStatus.status;
+        if (this.formStatus == "done") {
+          this.applicationForm.disable();
+        }
         let startDate = '';
         let endDate = '';
         if (this.app.visaStatus) {
@@ -60,6 +68,7 @@ export class VisaStatusComponent implements OnInit {
     endDate: ['']
   });
 
+  /* NOTE: isCitizenUSA does not exist
   conditionalValidators() {
     const workAuth = this.applicationForm.get('workAuth');
     const startDate = this.applicationForm.get('startDate');
@@ -80,6 +89,7 @@ export class VisaStatusComponent implements OnInit {
       endDate?.updateValueAndValidity();
     });
   }
+  */
 
   toDateStr(date: Date): string {
     const day = ("0" + date.getDate()).slice(-2);
@@ -126,6 +136,7 @@ export class VisaStatusComponent implements OnInit {
       OPTEADurl: this.OPTEADurl,
       I983: this.I983,
       I20: this.I20,
+      next: this.app.visaStatus.next,
       workAuth: this.app.visaStatus.workAuth,
       startDate: this.app.visaStatus.startDate,
       endDate: this.app.visaStatus.endDate
@@ -135,6 +146,7 @@ export class VisaStatusComponent implements OnInit {
     this.disabled = true;
     this.applicationForm.disable();
     window.alert("Submitted");
+    window.location.reload(); // cheap hack to redisplay updated information
   }
 
   edit() {

@@ -1,11 +1,13 @@
 <mat-card>
-  <button class="marginLeft" (click)="edit()" [disabled]="!disabled">Edit</button>
   <ng-container *ngIf="visaStatus; else slot">
+  <button *ngIf="app?.visaStatus.status != 'done'" class="marginLeft"
+          (click)="edit()" [disabled]="!disabled">Edit</button>
   <form [formGroup]="applicationForm" (ngSubmit)="submit()">
     <br>
-    <h2 class="marginLeft" *ngIf="formStatus === 'unsubmitted'">Form haven't submit yet</h2>
-    <h2 class="marginLeft" *ngIf="formStatus === 'pending'">Form form is under HR's review, you can resubmit it</h2>
-    <h2 class="marginLeft" *ngIf="formStatus === 'done'">Form have been approved</h2>
+    <h2 class="marginLeft" *ngIf="formStatus === 'unsubmitted'">Form hasn't been submited yet</h2>
+    <h2 class="marginLeft" *ngIf="formStatus === 'pending'">Form is under HR review, you can resubmit it</h2>
+    <h2 class="marginLeft" *ngIf="formStatus === 'done'">All documents have been approved</h2>
+    <h2 class="marginLeft" *ngIf="formStatus === 'approved'">Please submit next document: {{app?.visaStatus?.next}}</h2>
     <h2 class="marginLeft" *ngIf="formStatus === 'rejected'">Form have been rejected, please resubmit it</h2>
     <br>
     <div class="my-3" class="marginLeft">
@@ -20,7 +22,7 @@
     </div>
     <br>
 
-    <div class="my-3" *ngIf="!disabled">
+    <div class="my-3" *ngIf='!disabled && app?.visaStatus?.next == "OPT Receipt"'>
       <label for="opt">Upload OPT Receipt</label>
       <br>
       <input type="file" id="opt" (change)="OPTReceiptUrlSelect($event)">
@@ -30,7 +32,7 @@
      <a href="{{app?.visaStatus?.OPTReceiptUrl}}" target="_blank" rel="noopener noreferrer">OPT Receipt</a>
     </div>
 
-    <div class="my-3" *ngIf="!disabled">
+    <div class="my-3" *ngIf='!disabled && app?.visaStatus?.next == "OPT EAD"'>
       <label for="opt1">Upload EAD Card</label>
       <br>
       <input type="file" id="opt1" (change)="OPTEADurlSelect($event)">
@@ -40,7 +42,7 @@
      <a href="{{app?.visaStatus?.OPTEADurl}}" target="_blank" rel="noopener noreferrer">EAD Card</a>
     </div>
 
-    <div class="my-3" *ngIf="!disabled">
+    <div class="my-3" *ngIf='!disabled && app?.visaStatus?.next == "I-983"'>
       <label for="opt2">Upload I-983</label>
       <br>
       <input type="file" id="opt2" (change)="I983Select($event)">
@@ -50,7 +52,7 @@
      <a href="{{app?.visaStatus?.I983}}" target="_blank" rel="noopener noreferrer">I-983</a>
     </div>
 
-    <div class="my-3" *ngIf="!disabled">
+    <div class="my-3" *ngIf='!disabled && app?.visaStatus?.next == "I-20"'>
       <label for="opt3">Upload I-20</label>
       <br>
       <input type="file" id="opt3" (change)="I20Select($event)">
@@ -59,6 +61,7 @@
     <div class="my-3" *ngIf="disabled && app?.visaStatus?.I20">
      <a href="{{app?.visaStatus?.I20}}" target="_blank" rel="noopener noreferrer">I-20</a>
     </div>
+
     <div class="wrapper">
       <mat-form-field class="big" class="marginRight2">
         <label for="startDate">Start Date</label>
@@ -74,7 +77,7 @@
   </form>
   </ng-container>
   <ng-template #slot>
-    <h1>You are US citizen, the content of this section does not somthing relate to you</h1>
+    <h1>You are an US citizen / green card holder, the content of this section does not apply to you</h1>
   </ng-template>
   <br>
 </mat-card>

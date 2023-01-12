@@ -36,6 +36,7 @@ export class VisaManagementComponent implements OnInit {
                 OPTEADurl: res[1].visa[i].OPTEADurl,
                 I983: res[1].visa[i].I983,
                 I20: res[1].visa[i].I20,
+                next: res[1].visa[i].next,
                 workAuth: res[1].visa[i].workAuth,
                 startDate: res[1].visa[i].startDate,
                 endDate: res[1].visa[i].endDate,
@@ -55,14 +56,31 @@ export class VisaManagementComponent implements OnInit {
   }
 
   approve() {
-    this.visaDetail.status = "done";
+    let {OPTReceiptUrl, OPTEADurl, I983, I20} = this.visaDetail;
+    this.visaDetail.status = "approved";
+    if (OPTReceiptUrl && OPTEADurl && I983 && I20) {
+      this.visaDetail.status = "done";
+    }
+    console.log(this.visaDetail.next)
+    if (this.visaDetail.next == "OPT Receipt") {
+      this.visaDetail.next = "OPT EAD";
+    } else if (this.visaDetail.next == "OPT EAD") {
+      this.visaDetail.next = "I-983";
+    } else if (this.visaDetail.next == "I-983") {
+      this.visaDetail.next = "I-20";
+    } else if (this.visaDetail.next == "I-20") {
+      this.visaDetail.next = "All Documents Submitted";
+    }
+    console.log(this.visaDetail.next)
     for (let i = 0; i < this.dataSource.length; i++) {
       if (this.dataSource[i]._id === this.visaDetail) {
-        this.dataSource[i].status = "done";
+        this.dataSource[i].status = this.visaDetail.status;
+        this.dataSource[i].next = this.visaDetail.next;
       }
     }
     this.dataSourcePending = this.dataSource.filter((res)=>res.status==="pending");
-    this.http.editVisaApprove(this.visaDetail._id).subscribe();
+    this.http.editVisaApprove(this.visaDetail._id, this.visaDetail.status,
+                              this.visaDetail.next).subscribe();
     window.alert("Approved");
   }
 

@@ -46,6 +46,7 @@ exports.createApplication = async function (req, res) {
         const { OPTReceiptUrl, workAuth, startDate, endDate } = newVisaStatus;
         if (OPTReceiptUrl && workAuth && startDate && endDate) {
             newVisaStatus.user_id = req.body.application.user_id;
+            newVisaStatus.status = "pending";
             newVisaStatus.application_id = application._id;
             const visaStatus = await VisaStatus.create(newVisaStatus);
             await Application.updateOne({_id: application._id}, {visaStatus});
