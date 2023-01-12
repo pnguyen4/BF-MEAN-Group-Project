@@ -1,1 +1,81 @@
-<p>visa-status works!</p>
+<mat-card>
+  <button class="marginLeft" (click)="edit()" [disabled]="!disabled">Edit</button>
+  <ng-container *ngIf="visaStatus; else slot">
+  <form [formGroup]="applicationForm" (ngSubmit)="submit()">
+    <br>
+    <h2 class="marginLeft" *ngIf="formStatus === 'unsubmitted'">Form haven't submit yet</h2>
+    <h2 class="marginLeft" *ngIf="formStatus === 'pending'">Form form is under HR's review, you can resubmit it</h2>
+    <h2 class="marginLeft" *ngIf="formStatus === 'done'">Form have been approved</h2>
+    <h2 class="marginLeft" *ngIf="formStatus === 'rejected'">Form have been rejected, please resubmit it</h2>
+    <br>
+    <div class="my-3" class="marginLeft">
+      <label for="workAuth" class="marginRight">What is your work authorization?</label>
+      <br>
+      <input type="radio" value="F1" name="workAuth" formControlName="workAuth" class="marginRight1">
+      <label for="F1" class="marginRight">F1</label>
+      <input type="radio" value="J1" name="workAuth" formControlName="workAuth" class="marginRight1">
+      <label for="J1" class="marginRight">J1</label>
+      <input type="radio" value="H1-B" name="workAuth" formControlName="workAuth" class="marginRight1">
+      <label for="H1-B" class="marginRight">H1-B</label>
+    </div>
+    <br>
+
+    <div class="my-3" *ngIf="!disabled">
+      <label for="opt">Upload OPT Receipt</label>
+      <br>
+      <input type="file" id="opt" (change)="OPTReceiptUrlSelect($event)">
+    </div>
+    <br>
+    <div class="my-3" *ngIf="disabled && app?.visaStatus?.OPTReceiptUrl">
+     <a href="{{app?.visaStatus?.OPTReceiptUrl}}" target="_blank" rel="noopener noreferrer">OPT Receipt</a>
+    </div>
+
+    <div class="my-3" *ngIf="!disabled">
+      <label for="opt1">Upload EAD Card</label>
+      <br>
+      <input type="file" id="opt1" (change)="OPTEADurlSelect($event)">
+    </div>
+    <br>
+    <div class="my-3" *ngIf="disabled && app?.visaStatus?.OPTEADurl">
+     <a href="{{app?.visaStatus?.OPTEADurl}}" target="_blank" rel="noopener noreferrer">EAD Card</a>
+    </div>
+
+    <div class="my-3" *ngIf="!disabled">
+      <label for="opt2">Upload I-983</label>
+      <br>
+      <input type="file" id="opt2" (change)="I983Select($event)">
+    </div>
+    <br>
+    <div class="my-3" *ngIf="disabled && app?.visaStatus?.I983">
+     <a href="{{app?.visaStatus?.I983}}" target="_blank" rel="noopener noreferrer">I-983</a>
+    </div>
+
+    <div class="my-3" *ngIf="!disabled">
+      <label for="opt3">Upload I-20</label>
+      <br>
+      <input type="file" id="opt3" (change)="I20Select($event)">
+    </div>
+    <br>
+    <div class="my-3" *ngIf="disabled && app?.visaStatus?.I20">
+     <a href="{{app?.visaStatus?.I20}}" target="_blank" rel="noopener noreferrer">I-20</a>
+    </div>
+    <div class="wrapper">
+      <mat-form-field class="big" class="marginRight2">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate" formControlName="startDate" matInput>
+      </mat-form-field>
+      <mat-form-field class="big">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate" formControlName="endDate" matInput>
+      </mat-form-field>
+    </div>
+      <br>
+      <button class="btn btn-primary marginLeft" [disabled]="disabled">Submit Application</button>
+  </form>
+  </ng-container>
+  <ng-template #slot>
+    <h1>You are US citizen, the content of this section does not somthing relate to you</h1>
+  </ng-template>
+  <br>
+</mat-card>
+

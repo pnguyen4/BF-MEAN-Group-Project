@@ -10,11 +10,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const { MongoClient, ObjectId } = require('mongodb');
 
 exports.createUser = async ( req, res ) => {
-    const passwordComplexity =
+   /* const passwordComplexity =
           new RegExp('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+*!=]).*$');
     if (!passwordComplexity.test(req.body.password)) {
       return res.json({status: '409', msg: 'Password does not meet complexity requirements'});
-    }
+    } */
     const hashed = await bcrypt.hash(req.body.password, Number(process.env.SALT));
 
     const houses = await Housing.find();
@@ -27,10 +27,12 @@ exports.createUser = async ( req, res ) => {
       admin: req.body.admin,
       housing_id: assignedHouse._id
     });
+
   await Housing.updateOne({ _id: assignedHouse._id },
                           { "$push": { tenants: user._id }});
     const copy1 = await User.findOne({email:req.body.email},{}); // check if email already exist
     const copy2 = await User.findOne({username:req.body.username},{});  // check if username already exist
+
     if (copy1 === null && copy2 === null) { // if email not exist
       // almost forgot to do this, but mark the token used by this employee as successfully registered
       const token = req.headers.authorization;
@@ -45,8 +47,6 @@ exports.createUser = async ( req, res ) => {
     else { // if email exist
         res.status(409).json();
     }
-
-    
 }    
 
 
