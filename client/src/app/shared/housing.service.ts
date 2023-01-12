@@ -37,6 +37,10 @@ export class HousingService {
     return this.http.post(`${API_URL}/api/housing/${id}/reports`, facReport);
   }
 
+  updateFacilityReportStatus(houseid: string, reportid: string, status: string): Observable<any> {
+    return this.http.put(`${API_URL}/api/housing/${houseid}/reports/${reportid}`, {status});
+  }
+
   getOneFacilityReport(houseid: string, reportid: string): Observable<any> {
     return this.http.get(`${API_URL}/api/housing/${houseid}/reports/${reportid}`);
   }

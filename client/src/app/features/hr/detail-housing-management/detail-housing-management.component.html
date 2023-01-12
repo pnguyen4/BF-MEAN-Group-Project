@@ -57,7 +57,7 @@
                             {{facReport.createdAt | date:'longDate'}}
                         </td>
                         <td>
-                            <button (click)="toggleStatus(facReport.status)">
+                            <button (click)="toggleStatus(facReport.status, facReport._id)">
                                 Toggle Status
                             </button>
                         </td>

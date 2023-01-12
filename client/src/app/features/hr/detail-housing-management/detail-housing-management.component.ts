@@ -41,11 +41,13 @@ export class DetailHousingManagementComponent implements OnInit {
     this.router.navigate([`/hr/housing-management/${this.houseid}/reports/${reportid}`]);
   }
 
-  toggleStatus(status: string): void {
+  toggleStatus(status: string, id: string): void {
     let value =
       status=="open" ? "pending" :
       status=="pending" ? "closed" :
       status=="closed" ? "open" : "error";
-    this.store.dispatch(HrHousingAction.updateCurrentFacilityReportStatus({value}));
+    this.housingService.updateFacilityReportStatus(this.houseid, id, value).subscribe(res => {
+      this.store.dispatch(HrHousingAction.updateCurrentFacilityReportStatus({value, id}));
+    });
   }
 }

@@ -63,7 +63,7 @@ export const housingReducer = createReducer(
   on(HrHousingAction.updateCurrentFacilityReportStatus, (state, action) => ({
     ...state,
     currentReport: { ...state.currentReport, status: action.value },
-    reports: modifyhelper(state.reports, state.currentReport._id, 'status', action.value)
+    reports: modifyhelper(state.reports, action.id, 'status', action.value)
   })),
 
 );
