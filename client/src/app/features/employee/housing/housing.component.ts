@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { User } from '../../../shared/data.model';
 import { EmployeeHousingAction } from '../../../store/housing.action';
 import { selectEmployeeHousing, selectFacReports } from '../../../store/housing.selector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-housing',
@@ -22,6 +23,7 @@ export class HousingComponent implements OnInit {
   });
 
   constructor(private housingService: HousingService,
+              private router: Router,
               private store: Store,
               private fb: FormBuilder) { }
 
@@ -81,4 +83,7 @@ export class HousingComponent implements OnInit {
     }
   }
 
+  comments(houseid: string, reportid: string): void {
+    this.router.navigate([`/employee/housing/${houseid}/reports/${reportid}`]);
+  }
 }

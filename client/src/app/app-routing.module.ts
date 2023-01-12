@@ -41,6 +41,8 @@ const routes: Routes = [
       {path:'hiring-management', component: HiringManagementComponent},
       {path:'housing-management', component: HousingManagementComponent},
       {path:'housing-management/:housingid', component: DetailHousingManagementComponent},
+      {path:'housing-management/:houseid/reports/:reportid',
+       component: FacilityReportComponent},
     ]
   },
   { path:'**', redirectTo:'/signin' }];

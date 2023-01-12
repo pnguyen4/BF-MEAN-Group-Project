@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HousingService } from 'app/shared/housing.service';
 import { Store } from '@ngrx/store';
-import { EmployeeHousingAction } from '../../../store/housing.action';
+import { HrHousingAction, EmployeeHousingAction } from '../../../store/housing.action';
 import { selectEmployeeHousing, selectFacReports } from '../../../store/housing.selector';
-import { ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-detail-housing-management',
@@ -19,6 +18,7 @@ export class DetailHousingManagementComponent implements OnInit {
 
   constructor(private housingService: HousingService,
               private _activatedRoute: ActivatedRoute,
+              private router: Router,
               private store: Store) { }
 
   ngOnInit(): void {
@@ -37,4 +37,15 @@ export class DetailHousingManagementComponent implements OnInit {
     });
   }
 
+  comments(reportid: string): void {
+    this.router.navigate([`/hr/housing-management/${this.houseid}/reports/${reportid}`]);
+  }
+
+  toggleStatus(status: string): void {
+    let value =
+      status=="open" ? "pending" :
+      status=="pending" ? "closed" :
+      status=="closed" ? "open" : "error";
+    this.store.dispatch(HrHousingAction.updateCurrentFacilityReportStatus({value}));
+  }
 }
