@@ -11,6 +11,7 @@ router.get('/api/housing/:id/reports', [verifyToken], controller.getHouseFacilit
 router.post('/api/housing/:id/reports', [verifyToken], controller.createFacilityReport);
 
 router.get('/api/housing/:houseid/reports/:reportid', [verifyToken], controller.getOneFacReport);
+router.put('/api/housing/:houseid/reports/:reportid', [verifyToken], controller.updateFacReportStatus);
 router.post('/api/housing/:houseid/reports/:reportid/msg', [verifyToken], controller.addMsgToFacilityReport);
 router.put('/api/housing/:houseid/reports/:reportid/msg/:msgid', [verifyToken], controller.editMsgOnFacilityReport);
 

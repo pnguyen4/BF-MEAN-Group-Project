@@ -56,8 +56,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let facReport of facReports$ | async">
-                        <td><a href="" title="{{facReport._id}}" routerLink="{{facReport.housing_id}}/reports/{{facReport._id}}">{{facReport.title}}</a></td>
+                    <tr *ngFor="let facReport of facReports$ | async"
+                        (click)="comments(facReport.housing_id, facReport._id)">
+                        <td>{{facReport.title}}</td>
                         <td>{{facReport.status}}</td>
                         <td>{{facReport.createdAt | date:'longDate'}}</td>
                     </tr>

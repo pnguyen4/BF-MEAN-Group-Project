@@ -129,6 +129,15 @@ exports.getOneFacReport = async( req, res ) => {
     }
 }
 
+exports.updateFacReportStatus = async (req, res) => {
+    try {
+        const updated = await FacReport.updateOne({_id: req.params.reportid},
+                                                  {status: req.body.status});
+        return res.json({status: "200", updated});
+    } catch (error) {
+        return res.json({status: "500", msg: error});
+    }
+}
 exports.addMsgToFacilityReport = async( req, res ) => {
     const { reportid } = req.params;
     const { author_id, message } = req.body;

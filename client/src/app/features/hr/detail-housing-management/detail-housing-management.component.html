@@ -42,13 +42,25 @@
                         <th>Title</th>
                         <th>Status</th>
                         <th>Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let facReport of facReports$ | async">
-                        <td>{{facReport.title}}</td>
-                        <td>{{facReport.status}}</td>
-                        <td>{{facReport.createdAt | date:'longDate'}}</td>
+                        <td (click)="comments(facReport._id)">
+                            {{facReport.title}}
+                        </td>
+                        <td (click)="comments(facReport._id)">
+                            {{facReport.status}}
+                        </td>
+                        <td (click)="comments(facReport._id)">
+                            {{facReport.createdAt | date:'longDate'}}
+                        </td>
+                        <td>
+                            <button (click)="toggleStatus(facReport.status, facReport._id)">
+                                Toggle Status
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -20,5 +20,6 @@ export const HrHousingAction = createActionGroup({
     'Delete Housing': props<{ id: string }>(),
     'Create Housing': props<{ house: Housing }>(),
     'Load Current Facility Report': props<{ currentReport: Report }>(), // duplicated above?
+    'Update Current Facility Report Status': props<{ value: string, id: string }>()
   }
 });
