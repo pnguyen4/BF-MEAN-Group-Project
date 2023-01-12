@@ -10,7 +10,7 @@ router.get('/api/users/:keyword/:keywordCopy', [verifyToken], controller.getUser
 router.post('/api/users/signin', controller.signin);
 
 router.put('/api/users/:email', [verifyToken], controller.editUserWithPassword);
-router.post('/api/users', [verifyToken], controller.createUser);
+router.post('/api/users', controller.createUser);
 router.get('/api/users', [verifyToken], controller.getUserAll);
 
 module.exports = router;

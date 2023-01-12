@@ -13,9 +13,9 @@ const VisaStatusSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: [ "pending", "done", "rejected" ],
+        enum: [ "pending", "done", "rejected", "unsubmitted" ],
         required: [ true, "OPT status is required" ],
-        default: "pending",
+        default: "unsubmitted",
     },
     OPTReceiptUrl: { type: String, required: false, default: null },
     OPTEADurl: { type: String, required: false, default: null },

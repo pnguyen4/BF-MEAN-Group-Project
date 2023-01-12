@@ -200,7 +200,6 @@ export class OnboardingApplicationComponent implements OnInit {
       formdata.user_id = userobj._id;
 
       let {workAuth, startDate, endDate, ...application} = formdata;
-      console.log(workAuth);
       if (workAuth == "F1" && !this.optReceiptUrl) {
         return alert("OPT Receipt Required for F1");
       }
