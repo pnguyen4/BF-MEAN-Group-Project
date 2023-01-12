@@ -24,6 +24,7 @@ exports.editVisaById = async function (req,res) {
         OPTEADurl: req.body.OPTEADurl,
         I983: req.body.I983,
         I20: req.body.I20,
+        next: req.body.next,
         workAuth: req.body.workAuth,
         startDate: req.body.startDate,
         endDate: req.body.endDate
@@ -32,7 +33,8 @@ exports.editVisaById = async function (req,res) {
 } 
 
 exports.editVisaApprove = async function (req,res) { 
-    await VisaStatus.updateOne({_id:req.params.id},{status:'done'}); 
+    await VisaStatus.updateOne({_id:req.params.id},
+                               {status:req.body.status, next:req.body.next});
     res.status(200).json();    
 } 
 
