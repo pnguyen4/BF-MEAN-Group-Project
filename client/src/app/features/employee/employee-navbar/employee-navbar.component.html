@@ -2,19 +2,29 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="employee">Home</a>
+                <a class="nav-link" routerLinkActive="active" [routerLink]="employee">
+                    Home
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="information">Personal Information</a>
+                <a class="nav-link" routerLinkActive="active" [routerLink]="information">
+                    Personal Information
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="visa">Visa Status Mangement</a>
+                <a class="nav-link" routerLinkActive="active" [routerLink]="visa">
+                    Visa Status Mangement
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="housing">Housing</a>
+                <a class="nav-link" routerLinkActive="active" [routerLink]="housing">
+                    Housing
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="logout()">Logout</a>
+                <a class="nav-link" routerLinkActive="active" (click)="logout()">
+                    Logout
+                </a>
             </li>
         </ul>
     </div>
